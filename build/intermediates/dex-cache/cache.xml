@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/vegdahl/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/Users/vegdahl/Desktop/UP/AndroidStudioProjects/CounterGame/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-a24a4ab08869e4018a603a754717893a38b5b807.jar" />
+    </item>
+
+</items>
