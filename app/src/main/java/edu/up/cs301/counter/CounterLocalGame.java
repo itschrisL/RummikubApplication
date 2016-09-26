@@ -14,7 +14,7 @@ import android.util.Log;
  * @author Andrew M. Nuxoll
  * @version July 2013
  */
-public class CounterLocalGame extends LocalGame implements CounterGame {
+public class CounterLocalGame extends LocalGame {
 
 	// When a counter game is played, any number of players. The first player
 	// is trying to get the counter value to TARGET_MAGNITUDE; the second player,

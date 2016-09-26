@@ -23,7 +23,7 @@ import android.view.View.OnClickListener;
  * @author Andrew M. Nuxoll
  * @version July 2013
  */
-public class CounterHumanPlayer extends GameHumanPlayer implements CounterPlayer, OnClickListener {
+public class CounterHumanPlayer extends GameHumanPlayer implements OnClickListener {
 
 	/* instance variables */
 	

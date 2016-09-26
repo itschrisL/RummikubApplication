@@ -13,7 +13,7 @@ import edu.up.cs301.game.util.Tickable;
  * @author Andrew M. Nuxoll
  * @version September 2013
  */
-public class CounterComputerPlayer1 extends GameComputerPlayer implements CounterPlayer, Tickable {
+public class CounterComputerPlayer1 extends GameComputerPlayer implements Tickable {
 	
     /**
      * Constructor for objects of class CounterComputerPlayer1
