@@ -165,23 +165,24 @@ public abstract class LocalGame implements Game, Tickable {
 	private void receiveMessage(Message msg) {
 		if (msg.obj instanceof GameAction) { // ignore if not GameAction
 			GameAction action = (GameAction)msg.obj;
-			
+
 			// CASE 1: the game is at the stage where we we waiting for
 			// players to tell us their names. In this case, we expect
 			// a MyNameIsAction object. Once each player have told us its
 			// name, we move on to the next stage.
+
 			if (action instanceof MyNameIsAction &&
 					gameStage == GameStage.WAITING_FOR_NAMES) {
 				MyNameIsAction mnis = (MyNameIsAction) action;
 				Log.i("LocalGame", "received 'myNameIs' ("+mnis.getName()+")");
-				
+
 				// mark that player as having given us its name
 				int playerIdx = getPlayerIdx(mnis.getPlayer());
 				if (playerIdx >= 0 && playerNames[playerIdx] == null) {
 					playerNames[playerIdx] = mnis.getName(); // store player name
 					playerNameCount++;
 				}
-				
+
 				// If all players have told us their name, then move onto the next
 				// game stage, and send a message to each player that the game is
 				// about to start
@@ -197,12 +198,12 @@ public abstract class LocalGame implements Game, Tickable {
 			}
 			else if (action instanceof ReadyAction &&
 					gameStage == GameStage.WAITING_FOR_READY) {
-				
+
 				// CASE 2: we have told all players that the game is about to start;
 				// we are now processing ReadyAction messages from each player to
 				// acknowledge this.
 				ReadyAction ra = (ReadyAction)action;
-				
+
 				// mark the given player as being ready
 				int playerIdx = getPlayerIdx(ra.getPlayer());
 				Log.i("LocalGame", "got 'ready' ("+playerNames[playerIdx]+")");
@@ -210,7 +211,7 @@ public abstract class LocalGame implements Game, Tickable {
 					playersReady[playerIdx] = true;
 					playerReadyCount++;
 				}
-				
+
 				// if all players are ready, set the game stage to "during game", and
 				// send each player the initial state
 				if (playerReadyCount >= playerNames.length) {
@@ -221,9 +222,9 @@ public abstract class LocalGame implements Game, Tickable {
 				}
 			}
 			else if (action instanceof TimerAction && gameStage == GameStage.DURING_GAME) {
-				
+
 				// CASE 3: it's during the game, and we get a timer action
-				
+
 				// Only perform the "tick" if it was our timer; otherwise, just post the message
 				if (((TimerAction)action).getTimer() == myTimer) {
 					this.timerTicked();
@@ -233,12 +234,12 @@ public abstract class LocalGame implements Game, Tickable {
 				}
 			}
 			else if (action instanceof GameAction && gameStage == GameStage.DURING_GAME) {
-				
+
 				// CASE 4: it's during the game, and we get an action from a player
 				this.checkAndHandleAction(action);
 			}
 			else if (action instanceof GameOverAckAction && gameStage == GameStage.GAME_OVER) {
-				
+
 				// CASE 5: the game is over, and we are waiting for each player to
 				// acknowledge this
 				int playerIdx = getPlayerIdx(action.getPlayer());
@@ -348,7 +349,8 @@ public abstract class LocalGame implements Game, Tickable {
 	 *            the action to send
 	 */
 	public final void sendAction(GameAction action) {
-		if (myHandler == null) return; // give up if no handler
+		// wait until handler is set
+		while (myHandler == null) Thread.yield();
 		
 		// package the action into a message and send it to the handler
 		Message msg = new Message();

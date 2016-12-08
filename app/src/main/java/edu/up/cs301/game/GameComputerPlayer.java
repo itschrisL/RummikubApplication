@@ -121,7 +121,7 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
 	 * 			the information message to send
 	 */
 	public final void sendInfo(GameInfo info) {
-		// post the state to the player's thread
+		// post the state to the player's thread, waiting (if needed) until handler is there
 		while (myHandler == null) Thread.yield();
 		myHandler.post(new MyRunnable(info));
 	}
