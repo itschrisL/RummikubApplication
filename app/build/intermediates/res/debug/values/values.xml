@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/vegdahl/Desktop/UP/AndroidStudioProjects/CounterGame/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/lytle/OneDrive%20-%20University%20of%20Portland/Classes/ObjectTry2/RummikubApplication/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="black">#000</color>
     <color name="blue">#0000ff</color>
     <color name="green">#0F0</color>
     <color name="red">#ff0000</color>
-    <!-- From: file:/Users/vegdahl/Desktop/UP/AndroidStudioProjects/CounterGame/app/src/main/res/values/dimen.xml -->
+    <!-- From: file:/C:/Users/lytle/OneDrive%20-%20University%20of%20Portland/Classes/ObjectTry2/RummikubApplication/app/src/main/res/values/dimen.xml -->
     <eat-comment/>
     <dimen name="config_horiz_margin">20dp</dimen>
     <dimen name="del_player_button_size">35dp</dimen>
@@ -14,7 +14,7 @@
     <dimen name="table_heading_font_size">14sp</dimen>
     <dimen name="table_row_horiz_pad">50dp</dimen>
     <dimen name="table_row_vert_pad">10dp</dimen>
-    <!-- From: file:/Users/vegdahl/Desktop/UP/AndroidStudioProjects/CounterGame/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/lytle/OneDrive%20-%20University%20of%20Portland/Classes/ObjectTry2/RummikubApplication/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="add_player">Add Player</string>
     <string name="app_name">Counter Game</string>
@@ -35,7 +35,7 @@
     <string name="server_ip_code">Server\'s IP Code:</string>
     <string name="start_the_game">Start Game!</string>
     <string name="title_activity_game_main">Shall We Play A Game?</string>
-    <!-- From: file:/Users/vegdahl/Desktop/UP/AndroidStudioProjects/CounterGame/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/lytle/OneDrive%20-%20University%20of%20Portland/Classes/ObjectTry2/RummikubApplication/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="android:Theme.Light"/>
 </resources>

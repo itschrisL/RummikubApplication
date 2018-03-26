@@ -39,7 +39,7 @@ ADDED from AndroidManifest.xml:13:5
 		ADDED from AndroidManifest.xml:14:9
 	android:theme
 		ADDED from AndroidManifest.xml:16:9
-activity#edu.up.cs301.counter.CounterMainActivity
+activity#edu.up.cs301.counter.RummikubMainActivity
 ADDED from AndroidManifest.xml:18:9
 	android:configChanges
 		ADDED from AndroidManifest.xml:19:13
