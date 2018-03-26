@@ -16,7 +16,7 @@
         android:label="Rummikub"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="edu.up.cs301.counter.RummikubMainActivity"
+            android:name="edu.up.cs301.rummikub.RummikubMainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

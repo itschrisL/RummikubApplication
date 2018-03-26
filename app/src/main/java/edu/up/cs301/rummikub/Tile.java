@@ -44,7 +44,7 @@ public class Tile {
     public static final int RED = Color.argb(255,255,0,0);
     public static final int BLACK = Color.argb(255,0,0,0);
     public static final int GREEN = Color.argb(255,50,205,50);
-    public static final int TILECOLOR= Color.argb(255,255,250,250);
+    public static final int TILECOLOR = Color.argb(255,255,250,250);
 
     //purpose of array is to assign numerical value to each color
     public static final int[] colorArray = {BLUE, RED, BLACK, GREEN};
