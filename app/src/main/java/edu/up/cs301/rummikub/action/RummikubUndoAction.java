@@ -6,7 +6,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
 /**
  * Class RummikubUndoAction
  *
- * represents an undo action
+ * represents an action to undo
  *
  * @author Harry Thoma
  */
