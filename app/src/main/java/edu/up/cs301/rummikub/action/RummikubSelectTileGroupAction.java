@@ -13,7 +13,7 @@ import edu.up.cs301.rummikub.TileGroup;
  */
 
 public class RummikubSelectTileGroupAction extends GameAction {
-    TileGroup group;
+    private TileGroup group;
 
     /**
      * constructor for RummikubSelectTileGroupAction

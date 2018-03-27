@@ -13,7 +13,7 @@ import edu.up.cs301.rummikub.Tile;
  */
 
 public class RummikubSelectTileAction extends GameAction {
-    Tile tile;
+    private Tile tile;
 
     /**
      * constructor for RummikubSelectTileAction
