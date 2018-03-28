@@ -34,8 +34,9 @@ public class RummikubState extends GameState{
 
     private TileGroup drawPile; //tiles that are not played/in player's hand
 
-    private int selectedGroup; //the index of group on table that is selected by player
-    //-1 if nothing is selected
+    private TileGroup selectedGroup; //the group on table that is selected by player
+    //null if no group selected
+
     private ArrayList<TileGroup> tableTileGroups; //tiles and sets on the table
 
     //the previous state of the game, used for undo
@@ -76,7 +77,7 @@ public class RummikubState extends GameState{
 
         this.currentPlayer = 0;
         this.currentPlayerPlayed = false;
-        this.selectedGroup = -1;
+        this.selectedGroup = null;
         this.tableTileGroups = new ArrayList<TileGroup>();
 
         this.prevState= null;
@@ -206,7 +207,7 @@ public class RummikubState extends GameState{
      * @param playerID
      * @return whether it is the player's turn
      */
-    private boolean isPlayerTurn(int playerID){
+    public boolean isPlayerTurn(int playerID){
         if(playerID == playersID[currentPlayer]){
             return true;
         }
@@ -224,7 +225,7 @@ public class RummikubState extends GameState{
             currentPlayer = 0;
         }
         currentPlayerPlayed = false;
-        selectedGroup = -1;
+        selectedGroup = null;
         prevState= null;
     }
 
@@ -383,12 +384,12 @@ public class RummikubState extends GameState{
      *
      * @return whether group can be selected
      */
-    private boolean canSelectGroup (int playerID, int groupIndex) {
+    public boolean canSelectGroup (int playerID, TileGroup group) {
         if (!isPlayerTurn(playerID)) return false;
-        if (groupIndex >= tableTileGroups.size() || groupIndex < 0) return false;
+        if (!isOnTable(group)) return false;
 
         saveState(); //add to undo stack
-        selectedGroup = groupIndex;
+        selectedGroup = group;
 
         return true;
     }
@@ -401,18 +402,36 @@ public class RummikubState extends GameState{
      * @param group2
      * @return weather it was a valid move and merged
      */
-    public boolean canConnect(int playerID, int group1, int group2){
+    public boolean canConnect(int playerID, TileGroup group1, TileGroup group2){
         if(!isPlayerTurn(playerID)) return false;
-        if(group1 < 0 || group1 >= tableTileGroups.size()) return false;
-        if(group2 < 0 || group2 >= tableTileGroups.size()) return false;
 
-        TileGroup g1 = tableTileGroups.get(group1);
-        TileGroup g2 = tableTileGroups.get(group2);
-        if(!isOnTable(g1) || !isOnTable(g2)) return false;
+        if(!isOnTable(group1) || !isOnTable(group2)) return false;
 
         saveState(); //add to undo stack
-        g1.merge(g2);
-        tableTileGroups.remove(g2);
+        group1.merge(group2);
+        tableTileGroups.remove(group2);
+
+        return true;
+    }
+
+    /**
+     * splits a tile group on table into
+     * several single-tile tile groups on table
+     */
+    public boolean canSplit(int playerId, TileGroup group){
+        if(!isPlayerTurn(playerId)) return false;
+
+        if(!isOnTable(group)) return false;
+
+        ArrayList<Tile> tilesInGroup = group.getTileGroup();
+        //go thru each tile in the tile group
+        for(Tile tile : tilesInGroup){
+            //add each tile to the table
+            tableTileGroups.add(new TileGroup(tile));
+        }
+
+        //remove the group from the table
+        tableTileGroups.remove(group);
 
         return true;
     }
@@ -453,20 +472,20 @@ public class RummikubState extends GameState{
      * moves a players tile from hand to table
      *
      * @param playerID the player trying to play
-     * @param tileIndex the index of the tile in players hand
+     * @param tile the tile in players hand
      * @return whether the tile was able to be played
      */
-    public boolean canPlayTile(int playerID, int tileIndex){
+    public boolean canPlayTile(int playerID, Tile tile){
         if (!isPlayerTurn(playerID)) return false;
         int p = getPlayerIndexByID(playerID);
 
-        if (tileIndex < 0 || tileIndex >= playerHands[p].groupSize()) return false;
+        if (!playerHands[p].contains(tile)) return false;
 
         saveState();
         TileGroup tg = new TileGroup();
-        Tile toAddToTable = playerHands[p].getTile(tileIndex);
-        tg.add(toAddToTable);
-        playerHands[p].remove(toAddToTable);
+
+        tg.add(tile);
+        playerHands[p].remove(tile);
         tableTileGroups.add(tg);
         return true;
     }
