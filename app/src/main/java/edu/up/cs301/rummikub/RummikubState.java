@@ -5,6 +5,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.game.infoMsg.GameState;
+
 /**
  * Created on 3/26/2018.
  *
@@ -14,7 +16,7 @@ import java.util.ArrayList;
  * @author Chris Lytle
  */
 
-public class RummikubState {
+public class RummikubState extends GameState{
     private int numPlayers; //number of players in the game
 
     // These instance variables are parallel to players[]
@@ -121,7 +123,8 @@ public class RummikubState {
             for (int i = 0; i < numPlayers; i++) {
                 if (i == playerIndex || playerIndex == -1) {
                     this.playerHands[i] = new TileGroup(copy.playerHands[i]);
-                } else {
+                }
+                else {
                     this.playerHands[i] = null;
                 }
             }
