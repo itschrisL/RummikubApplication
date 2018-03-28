@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9b2121"
+    android:orientation="vertical"
+    tools:context="edu.up.cs301.rummikub.RummikubMainActivity">
+
+    <FrameLayout
+        android:id="@+id/LayoutGameBoard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+
+        <com.example.daylinkuboyama.myapplication.GameBoard
+            android:id="@+id/ViewGameBoard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/LayoutControls"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/LayoutTileDisplay"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#619955"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center"
+                android:text="Tile Count"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textViewPlayer1Tiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/picture_frame"
+                android:gravity="center_horizontal|center"
+                android:text="John: 14"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textViewPlayer2Tiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center"
+                android:text="JaneBot: 9"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LayoutUndoButtons"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/ButtonUndo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Undo"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/ButtonRevert"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Revert"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <com.example.daylinkuboyama.myapplication.Hand
+            android:id="@+id/ViewHand"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5" />
+
+
+        <Button
+            android:id="@+id/ButtonKnockDraw"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Draw"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:id="@+id/LayoutScoreBoard"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#619955"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewScores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center"
+                android:text="Score Board"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textViewPlayer1Score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center"
+                android:text="John: -53"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textViewPlayer2Score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center"
+                android:text="JaneBot: 53"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.widget.LinearLayout>

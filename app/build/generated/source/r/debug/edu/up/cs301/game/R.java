@@ -25,11 +25,23 @@ public final class R {
         public static final int table_row_vert_pad=0x7f060005;
     }
     public static final class drawable {
-        public static final int ic_action_search=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int purple_delete_button=0x7f020002;
+        public static final int gameboard_background=0x7f020000;
+        public static final int ic_action_search=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int purple_delete_button=0x7f020003;
+        public static final int rack_background=0x7f020004;
     }
     public static final class id {
+        public static final int ButtonKnockDraw=0x7f090027;
+        public static final int ButtonRevert=0x7f090025;
+        public static final int ButtonUndo=0x7f090024;
+        public static final int LayoutControls=0x7f09001e;
+        public static final int LayoutGameBoard=0x7f09001c;
+        public static final int LayoutScoreBoard=0x7f090028;
+        public static final int LayoutTileDisplay=0x7f09001f;
+        public static final int LayoutUndoButtons=0x7f090023;
+        public static final int ViewGameBoard=0x7f09001d;
+        public static final int ViewHand=0x7f090026;
         public static final int addPlayerButton=0x7f090012;
         public static final int configTableLayout=0x7f09000c;
         public static final int counterLabelTextView=0x7f090002;
@@ -38,7 +50,7 @@ public final class R {
         public static final int ipCodeLabel=0x7f09000e;
         public static final int localGameTab=0x7f090008;
         public static final int localTabLayout=0x7f090009;
-        public static final int menu_settings=0x7f09001c;
+        public static final int menu_settings=0x7f09002c;
         public static final int minusButton=0x7f090003;
         public static final int playGameButton=0x7f090007;
         public static final int playerNameEditText=0x7f090014;
@@ -58,6 +70,12 @@ public final class R {
         public static final int tableHeadingRow=0x7f09000f;
         public static final int textView1=0x7f09000d;
         public static final int textView2=0x7f090013;
+        public static final int textViewPlayer1Score=0x7f09002a;
+        public static final int textViewPlayer1Tiles=0x7f090021;
+        public static final int textViewPlayer2Score=0x7f09002b;
+        public static final int textViewPlayer2Tiles=0x7f090022;
+        public static final int textViewScores=0x7f090029;
+        public static final int textViewTiles=0x7f090020;
         public static final int top_gui_layout=0x7f090000;
     }
     public static final class layout {
@@ -68,6 +86,7 @@ public final class R {
         public static final int game_no_gui=0x7f030004;
         public static final int game_player_list_row=0x7f030005;
         public static final int game_remote_tab=0x7f030006;
+        public static final int rummikub_human_player=0x7f030007;
     }
     public static final class menu {
         public static final int game_main=0x7f080000;
