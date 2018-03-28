@@ -39,9 +39,6 @@ public class RummikubState extends GameState{
 
     private ArrayList<TileGroup> tableTileGroups; //tiles and sets on the table
 
-    //the previous state of the game, used for undo
-    private RummikubState prevState;
-
     // TODO add a previous tableTileGroup variable
 
     /**
@@ -79,8 +76,6 @@ public class RummikubState extends GameState{
         this.currentPlayerPlayed = false;
         this.selectedGroup = null;
         this.tableTileGroups = new ArrayList<TileGroup>();
-
-        this.prevState= null;
     }
 
     /**
@@ -159,14 +154,6 @@ public class RummikubState extends GameState{
             for (TileGroup group : copy.tableTileGroups) {
                 this.tableTileGroups.add(new TileGroup(group));
             }
-
-            //copies prevstate, invisible to all players
-            if(playerIndex == -1){
-                if(copy.prevState != null) { //if there is a prevState to copy
-                    this.prevState = new RummikubState(copy.prevState, -1);
-                }
-            }
-            else prevState = null;
         }
         else {
             Log.i ("state copy", "Invalid player index");
@@ -226,48 +213,6 @@ public class RummikubState extends GameState{
         }
         currentPlayerPlayed = false;
         selectedGroup = null;
-        prevState= null;
-    }
-
-    /**
-     * sets prevState to a copy of the current state
-     */
-    private void saveState(){
-
-        this.prevState= new RummikubState(this,-1);
-    }
-
-    /**
-     * sets this state to the previous state
-     * used for undo
-     *
-     * @return whether there was a prevstate to restore
-     */
-    private boolean restorePrevState(){
-        if(prevState == null) return false;
-
-        setThisToCopy(this.prevState,-1);
-        return true;
-    }
-
-    /**
-     * changes this state to reflect the furthest back prevState
-     * used for revert function
-     *
-     * @return whether there was a prevstate to revert to
-     */
-    private boolean revertState(){
-        if(prevState == null) return false;
-
-        //walk through prevStates until you get to the first
-        RummikubState curr= this;
-        while(curr.prevState != null){
-            curr= curr.prevState;
-        }
-
-        //now curr is the furthest back saved state
-        setThisToCopy(curr,-1);
-        return true;
     }
 
     /**
@@ -323,34 +268,6 @@ public class RummikubState extends GameState{
     }
 
     /**
-     * Method to determine if a player can make a move
-     *
-     * @param playerID
-     * @return
-     */
-    public boolean canUndo(int playerID){
-        if(isPlayerTurn(playerID)){
-            restorePrevState();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Sets table to the first state that it was in when player's turn started
-     *
-     * @param playerID
-     * @return whether the table was reverted
-     */
-    public boolean canRevert(int playerID){
-        if(isPlayerTurn(playerID)){
-            revertState();
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Player can select the menu to display a popup
      * Returns false until menu popup function TODO update once menu setup
      *
@@ -371,7 +288,6 @@ public class RummikubState extends GameState{
     public boolean canSelectTile(int playerID, Tile tile){
         if (isPlayerTurn(playerID)){
             if(playerHands[currentPlayer].contains(tile)){
-                saveState(); //add to undo stack
                 return true;
             }
         }
@@ -388,7 +304,6 @@ public class RummikubState extends GameState{
         if (!isPlayerTurn(playerID)) return false;
         if (!isOnTable(group)) return false;
 
-        saveState(); //add to undo stack
         selectedGroup = group;
 
         return true;
@@ -407,7 +322,6 @@ public class RummikubState extends GameState{
 
         if(!isOnTable(group1) || !isOnTable(group2)) return false;
 
-        saveState(); //add to undo stack
         group1.merge(group2);
         tableTileGroups.remove(group2);
 
@@ -481,7 +395,6 @@ public class RummikubState extends GameState{
 
         if (!playerHands[p].contains(tile)) return false;
 
-        saveState();
         TileGroup tg = new TileGroup();
 
         tg.add(tile);
