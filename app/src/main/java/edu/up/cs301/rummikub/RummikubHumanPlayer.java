@@ -41,7 +41,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         myActivity = activity;
 
         // Load the layout resource for our GUI
-        myActivity.setContentView(R.layout.rummikub_human_player);
+        activity.setContentView(R.layout.rummikub_human_player);
 
         // make this object the listener for the buttons
 

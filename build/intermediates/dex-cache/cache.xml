@@ -3,30 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\Harrison\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-v4-18.0.0_2e90627548ba48d4a23fbb90568014db39f3affb\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="7f63d121b7895021f180edce1d20ec7be40c624f">
-        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_f20acb0fdf41d9ea0e215e9dad32a4a7114a4c3b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_edf0d8360e4a3c5e48470678ab4d345aff65e86a\classes.dex" />
+        <dex dex="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_27bc0045bb2e42571777655003c6236b8167b206\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="53c7cafbf9c7347f91374ceb8ca5c949ffddd810">
+        <dex dex="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_3fda28aa2efb93a4937aff10e542318aef34cd93\classes.dex" />
     </item>
 
 </items>

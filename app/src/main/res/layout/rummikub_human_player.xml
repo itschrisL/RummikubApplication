@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_weight="7">
 
-        <com.example.daylinkuboyama.myapplication.GameBoard
+        <edu.up.cs301.rummikub.GameBoard
             android:id="@+id/ViewGameBoard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -92,7 +92,7 @@
 
         </LinearLayout>
 
-        <com.example.daylinkuboyama.myapplication.Hand
+        <edu.up.cs301.rummikub.Hand
             android:id="@+id/ViewHand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
