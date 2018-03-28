@@ -16,6 +16,10 @@ public class RummikubLocalGame extends LocalGame {
 
     Stack<RummikubState> prevState= new Stack<RummikubState>();
 
+    public RummikubLocalGame(){
+        this.state= new RummikubState();
+    }
+
     /**
      * External Citation
      * Problem: wanted stack for previous states

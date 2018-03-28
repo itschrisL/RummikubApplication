@@ -87,7 +87,7 @@ public class RummikubMainActivity extends GameMainActivity {
 	 */
 	@Override
 	public LocalGame createLocalGame() {
-		return new CounterLocalGame();
+		return new RummikubLocalGame();
 	}
 
 }
