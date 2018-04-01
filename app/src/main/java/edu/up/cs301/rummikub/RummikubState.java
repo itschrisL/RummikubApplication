@@ -242,10 +242,15 @@ public class RummikubState extends GameState{
      * @param playerID
      */
     private void giveTileToPlayer(int playerID){
-        int p= getPlayerIndexByID(playerID);
+        if(isPlayerTurn(playerID)){
+            int p= getPlayerIndexByID(playerID);
 
-        if (playerID == playersID[p]){
-            playerHands[p].add(drawPile.draw());
+            Tile drawTile= drawPile.draw();
+
+            drawTile.setX(500);
+            drawTile.setY(300);
+
+            playerHands[p].add(drawTile);
         }
 
     }
@@ -693,5 +698,9 @@ public class RummikubState extends GameState{
 
     public TileGroup[] getPlayerHands(){
         return playerHands;
+    }
+
+    public boolean hasCurrentPlayerPlayed() {
+        return currentPlayerPlayed;
     }
 }

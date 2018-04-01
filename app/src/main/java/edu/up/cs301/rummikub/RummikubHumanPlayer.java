@@ -11,8 +11,10 @@ import edu.up.cs301.counter.CounterState;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
+import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
+import edu.up.cs301.rummikub.action.RummikubKnockAction;
 
 /**
  * Created by snook on 3/26/2018.
@@ -85,6 +87,25 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public void onClick(View view) {
+        //we might not have a game to send actions to
+        if(game == null) return;
+
+        GameAction action= null;
+
+        if(view == drawKnockButton){
+            if(state.hasCurrentPlayerPlayed()){
+                action= new RummikubKnockAction(this);
+            }
+            else {
+                action = new RummikubDrawAction(this);
+            }
+        }
+
+        //if there is an action to send
+        if(action != null){
+            //send the action
+            game.sendAction(action);
+        }
     }
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -95,9 +116,29 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     protected void updateDisplay(){
         //updates the gui
 
+        updateHand();
+        updateTable();
+
+        updateDrawKnock();
+
+
+    }
+
+    private void updateDrawKnock() {
+        if(state.hasCurrentPlayerPlayed()){
+            drawKnockButton.setText("Knock");
+        }
+        else{
+            drawKnockButton.setText("Draw");
+        }
+    }
+
+    private void updateTable(){
         table.setTileGroups(state.getTableTileGroups());
         table.invalidate();
+    }
 
+    private void updateHand(){
         TileGroup[] hands= state.getPlayerHands();
 
         //the non-null hand is this players hand
