@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import edu.up.cs301.game.R;
 
 /**
@@ -26,6 +28,9 @@ public class GameBoard extends View {
 
     //green felt background of playing table
     Bitmap background;
+
+    //the tile groups currently on the table
+    ArrayList<TileGroup> tileGroups;
 
     public GameBoard(Context context) {
         super(context);
@@ -57,7 +62,7 @@ public class GameBoard extends View {
      * onDraw overrides View's onDraw method, and draws current board.
      */
     public void onDraw(Canvas c) {
-        Tile tile;
+        //Tile tile;
 
         /**
          * External Citation
@@ -73,7 +78,7 @@ public class GameBoard extends View {
                 Bitmap.createScaledBitmap(background,getWidth(),getHeight(),false);
         c.drawBitmap(background,0,0,null);
 
-        //draws tiles on board
+        /*//draws tiles on board
         int i;
         //draws a run of 3 yellow tiles
         for (i=0; i<3; i++) {
@@ -89,6 +94,19 @@ public class GameBoard extends View {
         for (i=0; i<3; i++) {
             tile = new Tile (i*Tile.WIDTH+500,400,10,Tile.colorArray[i+1]);
             tile.drawTile(c);
+        }*/
+
+        if(tileGroups == null) return;
+        for(TileGroup group : tileGroups){
+            ArrayList<Tile> tiles= group.getTileGroup();
+
+            for(Tile tile : tiles){
+                tile.drawTile(c);
+            }
         }
+    }
+
+    public void setTileGroups(ArrayList<TileGroup> tileGroups) {
+        this.tileGroups = tileGroups;
     }
 }

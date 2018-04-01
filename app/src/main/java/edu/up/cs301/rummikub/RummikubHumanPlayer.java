@@ -12,6 +12,7 @@ import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameInfo;
+import edu.up.cs301.rummikub.action.RummikubDrawAction;
 
 /**
  * Created by snook on 3/26/2018.
@@ -26,6 +27,11 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     private TextView player2Score;
     private TextView player1Tiles;
     private TextView player2Tiles;
+
+    private Button drawKnockButton;
+
+    private GameBoard table;
+    private Hand hand;
 
     private GameMainActivity myActivity;
     private RummikubState state;
@@ -49,8 +55,11 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         undoButton.setOnClickListener(this);
         Button revertButton = (Button) activity.findViewById(R.id.ButtonRevert);
         revertButton.setOnClickListener(this);
-        Button drawKnockButton = (Button) activity.findViewById(R.id.ButtonKnockDraw);
+        drawKnockButton = (Button) activity.findViewById(R.id.ButtonKnockDraw);
         drawKnockButton.setOnClickListener(this);
+
+        table= (GameBoard) activity.findViewById(R.id.ViewGameBoard);
+        hand= (Hand) activity.findViewById(R.id.ViewHand);
 
 
         // if we have a game state, "simulate" that we have just received
@@ -76,7 +85,6 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public void onClick(View view) {
-
     }
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -86,5 +94,22 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
     protected void updateDisplay(){
         //updates the gui
+
+        table.setTileGroups(state.getTableTileGroups());
+        table.invalidate();
+
+        TileGroup[] hands= state.getPlayerHands();
+
+        //the non-null hand is this players hand
+        TileGroup playerHand= null;
+        for(int i=0; i<hands.length; i++){
+            if(hands[i] != null){
+                playerHand= hands[i];
+                break;
+            }
+        }
+
+        hand.setTiles(playerHand);
+        hand.invalidate();
     }
 }

@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs301.game.R;
@@ -28,6 +29,9 @@ public class Hand extends View {
 
     //background of player's tile rack
     Bitmap rackBackground;
+
+    //the tiles in the hand
+    TileGroup tiles;
 
     public Hand(Context context) {
         super(context);
@@ -64,7 +68,7 @@ public class Hand extends View {
         drawRack(c);
 
         //random used to randomly select one of four colors
-        Random random = new Random();
+       /* Random random = new Random();
         int randColor;
         int randNum; //variable that represents a random num to be printed onto tile
 
@@ -78,6 +82,12 @@ public class Hand extends View {
             randColor = random.nextInt(4);
             randNum = random.nextInt(13) + 1;
             new Tile( 0+Tile.WIDTH*i,200,randNum, Tile.colorArray[randColor]).drawTile(c);
+        }*/
+        if(tiles == null) return;
+        ArrayList<Tile> handTiles= tiles.getTileGroup();
+
+        for(Tile tile : handTiles){
+            tile.drawTile(c);
         }
     }
 
@@ -99,5 +109,9 @@ public class Hand extends View {
         rackBackground =
                 Bitmap.createScaledBitmap(rackBackground,getWidth(),getHeight(),false);
         c.drawBitmap(rackBackground,0,0,null);
+    }
+
+    public void setTiles(TileGroup tiles) {
+        this.tiles = tiles;
     }
 }

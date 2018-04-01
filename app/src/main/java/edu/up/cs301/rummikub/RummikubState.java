@@ -186,6 +186,27 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
+
+        //go through each hand and set the tiles x and y
+        //to be drawn on the racks
+        for(int i=0;i<numPlayers;i++){
+            ArrayList<Tile> tiles= playerHands[i].getTileGroup();
+
+            int xOffset= 20; //the offset to draw the tiles on the rack
+            int yOffset= 20; //we don't want them to be right at the edge
+            int tileX= xOffset;
+            int tileY= yOffset;
+            for(int j=0;j<tiles.size();j++){
+                tiles.get(j).setX(tileX);
+                tiles.get(j).setY(tileY);
+
+                tileX+= Tile.WIDTH;
+                if(j == 6){
+                    tileX= xOffset;
+                    tileY+= Tile.HEIGHT+yOffset;
+                }
+            }
+        }
     }
 
     /**
@@ -663,5 +684,14 @@ public class RummikubState extends GameState{
         }
 
         return playersIDString;
+    }
+
+    public ArrayList<TileGroup> getTableTileGroups(){
+        return tableTileGroups;
+    }
+
+
+    public TileGroup[] getPlayerHands(){
+        return playerHands;
     }
 }
