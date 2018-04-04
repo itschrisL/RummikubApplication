@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.up.cs301.game.R;
 
@@ -19,8 +18,8 @@ import edu.up.cs301.game.R;
  * and the rack that the tiles lay on top of.
  * This class extends View in order to draw the board.
  *
- * @author Daylin Kuboyama
  * @author Harry Thoma
+ * @author Daylin Kuboyama
  * @author Riley Snook
  * @author Chris Lytle
  */

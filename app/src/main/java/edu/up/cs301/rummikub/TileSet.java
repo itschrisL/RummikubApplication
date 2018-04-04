@@ -18,8 +18,8 @@ import android.util.Log;
  * Minimum of 3 tiles.
  * A TileSet may be either a book or a run of tiles
  *
- * @author Daylin Kuboyama
  * @author Harry Thoma
+ * @author Daylin Kuboyama
  * @author Riley Snook
  * @author Chris Lytle
  */
