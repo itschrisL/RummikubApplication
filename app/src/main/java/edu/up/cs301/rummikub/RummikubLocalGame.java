@@ -8,7 +8,14 @@ import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.rummikub.action.*;
 
 /**
- * Created by Harrison on 3/27/2018.
+ *class Rummikub LocalGame
+ *
+ * Includes actions for Rummikub
+ *
+ * @author Harry Thoma
+ * @author Daylin Kuboyama
+ * @author Riley Snook
+ * @author Chris Lytle
  */
 
 public class RummikubLocalGame extends LocalGame {

@@ -5,9 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import edu.up.cs301.counter.CounterState;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
@@ -17,9 +14,15 @@ import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 
 /**
- * Created by snook on 3/26/2018.
+ * class RummikubHumanPlayer
  *
+ * Creates and updates GUI display of Rummikub
+ * for human player to see
  *
+ * @author Harry Thoma
+ * @author Daylin Kuboyama
+ * @author Riley Snook
+ * @author Chris Lytle
  */
 
 public class RummikubHumanPlayer extends GameHumanPlayer
@@ -121,23 +124,34 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         updateDrawKnock();
 
-
     }
 
+    /**
+     * changes button to either draw or knock depending
+     * on current player's play status
+     */
     private void updateDrawKnock() {
         if(state.hasCurrentPlayerPlayed()){
             drawKnockButton.setText("Knock");
         }
-        else{
+        else{ //player has not played on table
             drawKnockButton.setText("Draw");
         }
     }
 
+    /**
+     * changes table to represent all sets played
+     */
     private void updateTable(){
         table.setTileGroups(state.getTableTileGroups());
         table.invalidate();
     }
 
+    /**
+     * Finds player's hand by finding which TileGroup is not null
+     * copies player's hand into playerHand,
+     * and sets playerHand to the player's hand
+     */
     private void updateHand(){
         TileGroup[] hands= state.getPlayerHands();
 

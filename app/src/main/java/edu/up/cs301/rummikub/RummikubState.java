@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
- * Created on 3/26/2018.
+ * class RummikubState
+ *
+ * Currently has all tests to check if our actions work
+ * Also saves each state of game - includes copy constructors
+ * Includes all toString for action methods
  *
  * @author Daylin Kuboyama
  * @author Harry Thoma

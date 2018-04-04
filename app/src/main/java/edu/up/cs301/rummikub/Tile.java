@@ -20,8 +20,8 @@ import android.util.Log;
  * This class draws Tiles; includes all basic framework.
  * Tile's x and y coordinates on screen.
  *
- * @author Daylin Kuboyama
  * @author Harry Thoma
+ * @author Daylin Kuboyama
  * @author Riley Snook
  * @author Chris Lytle
  */

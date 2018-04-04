@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import edu.up.cs301.counter.CounterComputerPlayer1;
 import edu.up.cs301.counter.CounterComputerPlayer2;
-import edu.up.cs301.counter.CounterHumanPlayer;
-import edu.up.cs301.counter.CounterLocalGame;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
@@ -18,6 +16,13 @@ import edu.up.cs301.game.config.GamePlayerType;
  * @author Andrew M. Nuxoll
  * @author Steven R. Vegdahl
  * @version July 2013
+ *
+ * Update: this is primary activity for Rummikub game
+ * @author Harry Thoma
+ * @author Daylin Kuboyama
+ * @author Riley Snook
+ * @author Chris Lytle
+ *
  */
 public class RummikubMainActivity extends GameMainActivity {
 	

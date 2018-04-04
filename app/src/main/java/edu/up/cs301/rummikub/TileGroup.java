@@ -11,9 +11,8 @@ import java.util.Random;
  * (example: Tiles in player's racks)
  * check values of set when melding
  *
- *
- * @author Daylin Kuboyama
  * @author Harry Thoma
+ * @author Daylin Kuboyama
  * @author Riley Snook
  * @author Chris Lytle
  */

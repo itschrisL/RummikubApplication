@@ -18,8 +18,8 @@ import edu.up.cs301.game.R;
  * table; draws the current state of playing table.
  *This class extends View in order to draw the board.
  *
- * @author Daylin Kuboyama
  * @author Harry Thoma
+ * @author Daylin Kuboyama
  * @author Riley Snook
  * @author Chris Lytle
  */
