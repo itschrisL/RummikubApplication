@@ -15,6 +15,16 @@
         android:icon="@drawable/face"
         android:label="Rummikub"
         android:theme="@style/AppTheme" >
+
+        <!--
+        EXTERNAL CITATION
+        Date: 4 April 2018
+        Problem: change image icon on tablet homescreen
+        Resource: https://www.youtube.com/watch?v=SDKwNh0TioE
+        Solution: add image as Image Asset, and change android:icon to
+                    match name of drawable
+        -->
+
         <activity
             android:name="edu.up.cs301.rummikub.RummikubMainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" >
