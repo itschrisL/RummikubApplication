@@ -47,6 +47,8 @@ public class RummikubLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
+
+
         if(action instanceof RummikubPlayTileAction){
             return playTileAction((RummikubPlayTileAction)action);
         }

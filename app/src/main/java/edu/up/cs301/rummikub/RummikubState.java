@@ -25,7 +25,7 @@ public class RummikubState extends GameState{
     private TileGroup[] playerHands; //groups of tiles in players' hands
     private int[] playerScores; //indicates score of each player
     private boolean[] playersMelded; //indicates whether each player has melded
-    private int[] playersID; //parallel to players[], TODO do we need this?
+
     private int currentPlayer; //index of players[], indicates whose turn it is
     private boolean currentPlayerPlayed; //Boolean if Current player has made a move yet.
     // TODO possible variables timer int
@@ -50,10 +50,6 @@ public class RummikubState extends GameState{
         this.players = new String[numPlayers];
         this.players[0] = "Matt";
         this.players[1] = "Nux";
-
-        this.playersID = new int[numPlayers];
-        playersID[0] = 0;
-        playersID[1] = 1;
 
         initDrawPile();
 
@@ -106,12 +102,6 @@ public class RummikubState extends GameState{
             players = new String[numPlayers];
             for (int i = 0; i < numPlayers; i++) {
                 this.players[i] = new String(copy.players[i]);
-            }
-
-            //copies playersID array
-            playersID = new int[numPlayers];
-            for(int i = 0; i < numPlayers; i++){
-                this.playersID[i] = copy.playersID[i];
             }
 
             //copies players' hands
@@ -209,14 +199,13 @@ public class RummikubState extends GameState{
         }
     }
 
-    /**
-     * Helper method that returns boolean if the given playerID has
+    /*
      *
-     * @param playerID
+     * @param playerIdx
      * @return whether it is the player's turn
      */
-    public boolean isPlayerTurn(int playerID){
-        if(playerID == playersID[currentPlayer]){
+    public boolean isPlayerTurn(int playerIdx){
+        if(playerIdx == currentPlayer){
             return true;
         }
         else {
@@ -239,53 +228,47 @@ public class RummikubState extends GameState{
     /**
      * Method to draw and add tile to player's hand and update state
      *
-     * @param playerID
+     * @param playerIdx
      */
-    private void giveTileToPlayer(int playerID){
-        if(isPlayerTurn(playerID)){
-            int p= getPlayerIndexByID(playerID);
-
+    private void giveTileToPlayer(int playerIdx){
             Tile drawTile= drawPile.draw();
 
             drawTile.setX(500);
             drawTile.setY(300);
 
-            playerHands[p].add(drawTile);
-        }
-
+            playerHands[playerIdx].add(drawTile);
     }
 
     /**
      * Helper method which returns if a player can draw
      *
-     * @param playerID
+     * @param playerIdx
      * @return
      *  - false - if player has not made move and can't draw
      *  - true - if player has made move, end draw
      */
-    public boolean canDraw(int playerID){
-        if (isPlayerTurn(playerID)){
-            if(!(currentPlayerPlayed)){
-                giveTileToPlayer(playerID);
-                nextTurn();
-                return true;
-            }
+    public boolean canDraw(int playerIdx){
+        if(!(currentPlayerPlayed)){
+            giveTileToPlayer(playerIdx);
+            nextTurn();
+            return true;
         }
+
         return false;
     }
 
     /**
      * Helper method which returns if a player can knock
      *
-     * @param playerID
+     * @param playerIdx
      * @return
      *  - false - if player has not made move and can't knock
      *  - true - if player has made move, end turn
      */
-    public boolean canKnock(int playerID){
-        if(!isPlayerTurn(playerID)) return false;
-        else if(!currentPlayerPlayed) return false;
-        else if(!isValidTable()) return false; //todo java seems to skip to return statement
+    public boolean canKnock(int playerIdx){
+
+        if(!currentPlayerPlayed) return false;
+        else if(!isValidTable()) return false;
         else {
             Log.i("cool kids", "daylin ");
             nextTurn();
@@ -297,25 +280,22 @@ public class RummikubState extends GameState{
      * Player can select the menu to display a popup
      * Returns false until menu popup function TODO update once menu setup
      *
-     * @param playerID
+     * @param playerIdx
      * @return
      */
-    public boolean canShowMenu(int playerID){
+    public boolean canShowMenu(int playerIdx){
         return false;
     }
 
     /**
-     * todo implement
      *
-     * @param playerID
+     * @param playerIdx
      * @param tile
      * @return
      */
-    public boolean canSelectTile(int playerID, Tile tile){
-        if (isPlayerTurn(playerID)){
-            if(playerHands[currentPlayer].contains(tile)){
-                return true;
-            }
+    public boolean canSelectTile(int playerIdx, Tile tile){
+        if(playerHands[currentPlayer].contains(tile)){
+            return true;
         }
         return false;
     }
@@ -327,7 +307,6 @@ public class RummikubState extends GameState{
      * @return whether group can be selected
      */
     public boolean canSelectGroup (int playerID, TileGroup group) {
-        if (!isPlayerTurn(playerID)) return false;
         if (!isOnTable(group)) return false;
 
         selectedGroup = group;
@@ -338,13 +317,12 @@ public class RummikubState extends GameState{
     /**
      * connects/merges two TileGroups
      *
-     * @param playerID the id of the player who is taking action
+     * @param playerIdx the index of the player who is taking action
      * @param group1 the two groups to merge
      * @param group2
      * @return weather it was a valid move and merged
      */
-    public boolean canConnect(int playerID, TileGroup group1, TileGroup group2){
-        if(!isPlayerTurn(playerID)) return false;
+    public boolean canConnect(int playerIdx, TileGroup group1, TileGroup group2){
 
         if(!isOnTable(group1) || !isOnTable(group2)) return false;
 
@@ -358,8 +336,7 @@ public class RummikubState extends GameState{
      * splits a tile group on table into
      * several single-tile tile groups on table
      */
-    public boolean canSplit(int playerId, TileGroup group){
-        if(!isPlayerTurn(playerId)) return false;
+    public boolean canSplit(int playerIdx, TileGroup group){
 
         if(!isOnTable(group)) return false;
 
@@ -411,20 +388,18 @@ public class RummikubState extends GameState{
     /**
      * moves a players tile from hand to table
      *
-     * @param playerID the player trying to play
+     * @param playerIdx the player trying to play
      * @param tile the tile in players hand
      * @return whether the tile was able to be played
      */
-    public boolean canPlayTile(int playerID, Tile tile){
-        if (!isPlayerTurn(playerID)) return false;
-        int p = getPlayerIndexByID(playerID);
+    public boolean canPlayTile(int playerIdx, Tile tile){
 
-        if (!playerHands[p].contains(tile)) return false;
+        if (!playerHands[playerIdx].contains(tile)) return false;
 
         TileGroup tg = new TileGroup();
 
         tg.add(tile);
-        playerHands[p].remove(tile);
+        playerHands[playerIdx].remove(tile);
         tableTileGroups.add(tg);
         return true;
     }
@@ -432,32 +407,16 @@ public class RummikubState extends GameState{
     /**
      *
      * @param tiles
-     * @param playerID
+     * @param playerIdx
      */
-    public void isMeld(TileGroup tiles, int playerID){
+    public void isMeld(TileGroup tiles, int playerIdx){
         int meldVal = tiles.groupPointValues();
-        int i;
+
         if(meldVal >= 30){
-            int p= getPlayerIndexByID(playerID);
-            playersMelded[p] = true;
+            playersMelded[playerIdx] = true;
         }
     }
 
-    /**
-     * Getter method to get player index by player ID
-     *
-     * @param playerID
-     * @return the index of player ID, -1 if not found
-     */
-    private int getPlayerIndexByID(int playerID){
-        int i, index = -1;
-        for(i = 0; i < players.length; i++){
-            if (playersID[i] == playerID){
-                index = i;
-            }
-        }
-        return index;
-    }
 
     /**
      * this state as a string
@@ -481,7 +440,6 @@ public class RummikubState extends GameState{
 
         stateString+= getNumPlayerString();
         stateString+= getPlayersString();
-        stateString+= getPlayersIDString();
         stateString+= getPlayerHandsString();
         stateString+= getPlayerScoresString();
         stateString+= getPlayersMeldedString();
@@ -664,31 +622,6 @@ public class RummikubState extends GameState{
     private String getRoundString(){
         return "round:\n"+
                 round+"\n";
-    }
-
-    /**
-     *looks like:
-     *
-     * playersID[0]:
-     * 0
-     * playersID[1]:
-     * 1
-     *
-     * @return string representation of the array playersID
-     */
-    private String getPlayersIDString(){
-        //playersIDString is the string of the entire playersID array
-        String playersIDString= "";
-        for(int i=0;i<numPlayers;i++){
-            String currPlayerIDString=
-                    "playersID["+i+"]:\n";
-            currPlayerIDString+= String.valueOf(playersID[i]);
-            currPlayerIDString+= "\n";
-
-            playersIDString+= currPlayerIDString;
-        }
-
-        return playersIDString;
     }
 
     public ArrayList<TileGroup> getTableTileGroups(){
