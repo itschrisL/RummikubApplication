@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/face"
         android:label="Rummikub"
         android:theme="@style/AppTheme" >
         <activity
