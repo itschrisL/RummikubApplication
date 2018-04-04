@@ -632,9 +632,12 @@ public class RummikubState extends GameState{
         return tableTileGroups;
     }
 
-
     public TileGroup[] getPlayerHands(){
         return playerHands;
+    }
+
+    public TileGroup getPlayerHand(int playerIdx){
+        return playerHands[playerIdx];
     }
 
     public boolean hasCurrentPlayerPlayed() {

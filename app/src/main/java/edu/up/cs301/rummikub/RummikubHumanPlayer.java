@@ -1,5 +1,6 @@
 package edu.up.cs301.rummikub;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -148,21 +149,10 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     /**
-     * Finds player's hand by finding which TileGroup is not null
-     * copies player's hand into playerHand,
-     * and sets playerHand to the player's hand
+     * changes hand to represent the player's hand
      */
     private void updateHand(){
-        TileGroup[] hands= state.getPlayerHands();
-
-        //the non-null hand is this players hand
-        TileGroup playerHand= null;
-        for(int i=0; i<hands.length; i++){
-            if(hands[i] != null){
-                playerHand= hands[i];
-                break;
-            }
-        }
+        TileGroup playerHand= state.getPlayerHand(playerNum);
 
         hand.setTiles(playerHand);
         hand.invalidate();
