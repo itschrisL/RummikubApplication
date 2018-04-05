@@ -101,7 +101,7 @@ public class RummikubLocalGame extends LocalGame {
 
         //attempt to change the state by playing a tile
         boolean stateChanged=
-                state.canPlayTile(playerId,action.getTile());
+                state.canPlayTile(playerId,action.getTileIndex());
 
         //if the state did not change, we don't want to save the state on the undo stack
         if(!stateChanged){

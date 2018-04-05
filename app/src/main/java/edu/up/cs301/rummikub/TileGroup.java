@@ -171,6 +171,25 @@ public class TileGroup {
     }
 
     /**
+     *
+     * @param x coord to check
+     * @param y coord to check
+     * @return the index of the tile that was hit by the point (x,y)
+     *          -1 if no tile was hit
+     */
+    public int hitTile(float x, float y){
+        for(int i=0; i < tiles.size() ; i++){
+            //if we hit this tile
+            if(tiles.get(i).hit(x,y)){
+                return i;
+            }
+        }
+
+        //if we got this far, no tile was hit
+        return -1;
+    }
+
+    /**
      * returns this tile group as a string
      * it will be each tile followed by a comma
      * @return a string representation of this tile group

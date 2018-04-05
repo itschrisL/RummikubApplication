@@ -72,6 +72,27 @@ public class Tile {
     }
 
     /**
+     *
+     * @param x coord to check
+     * @param y coord to check
+     * @return whether x,y is within this tile
+     */
+    public boolean hit(float x, float y){
+
+        //if x or y is outside any bounary,
+        //we didn't hit this tile
+        if(x < this.x) return false;
+        if(x > this.x+WIDTH) return false;
+        if(y < this.y) return false;
+        if(y > this.y+HEIGHT) return false;
+
+        //if we got this far, x and y were not
+        //outside any boundary
+        //so we hit this tile
+        return true;
+    }
+
+    /**
      * Getter method to get X location
      * @return
      */

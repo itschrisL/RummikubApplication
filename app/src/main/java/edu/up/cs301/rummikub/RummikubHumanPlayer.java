@@ -13,6 +13,10 @@ import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
+import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
+import edu.up.cs301.rummikub.action.RummikubRevertAction;
+import edu.up.cs301.rummikub.action.RummikubSelectTileAction;
+import edu.up.cs301.rummikub.action.RummikubUndoAction;
 
 /**
  * class RummikubHumanPlayer
@@ -35,6 +39,8 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     private TextView player2Tiles;
 
     private Button drawKnockButton;
+    private Button undoButton;
+    private Button revertButton;
 
     private GameBoard table;
     private Hand hand;
@@ -57,16 +63,20 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         // make this object the listener for the buttons
 
-        Button undoButton = (Button) activity.findViewById(R.id.ButtonUndo);
+        undoButton = (Button) activity.findViewById(R.id.ButtonUndo);
         undoButton.setOnClickListener(this);
-        Button revertButton = (Button) activity.findViewById(R.id.ButtonRevert);
+
+        revertButton = (Button) activity.findViewById(R.id.ButtonRevert);
         revertButton.setOnClickListener(this);
+
         drawKnockButton = (Button) activity.findViewById(R.id.ButtonKnockDraw);
         drawKnockButton.setOnClickListener(this);
 
         table= (GameBoard) activity.findViewById(R.id.ViewGameBoard);
-        hand= (Hand) activity.findViewById(R.id.ViewHand);
+        table.setOnTouchListener(this);
 
+        hand= (Hand) activity.findViewById(R.id.ViewHand);
+        hand.setOnTouchListener(this);
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated
@@ -82,7 +92,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public void receiveInfo(GameInfo info) {
-        // ignore the message if it's not a CounterState message
+        // ignore the message if it's not a RummikubState message
         if (!(info instanceof RummikubState)) return;
 
         // update our state; then update the display
@@ -104,6 +114,12 @@ public class RummikubHumanPlayer extends GameHumanPlayer
                 action = new RummikubDrawAction(this);
             }
         }
+        else if(view == undoButton){
+            action= new RummikubUndoAction(this);
+        }
+        else if(view == revertButton){
+            action= new RummikubRevertAction(this);
+        }
 
         //if there is an action to send
         if(action != null){
@@ -113,6 +129,21 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        if(view == hand){
+            //get our hand
+            TileGroup handGroup= state.getPlayerHand(playerNum);
+            //find the index of the tile we touched
+            int touchedTile=
+                    handGroup.hitTile(motionEvent.getX(),motionEvent.getY());
+
+            //if we touched a tile
+            if(touchedTile != -1){
+                //create and send a select tile action
+                GameAction action=
+                        new RummikubPlayTileAction(this,touchedTile);
+                game.sendAction(action);
+            }
+        }
 
         return false;
     }

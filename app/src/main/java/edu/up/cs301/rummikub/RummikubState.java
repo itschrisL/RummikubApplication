@@ -133,6 +133,7 @@ public class RummikubState extends GameState{
 
             //copies current player
             currentPlayer = copy.currentPlayer;
+            currentPlayerPlayed= copy.currentPlayerPlayed;
 
             //copies draw pile, invisible to all players
             if(playerIndex == -1){
@@ -393,18 +394,27 @@ public class RummikubState extends GameState{
      * moves a players tile from hand to table
      *
      * @param playerIdx the player trying to play
-     * @param tile the tile in players hand
+     * @param tileIndex the tile in players hand
      * @return whether the tile was able to be played
      */
-    public boolean canPlayTile(int playerIdx, Tile tile){
+    public boolean canPlayTile(int playerIdx, int tileIndex){
+        TileGroup playerHand= playerHands[playerIdx];
 
-        if (!playerHands[playerIdx].contains(tile)) return false;
+        //if this is an invalid index
+        if (!(0<= tileIndex && tileIndex < playerHand.groupSize())){
+            return false;
+        }
+
+        Tile tile= playerHand.getTile(tileIndex);
 
         TileGroup tg = new TileGroup();
 
         tg.add(tile);
         playerHands[playerIdx].remove(tile);
         tableTileGroups.add(tg);
+
+        currentPlayerPlayed= true;
+
         return true;
     }
 

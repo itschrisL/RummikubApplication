@@ -13,21 +13,21 @@ import edu.up.cs301.rummikub.Tile;
  */
 
 public class RummikubPlayTileAction extends GameAction {
-    private Tile tile;
+    private int tileIndex;
 
     /**
      * constructor for RummikubPlayTileAction
      *
      * @param player the player who created the action
-     * @param tile the tile to play
+     * @param tileIndex the index of the tile to play
      */
-    public RummikubPlayTileAction(GamePlayer player, Tile tile) {
+    public RummikubPlayTileAction(GamePlayer player, int tileIndex) {
         super(player);
 
-        this.tile= tile;
+        this.tileIndex= tileIndex;
     }
 
-    public Tile getTile() {
-        return tile;
+    public int getTileIndex() {
+        return tileIndex;
     }
 }
