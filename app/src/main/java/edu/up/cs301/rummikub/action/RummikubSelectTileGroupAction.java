@@ -13,7 +13,8 @@ import edu.up.cs301.rummikub.TileGroup;
  */
 
 public class RummikubSelectTileGroupAction extends GameAction {
-    private TileGroup group;
+    //the index of the group to select
+    private int group;
 
     /**
      * constructor for RummikubSelectTileGroupAction
@@ -21,13 +22,13 @@ public class RummikubSelectTileGroupAction extends GameAction {
      * @param player the player who created the action
      * @param group the tile group to select
      */
-    public RummikubSelectTileGroupAction(GamePlayer player, TileGroup group) {
+    public RummikubSelectTileGroupAction(GamePlayer player, int group) {
         super(player);
 
         this.group= group;
     }
 
-    public TileGroup getGroup() {
+    public int getGroup() {
         return group;
     }
 }

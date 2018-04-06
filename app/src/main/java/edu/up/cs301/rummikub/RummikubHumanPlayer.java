@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
@@ -16,6 +18,7 @@ import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
 import edu.up.cs301.rummikub.action.RummikubSelectTileAction;
+import edu.up.cs301.rummikub.action.RummikubSelectTileGroupAction;
 import edu.up.cs301.rummikub.action.RummikubUndoAction;
 
 /**
@@ -142,20 +145,17 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         //we might not have a game to send actions to
         if(game == null) return false;
 
+
+        float x= motionEvent.getX();
+        float y= motionEvent.getY();
         GameAction action= null;
 
         if(view == hand){
-            //get our hand
-            TileGroup handGroup= state.getPlayerHand(playerNum);
-            //find the index of the tile we touched
-            int touchedTile=
-                    handGroup.hitTile(motionEvent.getX(),motionEvent.getY());
-
-            //if we touched a tile
-            if(touchedTile != -1){
-                //create a select tile action
-                action= new RummikubPlayTileAction(this,touchedTile);
-            }
+            //see if we should play a tile
+            action= playTileAction(x,y,state.getPlayerHand(playerNum));
+        }
+        else if(view == table){
+            action= selectTileAction(x,y,state.getTableTileGroups());
         }
 
         //if we made an action
@@ -165,6 +165,60 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         }
 
         return false;
+    }
+
+    /**
+     * creates a play tile action
+     * @param x the x-coord of the touch event
+     * @param y the y-ccord of the touch event
+     * @param hand the TileGroup that is this players hand
+     * @return an action to play a tile
+     *          null is no tile should be played
+     */
+    private RummikubPlayTileAction playTileAction(float x, float y, TileGroup hand){
+        //find the index of the tile we touched
+        int touchedTile=
+                hand.hitTile(x,y);
+
+        //if we touched a tile
+        if(touchedTile != -1){
+            //create a select tile action
+            return new RummikubPlayTileAction(this,touchedTile);
+        }
+
+        //we didn't touch a tile
+        return null;
+    }
+
+    /**
+     * creates a play tile action
+     * @param x the x-coord of the touch event
+     * @param y the y-ccord of the touch event
+     * @param tableGroup the TileGroups on the table
+     * @return an action to play a tile
+     *          null is no tile should be played
+     */
+    private RummikubSelectTileGroupAction
+                selectTileAction(float x, float y, ArrayList<TileGroup> tableGroup){
+        int selectedGroup= -1;
+
+        for(int i=0; i < tableGroup.size(); i++){
+            //if we hit group
+            if(tableGroup.get(i).hitTile(x,y) != -1){
+                //select this group
+                selectedGroup= i;
+                //we found what we hit, so leave the loop
+                break;
+            }
+        }
+
+        //if we selected a tile
+        if(selectedGroup != -1){
+            return new RummikubSelectTileGroupAction(this,selectedGroup);
+        }
+
+        //we didn't select a tile
+        return null;
     }
 
     protected void updateDisplay(){
@@ -196,6 +250,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
      */
     private void updateTable(){
         table.setTileGroups(state.getTableTileGroups());
+        table.setSelectedGroup(state.getSelectedGroup());
         table.invalidate();
     }
 

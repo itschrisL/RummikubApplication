@@ -148,12 +148,25 @@ public class RummikubState extends GameState{
             else drawPile = new HiddenTileGroup(copy.drawPile);
 
             //copies selectedGroup on table
-            this.selectedGroup = copy.selectedGroup;
+            if(copy.selectedGroup == null){
+                this.selectedGroup= null;
+            }
+            else{
+                this.selectedGroup = new TileGroup(copy.selectedGroup);
+            }
 
             //copies tableTileGroups
             tableTileGroups = new ArrayList<TileGroup>();
             for (TileGroup group : copy.tableTileGroups) {
-                this.tableTileGroups.add(new TileGroup(group));
+                //if group is the selected group
+                if(group == copy.selectedGroup){
+                    //we don't want to make a new copy
+                    this.tableTileGroups.add(this.selectedGroup);
+                }
+                //otherwise, make a new copy
+                else {
+                    this.tableTileGroups.add(new TileGroup(group));
+                }
             }
         }
         else {
@@ -325,12 +338,17 @@ public class RummikubState extends GameState{
      * If group can be selected, then will highlight indicating selected group
      * Group cannot be selected if it is not player's turn
      *
+     * @param group the index of the group to select
+     *
      * @return whether group can be selected
      */
-    public boolean canSelectGroup (int playerID, TileGroup group) {
-        if (!isOnTable(group)) return false;
+    public boolean canSelectGroup (int playerID, int group) {
+        //if this is an invalid group index
+        if (!(0 <= group && group < tableTileGroups.size())){
+            return false;
+        }
 
-        selectedGroup = group;
+        selectedGroup = tableTileGroups.get(group);
 
         return true;
     }
@@ -668,5 +686,9 @@ public class RummikubState extends GameState{
 
     public boolean hasCurrentPlayerPlayed() {
         return currentPlayerPlayed;
+    }
+
+    public TileGroup getSelectedGroup() {
+        return selectedGroup;
     }
 }

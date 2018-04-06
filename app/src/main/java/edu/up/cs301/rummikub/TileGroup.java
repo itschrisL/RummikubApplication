@@ -190,6 +190,62 @@ public class TileGroup {
     }
 
     /**
+     * @return the left most coord in this tile group
+     */
+    public float getLeft(){
+        float left= tiles.get(0).getX();
+        for(Tile tile : tiles){
+            if(tile.getX() < left){
+                left= tile.getX();
+            }
+        }
+
+        return left;
+    }
+
+    /**
+     * @return the right most coord in this tile group
+     */
+    public float getRight(){
+        float right= tiles.get(0).getX() + Tile.WIDTH;
+        for(Tile tile : tiles){
+            if(tile.getX() + Tile.WIDTH > right){
+                right= tile.getX() + Tile.WIDTH;
+            }
+        }
+
+        return right;
+    }
+
+    /**
+     * @return the top most coord in this tile group
+     */
+    public float getTop(){
+        float top= tiles.get(0).getY();
+        for(Tile tile : tiles){
+            if(tile.getY() < top){
+                top= tile.getX();
+            }
+        }
+
+        return top;
+    }
+
+    /**
+     * @return the bottom most coord in this tile group
+     */
+    public float getBottom(){
+        float bottom= tiles.get(0).getY() + Tile.HEIGHT;
+        for(Tile tile : tiles){
+            if(tile.getX() + Tile.HEIGHT > bottom){
+                bottom= tile.getY() + Tile.HEIGHT;
+            }
+        }
+
+        return bottom;
+    }
+
+    /**
      * returns this tile group as a string
      * it will be each tile followed by a comma
      * @return a string representation of this tile group

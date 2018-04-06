@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -30,7 +31,9 @@ public class GameBoard extends View {
     Bitmap background;
 
     //the tile groups currently on the table
-    ArrayList<TileGroup> tileGroups;
+    ArrayList<TileGroup> tileGroups= null;
+
+    TileGroup selectedGroup= null;
 
     public GameBoard(Context context) {
         super(context);
@@ -62,8 +65,37 @@ public class GameBoard extends View {
      * onDraw overrides View's onDraw method, and draws current board.
      */
     public void onDraw(Canvas c) {
-        //Tile tile;
+        drawBackground(c);
+        drawGroups(c);
+        outlineSelectedGroup(c);
+    }
 
+    /**
+     * outlines the selected group
+     * @param c the canvas on which to draw
+     */
+    private void outlineSelectedGroup(Canvas c) {
+        if(selectedGroup == null) return;
+
+        Paint outline= new Paint();
+        //set color to yellow
+        outline.setColor(0xffffff00);
+        outline.setStyle(Paint.Style.STROKE);
+        outline.setStrokeWidth(10);
+
+        float left= selectedGroup.getLeft();
+        float top= selectedGroup.getTop();
+        float right= selectedGroup.getRight();
+        float bottom= selectedGroup.getBottom();
+
+        c.drawRect(left,top,right,bottom,outline);
+    }
+
+    /**
+     * paints the backgroud
+     * @param c the canvas on which to draw
+     */
+    private void drawBackground(Canvas c){
         /**
          * External Citation
          * Date: 5 February 2018
@@ -77,25 +109,13 @@ public class GameBoard extends View {
         background =
                 Bitmap.createScaledBitmap(background,getWidth(),getHeight(),false);
         c.drawBitmap(background,0,0,null);
+    }
 
-        /*//draws tiles on board
-        int i;
-        //draws a run of 3 yellow tiles
-        for (i=0; i<3; i++) {
-            tile = new Tile (i*Tile.WIDTH+100, 50, i+1, Tile.BLACK);
-            tile.drawTile(c);
-        }
-        //draws a group of 4 colored tiles value=4
-        for (i=0; i<4; i++) {
-            tile = new Tile (i*Tile.WIDTH+700,200,4,Tile.colorArray[i]);
-            tile.drawTile(c);
-        }
-        //draws a group of 3 colored tiles value=10
-        for (i=0; i<3; i++) {
-            tile = new Tile (i*Tile.WIDTH+500,400,10,Tile.colorArray[i+1]);
-            tile.drawTile(c);
-        }*/
-
+    /**
+     * draws the tiles in each group
+     * @param c the canvas on which to draw
+     */
+    private void drawGroups(Canvas c){
         if(tileGroups == null) return;
         for(TileGroup group : tileGroups){
             ArrayList<Tile> tiles= group.getTileGroup();
@@ -108,5 +128,9 @@ public class GameBoard extends View {
 
     public void setTileGroups(ArrayList<TileGroup> tileGroups) {
         this.tileGroups = tileGroups;
+    }
+
+    public void setSelectedGroup(TileGroup group){
+        this.selectedGroup= group;
     }
 }
