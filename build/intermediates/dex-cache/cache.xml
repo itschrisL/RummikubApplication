@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\snook\Desktop\Rummiku\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="822e9d627abb4cae7a17a9cc4baa6f250665d359">
-        <dex dex="C:\Users\snook\Desktop\Rummiku\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_7fba84d12dfcf667691a9a068a4dee7f10ba553c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\Desktop\Rummiku\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\snook\Desktop\Rummiku\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_d179675b905994a5aac6b19e4126953ea5dbc2a5\classes.dex" />
+        <dex dex="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_8e712b3d7635313b1889dcb599562dd361503522\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7bb645a8064935ab35df78648adc2147cf348c2c">
+        <dex dex="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_822a312e8df3cfd44bb9e5385c04a3f18ad07d53\classes.dex" />
     </item>
 
 </items>

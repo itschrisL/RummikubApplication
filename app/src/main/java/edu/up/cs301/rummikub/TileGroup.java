@@ -34,6 +34,7 @@ public class TileGroup {
      * @param tileList
      */
     public TileGroup(Tile ... tileList){
+        this.tiles = new ArrayList<Tile>();
         for(Tile T : tileList){
             tiles.add(T);
         }
