@@ -1,6 +1,5 @@
 package edu.up.cs301.rummikub;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,11 +12,11 @@ import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
+import edu.up.cs301.rummikub.action.RummikubConnectAction;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
-import edu.up.cs301.rummikub.action.RummikubSelectTileAction;
 import edu.up.cs301.rummikub.action.RummikubSelectTileGroupAction;
 import edu.up.cs301.rummikub.action.RummikubUndoAction;
 
@@ -142,26 +141,41 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        //we might not have a game to send actions to
-        if(game == null) return false;
+        //we might not have a game or state to send actions to
+        if(game == null || state == null) return false;
 
-
+        //where player touched on screen
         float x= motionEvent.getX();
         float y= motionEvent.getY();
         GameAction action= null;
 
+        //touched in player's hand
         if(view == hand){
             //see if we should play a tile
             action= playTileAction(x,y,state.getPlayerHand(playerNum));
+            if (action != null) {
+                game.sendAction(action);
+                return true;
+            }
         }
+        //touched table
         else if(view == table){
-            action= selectTileAction(x,y,state.getTableTileGroups());
-        }
+            //get the table
+            ArrayList<TileGroup> tableGroup= state.getTableTileGroups();
 
-        //if we made an action
-        if(action != null){
-            //send it
-            game.sendAction(action);
+            action= connectAction(x,y,tableGroup);
+            if (action != null) {
+                game.sendAction(action);
+                return true;
+            }
+
+            action= selectTileAction(x,y,tableGroup);
+            if (action != null) {
+                game.sendAction(action);
+                return true;
+            }
+
+
         }
 
         return false;
@@ -212,12 +226,60 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             }
         }
 
-        //if we selected a tile
-        if(selectedGroup != -1){
-            return new RummikubSelectTileGroupAction(this,selectedGroup);
+        return new RummikubSelectTileGroupAction(this,selectedGroup);
+    }
+
+    /**
+     * creates a connect action
+     * @param x the x-coord of the touch event
+     * @param y the y-ccord of the touch event
+     * @param tableGroup the TileGroups on the table
+     * @return an action to play a tile
+     *          null is no tile should be connected
+     */
+    private RummikubConnectAction connectAction
+            (float x, float y, ArrayList<TileGroup> tableGroup ) {
+
+        //the group selected on table
+        TileGroup selectedTileGroup= state.getSelectedGroup();
+
+        //no group selected
+        if (selectedTileGroup == null) return null;
+
+        //index of group selected on table
+        int selectedGroupIndex= -1;
+
+        for (int i= 0; i<tableGroup.size(); i++){
+            //found selectedGroup on table
+            if (tableGroup.get(i) == selectedTileGroup) {
+                selectedGroupIndex= i;
+                break;
+            }
         }
 
-        //we didn't select a tile
+        //the index of tileGroup player touched on table
+        int touchedGroupIndex = -1;
+
+        //find index of tileGroup touched
+        for (int i= 0; i<tableGroup.size(); i++) {
+            //if tableGroup was touched
+            if (tableGroup.get(i).hitTile(x,y) != -1) {
+                touchedGroupIndex= i;
+                break;
+            }
+        }
+
+        //if same tile
+        if(touchedGroupIndex == selectedGroupIndex){
+            return null;
+        }
+
+        //if we made an action
+        if(touchedGroupIndex != -1){
+            return new
+                    RummikubConnectAction(this,selectedGroupIndex,touchedGroupIndex);
+        }
+
         return null;
     }
 
