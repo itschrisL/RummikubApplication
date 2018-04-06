@@ -213,10 +213,10 @@ public class RummikubHumanPlayer extends GameHumanPlayer
      * updates the text views on the board to display updated information
      */
     private void updateTextViews(){
-        player1Tiles.setText( state.getPlayerName(0) + " " + state.getPlayerHand(0).groupSize());
-        player2Tiles.setText( state.getPlayerName(1) + " " + state.getPlayerHand(1).groupSize());
+        player1Tiles.setText( name + " " + state.getPlayerHand(0).groupSize());
+        player2Tiles.setText( allPlayerNames[1] + " " + state.getPlayerHand(1).groupSize());
 
-        player1Score.setText( state.getPlayerName(0) + " " + state.getScore(0));
-        player2Score.setText( state.getPlayerName(1) + " " + state.getScore(1));
+        player1Score.setText( name + " " + state.getScore(0));
+        player2Score.setText( allPlayerNames[1] + " " + state.getScore(1));
     }
 }
