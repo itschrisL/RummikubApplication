@@ -78,6 +78,16 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         hand= (Hand) activity.findViewById(R.id.ViewHand);
         hand.setOnTouchListener(this);
 
+        //initializes text views
+        this.player1Tiles =
+                (TextView) activity.findViewById(R.id.textViewPlayer1Tiles);
+        this.player2Tiles =
+                (TextView) activity.findViewById(R.id.textViewPlayer2Tiles);
+        this.player1Score =
+                (TextView) activity.findViewById(R.id.textViewPlayer1Score);
+        this.player2Score =
+                (TextView) activity.findViewById(R.id.textViewPlayer2Score);
+
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated
         if (state != null) {
@@ -162,6 +172,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         updateHand();
         updateTable();
+        updateTextViews();
 
         updateDrawKnock();
 
@@ -196,5 +207,16 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         hand.setTiles(playerHand);
         hand.invalidate();
+    }
+
+    /**
+     * updates the text views on the board to display updated information
+     */
+    private void updateTextViews(){
+        player1Tiles.setText( state.getPlayerName(0) + " " + state.getPlayerHand(0).groupSize());
+        player2Tiles.setText( state.getPlayerName(1) + " " + state.getPlayerHand(1).groupSize());
+
+        player1Score.setText( state.getPlayerName(0) + " " + state.getScore(0));
+        player2Score.setText( state.getPlayerName(1) + " " + state.getScore(1));
     }
 }

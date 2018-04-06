@@ -210,6 +210,16 @@ public class RummikubState extends GameState{
         }
     }
 
+    //gets players name from players array
+    public String getPlayerName( int index){
+        return players[index];
+    }
+
+    //gets player score from playerScores array
+    public int getScore( int index){
+        return playerScores[index];
+    }
+
     /*
      *
      * @param playerIdx
