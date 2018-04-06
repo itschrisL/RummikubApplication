@@ -19,6 +19,7 @@ import edu.up.cs301.rummikub.action.*;
  */
 
 public class RummikubLocalGame extends LocalGame {
+
     RummikubState state;
 
     Stack<RummikubState> prevState= new Stack<RummikubState>();

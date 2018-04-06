@@ -1,14 +1,5 @@
 package edu.up.cs301.rummikub;
 
-/**
- * Created on 3/26/2018.
- *
- * @author Daylin Kuboyama
- * @author Harry Thoma
- * @author Riley Snook
- * @author Chris Lytle
- */
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,6 +11,7 @@ import android.util.Log;
  * This class draws Tiles; includes all basic framework.
  * Tile's x and y coordinates on screen.
  *
+ * Created on 3/26/2018.
  * @author Harry Thoma
  * @author Daylin Kuboyama
  * @author Riley Snook
