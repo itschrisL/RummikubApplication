@@ -18,6 +18,7 @@ import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
 import edu.up.cs301.rummikub.action.RummikubSelectTileGroupAction;
+import edu.up.cs301.rummikub.action.RummikubSplitAction;
 import edu.up.cs301.rummikub.action.RummikubUndoAction;
 
 /**
@@ -163,6 +164,12 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             //get the table
             ArrayList<TileGroup> tableGroup= state.getTableTileGroups();
 
+            action = splitAction(x,y,tableGroup);
+            if( action != null){
+                game.sendAction(action);
+                return true;
+            }
+
             action= connectAction(x,y,tableGroup);
             if (action != null) {
                 game.sendAction(action);
@@ -176,10 +183,29 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             }
 
 
+
         }
 
         return false;
     }
+
+    private RummikubSplitAction splitAction( float x, float y, ArrayList<TileGroup> tableGroup ){
+        if( state.getSelectedGroup() == null ) return null;
+
+        int hitGroup = -1;
+        for( int i = 0; i < tableGroup.size(); i++){
+            if(tableGroup.get(i).hitTile(x,y) != 1) {
+                hitGroup = i;
+            }
+        }
+        if( hitGroup == -1 ) return null;
+        if(tableGroup.get(hitGroup).groupSize() < 2 ) return null;
+        if( !(tableGroup.get(hitGroup) == state.getSelectedGroup())) return null;
+
+        return new RummikubSplitAction(this, hitGroup);
+    }
+
+
 
     /**
      * creates a play tile action

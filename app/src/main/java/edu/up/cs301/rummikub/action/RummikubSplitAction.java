@@ -14,21 +14,21 @@ import edu.up.cs301.rummikub.TileGroup;
  */
 
 public class RummikubSplitAction extends GameAction {
-    private TileGroup group;
+    private int groupIndex;
 
     /**
      * constructor for RummikubSplitAction
      *
      * @param player the player who created the action
-     * @param group the tile group to split
+     * @param groupIndex the tile group to split
      */
-    public RummikubSplitAction(GamePlayer player, TileGroup group) {
+    public RummikubSplitAction(GamePlayer player, int groupIndex) {
         super(player);
 
-        this.group= group;
+        this.groupIndex= groupIndex;
     }
 
-    public TileGroup getGroup() {
-        return group;
+    public int getGroup() {
+        return groupIndex;
     }
 }

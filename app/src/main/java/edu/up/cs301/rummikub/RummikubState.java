@@ -376,6 +376,9 @@ public class RummikubState extends GameState{
         group1.merge(group2);
         tableTileGroups.remove(group2);
 
+        //deselect groups after connecting
+        selectedGroup= null;
+
         return true;
     }
 
@@ -383,9 +386,11 @@ public class RummikubState extends GameState{
      * splits a tile group on table into
      * several single-tile tile groups on table
      */
-    public boolean canSplit(int playerIdx, TileGroup group){
+    public boolean canSplit(int playerIdx, int groupIndex){
 
+        TileGroup group = tableTileGroups.get(groupIndex);
         if(!isOnTable(group)) return false;
+
 
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
         //go thru each tile in the tile group
