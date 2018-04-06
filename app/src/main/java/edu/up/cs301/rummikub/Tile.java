@@ -79,7 +79,7 @@ public class Tile {
      */
     public boolean hit(float x, float y){
 
-        //if x or y is outside any bounary,
+        //if x or y is outside any boundary,
         //we didn't hit this tile
         if(x < this.x) return false;
         if(x > this.x+WIDTH) return false;

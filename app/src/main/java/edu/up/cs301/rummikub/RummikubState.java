@@ -111,11 +111,17 @@ public class RummikubState extends GameState{
             //copies players' hands
             playerHands = new TileGroup[numPlayers];
             for (int i = 0; i < numPlayers; i++) {
+                //if this is the player for whom we are making a copy
                 if (i == playerIndex || playerIndex == -1) {
-                    this.playerHands[i] = new TileGroup(copy.playerHands[i]);
+                    //make a copy of their hand
+                    this.playerHands[i] =
+                            new TileGroup(copy.playerHands[i]);
                 }
+                //if this is a different player's hand
                 else {
-                    this.playerHands[i] = null;
+                    //make a "hidden" copy
+                    this.playerHands[i] =
+                            new HiddenTileGroup(copy.playerHands[i]);
                 }
             }
 
@@ -135,11 +141,11 @@ public class RummikubState extends GameState{
             currentPlayer = copy.currentPlayer;
             currentPlayerPlayed= copy.currentPlayerPlayed;
 
-            //copies draw pile, invisible to all players
+            //copies draw pile, hidden to all players
             if(playerIndex == -1){
                 this.drawPile= new TileGroup(copy.drawPile);
             }
-            else drawPile = null;
+            else drawPile = new HiddenTileGroup(copy.drawPile);
 
             //copies selectedGroup on table
             this.selectedGroup = copy.selectedGroup;
@@ -398,14 +404,14 @@ public class RummikubState extends GameState{
      * @return whether the tile was able to be played
      */
     public boolean canPlayTile(int playerIdx, int tileIndex){
-        TileGroup playerHand= playerHands[playerIdx];
+        TileGroup hand= playerHands[playerIdx];
 
         //if this is an invalid index
-        if (!(0<= tileIndex && tileIndex < playerHand.groupSize())){
+        if (!(0<= tileIndex && tileIndex < hand.groupSize())){
             return false;
         }
 
-        Tile tile= playerHand.getTile(tileIndex);
+        Tile tile= hand.getTile(tileIndex);
 
         TileGroup tg = new TileGroup();
 

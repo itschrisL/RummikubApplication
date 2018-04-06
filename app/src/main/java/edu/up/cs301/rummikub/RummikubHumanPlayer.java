@@ -129,6 +129,11 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        //we might not have a game to send actions to
+        if(game == null) return false;
+
+        GameAction action= null;
+
         if(view == hand){
             //get our hand
             TileGroup handGroup= state.getPlayerHand(playerNum);
@@ -138,11 +143,15 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
             //if we touched a tile
             if(touchedTile != -1){
-                //create and send a select tile action
-                GameAction action=
-                        new RummikubPlayTileAction(this,touchedTile);
-                game.sendAction(action);
+                //create a select tile action
+                action= new RummikubPlayTileAction(this,touchedTile);
             }
+        }
+
+        //if we made an action
+        if(action != null){
+            //send it
+            game.sendAction(action);
         }
 
         return false;
