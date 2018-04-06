@@ -30,14 +30,12 @@ public class GameBoard extends View {
     //green felt background of playing table
     private Bitmap background;
 
-    //the tile groups currently on the table
-
-
     private int columnPadding = Tile.WIDTH + 75; // Padding between each tile group
     private int rowPadding = Tile.HEIGHT + 50; // Padding between Rows of tile groups
     private int wallPadding = 50;  // Padding from
     private int cellingPadding = 50;
 
+    //the tile groups currently on the table
     public ArrayList<TileGroup> tileGroups = null;
 
     public TileGroup selectedGroup = null;
