@@ -68,7 +68,6 @@ public class TileGroup {
     public void merge(TileGroup addGroup){
         for(Tile t : addGroup.tiles){
             this.add(t);
-            addGroup.remove(t);
         }
     }
 

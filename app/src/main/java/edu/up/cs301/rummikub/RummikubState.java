@@ -345,7 +345,8 @@ public class RummikubState extends GameState{
     public boolean canSelectGroup (int playerID, int group) {
         //if this is an invalid group index
         if (!(0 <= group && group < tableTileGroups.size())){
-            return false;
+            selectedGroup= null;
+            return true;
         }
 
         selectedGroup = tableTileGroups.get(group);
@@ -357,11 +358,18 @@ public class RummikubState extends GameState{
      * connects/merges two TileGroups
      *
      * @param playerIdx the index of the player who is taking action
-     * @param group1 the two groups to merge
-     * @param group2
+     * @param g1 the two groups to merge
+     * @param g2
      * @return weather it was a valid move and merged
      */
-    public boolean canConnect(int playerIdx, TileGroup group1, TileGroup group2){
+    public boolean canConnect(int playerIdx, int g1, int g2){
+
+        if (g1 >= tableTileGroups.size() || g1<0) return false;
+        if (g2 >= tableTileGroups.size() || g2<0 ) return false;
+
+        TileGroup group1 = tableTileGroups.get(g1);
+        TileGroup group2 = tableTileGroups.get(g2);
+
 
         if(!isOnTable(group1) || !isOnTable(group2)) return false;
 
