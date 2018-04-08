@@ -66,26 +66,47 @@ public class Hand extends View {
         //first paints the player's tile rack
         drawRack(c);
 
-        //random used to randomly select one of four colors
-       /* Random random = new Random();
-        int randColor;
-        int randNum; //variable that represents a random num to be printed onto tile
-
-        //prints first row of random colored tiles in player's hand
-        for (int i=0; i<7; i++) {
-            randColor = random.nextInt(4);
-            new Tile( 0+Tile.WIDTH*i,10,i+1, Tile.colorArray[randColor]).drawTile(c);
-        }
-        //prints second row of random colored tiles
-        for (int i=0; i<7; i++) {
-            randColor = random.nextInt(4);
-            randNum = random.nextInt(13) + 1;
-            new Tile( 0+Tile.WIDTH*i,200,randNum, Tile.colorArray[randColor]).drawTile(c);
-        }*/
         if(tiles == null) return;
-        ArrayList<Tile> handTiles= tiles.getTileGroup();
 
-        for(Tile tile : handTiles){
+        //draw tiles on rack
+        drawTiles(c);
+    }
+
+    /**
+     * draws the tiles
+     * @param c the canvas on which to draw
+     */
+    private void drawTiles(Canvas c){
+        int wallPadding= 20; //space between the tile and rack border
+        int rowPadding= 30; //space between the rows of tiles
+        int tilePadding= 10; //space between each tile
+
+        ArrayList<Tile> tileList = tiles.getTileGroup();
+
+        //first tile drawn
+        int currX= wallPadding;
+        int currY= wallPadding;
+
+        //ROW 1 of tiles
+        for (int i= 0; i<tiles.groupSize()/2; i++) {
+            tileList.get(i).setX(currX);
+            tileList.get(i).setY(currY);
+            currX= currX + Tile.WIDTH + tilePadding;
+        }
+
+        //sets up next row of tiles to be drawn
+        currX= wallPadding;
+        currY += Tile.HEIGHT+rowPadding;
+
+        //ROW 2 of tiles
+        for (int i= tiles.groupSize()/2; i<tiles.groupSize(); i++) {
+            tileList.get(i).setX(currX);
+            tileList.get(i).setY(currY);
+            currX= currX + Tile.WIDTH + tilePadding;
+        }
+
+        //draws each tile according to its x,y coords
+        for (Tile tile : tileList) {
             tile.drawTile(c);
         }
     }

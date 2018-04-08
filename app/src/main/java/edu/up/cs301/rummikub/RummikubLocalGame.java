@@ -143,17 +143,9 @@ public class RummikubLocalGame extends LocalGame {
     private boolean selectTileGroupAction(RummikubSelectTileGroupAction action){
         int playerId= getPlayerIdx(action.getPlayer());
 
-        //since we are about to change the state, push a copy onto the undo stack
-        prevState.push(new RummikubState(state,-1));
-
         //attempt to change the state by selecting a tile
         boolean stateChanged=
                 state.canSelectGroup(playerId,action.getGroup());
-
-        //if the state did not change, we don't want to save the state on the undo stack
-        if(!stateChanged){
-            prevState.pop();
-        }
 
         return stateChanged;
     }

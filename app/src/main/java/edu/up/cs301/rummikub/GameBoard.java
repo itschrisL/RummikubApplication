@@ -75,7 +75,7 @@ public class GameBoard extends View {
         outlineSelectedGroup(c);
     }
 
-    public void drawGroups(Canvas c){
+    /*public void drawGroups(Canvas c){
         // Set instance variables
         int columnCount = 0;
         int rowCount = 0;
@@ -109,6 +109,62 @@ public class GameBoard extends View {
                 tile.drawTile(c);
             }
             columnCount++; // add to column count
+        }
+    }*/
+
+    /**
+     * alternative drawGroups method
+     * this version gets around the problem of tileGroups overlapping
+     *
+     * @param c the canvas on which to draw
+     */
+    private void drawGroups(Canvas c){
+        // Condition if tile group has nothing in it, just return.
+        if(tileGroups == null || tileGroups.size() == 0) return;
+
+        int topPadding= 50; //padding between rows of groups
+        int sidePadding= 50; //padding between columns of groups
+
+        int surfaceWidth = c.getWidth();
+        int surfaceHeight = c.getHeight();
+
+        //the current x and y to draw the tile
+        int currX= wallPadding;
+        int currY= wallPadding;
+
+        //go through each group
+        for(TileGroup group : tileGroups){
+
+            int groupWidth= group.groupSize()*Tile.WIDTH;
+            //if this tile group will draw off screen
+            if(currX + groupWidth > surfaceWidth - wallPadding){
+                //drop down to the next line
+                currX= wallPadding;
+                currY+= Tile.HEIGHT + topPadding;
+            }
+
+            ArrayList<Tile> tiles= group.getTileGroup();
+            //go through each tile in the group
+            for(Tile tile : tiles){
+                tile.setX(currX);
+                tile.setY(currY);
+
+                //draw the next tile one tile away
+                currX+= Tile.WIDTH;
+            }
+
+            //add padding between the next group
+            currX+= sidePadding;
+        }
+
+        //go through each group and draw
+        for(TileGroup group : tileGroups){
+            ArrayList<Tile> tiles= group.getTileGroup();
+
+            //go through each tile in the group
+            for(Tile tile : tiles){
+                tile.drawTile(c);
+            }
         }
     }
 

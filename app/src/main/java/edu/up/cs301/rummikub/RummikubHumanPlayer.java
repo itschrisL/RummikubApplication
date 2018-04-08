@@ -1,5 +1,6 @@
 package edu.up.cs301.rummikub;
 
+import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -145,6 +146,10 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         //we might not have a game or state to send actions to
         if(game == null || state == null) return false;
 
+        if(!(motionEvent.getAction() == MotionEvent.ACTION_DOWN)){
+            return false;
+        }
+
         //where player touched on screen
         float x= motionEvent.getX();
         float y= motionEvent.getY();
@@ -194,8 +199,9 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         int hitGroup = -1;
         for( int i = 0; i < tableGroup.size(); i++){
-            if(tableGroup.get(i).hitTile(x,y) != 1) {
+            if(tableGroup.get(i).hitTile(x,y) != -1) {
                 hitGroup = i;
+                break;
             }
         }
         if( hitGroup == -1 ) return null;
@@ -208,7 +214,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
 
     /**
-     * creates a play tile action
+     * creates a select tile action
      * @param x the x-coord of the touch event
      * @param y the y-ccord of the touch event
      * @param hand the TileGroup that is this players hand
@@ -361,5 +367,18 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         player1Score.setText( name + " " + state.getScore(0));
         player2Score.setText( allPlayerNames[1] + " " + state.getScore(1));
+
+        Drawable background=
+                myActivity.getResources().getDrawable(
+                android.R.drawable.picture_frame);
+
+        if(state.isPlayerTurn(0)){
+            player1Tiles.setBackground(background);
+            player2Tiles.setBackground(null);
+        }
+        else{
+            player2Tiles.setBackground(background);
+            player1Tiles.setBackground(null);
+        }
     }
 }

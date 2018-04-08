@@ -120,7 +120,7 @@ public class TileGroup {
      * arranges this tile group into a random order
      */
     public void randomize(){
-        Random rand= new Random(45454);
+        Random rand= new Random(/*45454*/);
 
         //go through the array list and choose a rondom position to swap with
         for(int i=0;i<tiles.size();i++){
