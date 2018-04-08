@@ -121,9 +121,16 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         GameAction action= null;
 
         if(view == drawKnockButton){
+            //if they want to knock
             if(state.hasCurrentPlayerPlayed()){
+                //send the action
                 action= new RummikubKnockAction(this);
+
+                //draw the invalid groups
+                table.outlineInvalidGroups(true);
+                updateTable();
             }
+            //if they want to draw
             else {
                 action = new RummikubDrawAction(this);
             }
@@ -149,6 +156,9 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         if(!(motionEvent.getAction() == MotionEvent.ACTION_DOWN)){
             return false;
         }
+
+        //after we touch the table, we don't want to see invalid groups
+        table.outlineInvalidGroups(false);
 
         //where player touched on screen
         float x= motionEvent.getX();

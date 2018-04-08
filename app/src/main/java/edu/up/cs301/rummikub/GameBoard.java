@@ -36,9 +36,12 @@ public class GameBoard extends View {
     private int cellingPadding = 50;
 
     //the tile groups currently on the table
-    public ArrayList<TileGroup> tileGroups = null;
+    private ArrayList<TileGroup> tileGroups = null;
 
-    public TileGroup selectedGroup = null;
+    private TileGroup selectedGroup = null;
+
+    //whether invalid groups should be highlighted
+    private boolean highlightInvalid= false;
 
     public GameBoard(Context context) {
         super(context);
@@ -73,6 +76,8 @@ public class GameBoard extends View {
         drawBackground(c);
         drawGroups(c);
         outlineSelectedGroup(c);
+
+        if(highlightInvalid) outlineInvalidGroups(c);
     }
 
     /*public void drawGroups(Canvas c){
@@ -115,7 +120,7 @@ public class GameBoard extends View {
     /**
      * alternative drawGroups method
      * this version gets around the problem of tileGroups overlapping
-     *
+     * 
      * @param c the canvas on which to draw
      */
     private void drawGroups(Canvas c){
@@ -139,7 +144,7 @@ public class GameBoard extends View {
             //if this tile group will draw off screen
             if(currX + groupWidth > surfaceWidth - wallPadding){
                 //drop down to the next line
-                currX= wallPadding;
+                currX= 0;
                 currY+= Tile.HEIGHT + topPadding;
             }
 
@@ -175,16 +180,41 @@ public class GameBoard extends View {
     private void outlineSelectedGroup(Canvas c) {
         if(selectedGroup == null) return;
 
+        //outline the selected group yellow
+        outlineGroup(c,selectedGroup,0xffffff00);
+    }
+
+    /**
+     * outlines invalid groups
+     * @param c the canvas on which to draw
+     */
+    private void outlineInvalidGroups(Canvas c){
+        for(TileGroup group : tileGroups){
+            //if this group is not a set
+            if(!(TileSet.isValidSet(group))){
+                //outline it red
+                outlineGroup(c,group,0xffff0000);
+            }
+        }
+    }
+
+    /**
+     * outlines a group
+     *
+     * @param c the canvas on which to draw
+     * @param group the group to outline
+     * @param color the color to outline the group with
+     */
+    private void outlineGroup(Canvas c, TileGroup group, int color){
         Paint outline= new Paint();
-        //set color to yellow
-        outline.setColor(0xffffff00);
+        outline.setColor(color);
         outline.setStyle(Paint.Style.STROKE);
         outline.setStrokeWidth(10);
 
-        float left= selectedGroup.getLeft();
-        float top= selectedGroup.getTop();
-        float right= selectedGroup.getRight();
-        float bottom= selectedGroup.getBottom();
+        float left= group.getTile(0).getX();
+        float top= group.getTile(0).getY();
+        float right= left + group.groupSize()*Tile.WIDTH;
+        float bottom= top + Tile.HEIGHT;
 
         c.drawRect(left,top,right,bottom,outline);
     }
@@ -215,5 +245,9 @@ public class GameBoard extends View {
 
     public void setSelectedGroup(TileGroup group){
         this.selectedGroup= group;
+    }
+
+    public void outlineInvalidGroups(boolean outline){
+        this.highlightInvalid= outline;
     }
 }

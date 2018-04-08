@@ -427,31 +427,20 @@ public class RummikubState extends GameState{
         ArrayList<TileGroup> validGroups=
                 new ArrayList<TileGroup>();
 
-        //this is a two step process:
-        // 1) find valid tile groups
-        // 2) make new tile set representations of them
-        // 3) add the tile sets to and remove the tile groups from the table
-        //we separate step (1) from (2) and (3) to avoid a
-        //concurrent modification exception
-
-        //Step 1)
         // Iterate though TileGroups on table
+
         boolean isValidTable= true;
         for (TileGroup TG : tableTileGroups) {
             if (TileSet.isValidSet(TG)) {
                 validGroups.add(TG);
-            }
-            else { //we found an invalid set
+            } else { //we found an invalid set
                 isValidTable = false;
             }
         }
 
         //we found the valid groups, go make them into sets
         for(TileGroup group : validGroups){
-            //Step 2)
             TileSet tempSet = new TileSet(group);
-
-            //Step 3)
             tableTileGroups.add(tempSet);
             tableTileGroups.remove(group);
         }
