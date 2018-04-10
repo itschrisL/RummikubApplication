@@ -522,7 +522,6 @@ public class RummikubState extends GameState{
         }
     }
 
-
     /**
      * this state as a string
      * will be the variable name followed by a colon and newline
