@@ -477,6 +477,35 @@ public class RummikubState extends GameState{
     }
 
     /**
+     * Moves a TileGorup from hand to the table
+     * @param playerIdx
+     * @param tileIndexs
+     * @return
+     */
+    public boolean canPlayTileGroup(int playerIdx, int[] tileIndexs){
+
+        TileGroup hand = playerHands[playerIdx];
+        TileGroup tg = new TileGroup();
+        int i;
+        for(i = 0; i < tileIndexs.length; i++){
+            // If index is wihtin players hand
+            if(0 <= tileIndexs[i] && tileIndexs[i] < hand.groupSize()){
+                return false;
+            }
+            else {
+                // Else add tile to tg which will be returned if method returns true
+                tg.add(hand.getTile(tileIndexs[i]));
+                playerHands[playerIdx].remove(hand.getTile(tileIndexs[i]));
+            }
+        }
+
+        tableTileGroups.add(tg);
+        currentPlayerPlayed = true;
+
+        return true;
+    }
+
+    /**
      *
      * @param tiles
      * @param playerIdx
