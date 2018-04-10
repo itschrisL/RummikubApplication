@@ -30,6 +30,9 @@ public class RummikubState extends GameState{
     private int[] playerScores; //indicates score of each player
     private boolean[] playersMelded; //indicates whether each player has melded
 
+    //the index of the winner
+    private int winner= -1;
+
     private int currentPlayer; //index of players[], indicates whose turn it is
     private boolean currentPlayerPlayed; //Boolean if Current player has made a move yet.
     // TODO possible variables timer int
@@ -200,27 +203,6 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-
-        //go through each hand and set the tiles x and y
-        //to be drawn on the racks
-        for(int i=0;i<numPlayers;i++){
-            ArrayList<Tile> tiles= playerHands[i].getTileGroup();
-
-            int xOffset= 20; //the offset to draw the tiles on the rack
-            int yOffset= 20; //we don't want them to be right at the edge
-            int tileX= xOffset;
-            int tileY= yOffset;
-            for(int j=0;j<tiles.size();j++){
-                tiles.get(j).setX(tileX);
-                tiles.get(j).setY(tileY);
-
-                tileX+= Tile.WIDTH;
-                if(j == 6){
-                    tileX= xOffset;
-                    tileY+= Tile.HEIGHT+yOffset;
-                }
-            }
-        }
     }
 
     //gets players name from players array
@@ -309,6 +291,10 @@ public class RummikubState extends GameState{
         if(!currentPlayerPlayed) return false;
         else if(!isValidTable()) return false;
         else {
+            //if the player played all their tiles
+            if(playerHands[currentPlayer].groupSize() == 0){
+                winner= currentPlayer;
+            }
             nextTurn();
             return true;
         }
@@ -427,7 +413,7 @@ public class RummikubState extends GameState{
      *
      * @return whether every group on table is valid set
      */
-    private boolean isValidTable(){
+    public boolean isValidTable(){
         ArrayList<TileGroup> validGroups=
                 new ArrayList<TileGroup>();
 
@@ -491,9 +477,11 @@ public class RummikubState extends GameState{
         TileGroup hand = playerHands[playerIdx];
         TileGroup tg = new TileGroup();
         int i;
-        for(i = 0; i < tileIndexs.length; i++){
+        //go through backward, because all indexes are in order
+        //and we want to pull the back one first
+        for(i = tileIndexs.length-1; i >= 0; i--){
             // If index is wihtin players hand
-            if(0 <= tileIndexs[i] && tileIndexs[i] < hand.groupSize()){
+            if(!(0 <= tileIndexs[i] && tileIndexs[i] < hand.groupSize())){
                 return false;
             }
             else {
@@ -732,6 +720,18 @@ public class RummikubState extends GameState{
         return tableTileGroups;
     }
 
+    public TileGroup getDrawPile() {
+        return drawPile;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public int getWinner() {
+        return winner;
+    }
+
     public TileGroup[] getPlayerHands(){
         return playerHands;
     }
@@ -747,4 +747,5 @@ public class RummikubState extends GameState{
     public TileGroup getSelectedGroup() {
         return selectedGroup;
     }
+
 }

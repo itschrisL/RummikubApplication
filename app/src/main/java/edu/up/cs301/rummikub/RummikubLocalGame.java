@@ -49,7 +49,19 @@ public class RummikubLocalGame extends LocalGame {
 
     @Override
     protected String checkIfGameOver() {
-        return null;
+
+        //if the draw pile is empty, the game is a tie
+        if(state.getDrawPile().groupSize() == 0){
+            return "Tie";
+        }
+
+        int winner= state.getWinner();
+
+        //if no winner
+        if(winner == -1) return null;
+
+        return playerNames[winner] + " won";
+
     }
 
     @Override
