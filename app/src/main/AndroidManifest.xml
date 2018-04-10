@@ -12,7 +12,7 @@
 
     <application
         android:icon="@drawable/face"
-        android:label="Rummikub"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
         <!-- EXTERNAL CITATION

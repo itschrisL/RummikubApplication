@@ -54,23 +54,24 @@ public class Hand extends View {
         this.setWillNotDraw(false);
 
         rackBackground =
-                BitmapFactory.decodeResource(getResources(), R.drawable.rack_background);
+                BitmapFactory.decodeResource
+                        (getResources(), R.drawable.rack_background);
 
     }
 
     @Override
     /**
      * onDraw paints tiles, referencing Tile class.
-     */
+            */
     public void onDraw(Canvas c) {
-        //first paints the player's tile rack
-        drawRack(c);
+    //first paints the player's tile rack
+    drawRack(c);
 
         if(tiles == null) return;
 
-        //draw tiles on rack
-        drawTiles(c);
-    }
+    //draw tiles on rack
+    drawTiles(c);
+}
 
     /**
      * draws the tiles
@@ -81,6 +82,8 @@ public class Hand extends View {
         int rowPadding= 30; //space between the rows of tiles
         int tilePadding= 10; //space between each tile
 
+        boolean exceedsView= false; //whether all tiles in hand are visible
+
         ArrayList<Tile> tileList = tiles.getTileGroup();
 
         //first tile drawn
@@ -88,7 +91,18 @@ public class Hand extends View {
         int currY= wallPadding;
 
         //ROW 1 of tiles
-        for (int i= 0; i<tiles.groupSize()/2; i++) {
+        for (int i= 0; i<tiles.groupSize()/3; i++) {
+            tileList.get(i).setX(currX);
+            tileList.get(i).setY(currY);
+            currX= currX + Tile.WIDTH + tilePadding;
+        }
+
+        //sets up next row of tiles to be drawn
+        currX= wallPadding;
+        currY += Tile.HEIGHT + rowPadding;
+
+        //ROW 2 of tiles
+        for (int i= tiles.groupSize()/3; i<2*tiles.groupSize()/3; i++) {
             tileList.get(i).setX(currX);
             tileList.get(i).setY(currY);
             currX= currX + Tile.WIDTH + tilePadding;
@@ -98,12 +112,22 @@ public class Hand extends View {
         currX= wallPadding;
         currY += Tile.HEIGHT+rowPadding;
 
-        //ROW 2 of tiles
-        for (int i= tiles.groupSize()/2; i<tiles.groupSize(); i++) {
+        //row 3 of tiles
+        for (int i= 2*tiles.groupSize()/3; i<tiles.groupSize(); i++){
             tileList.get(i).setX(currX);
             tileList.get(i).setY(currY);
             currX= currX + Tile.WIDTH + tilePadding;
+            exceedsView= true; //max num of tiles that can be viewed are shown
         }
+
+        //TODO re-scale tiles
+/*        //want to scale tiles down in size
+        if (exceedsView){
+            //rescale every tile
+            for (int i= 0; i<tiles.groupSize(); i++) {
+                    tileList.get(i).
+            }
+        }*/
 
         //draws each tile according to its x,y coords
         for (Tile tile : tileList) {
@@ -127,7 +151,8 @@ public class Hand extends View {
          *      to the size we want it to be
          **/
         rackBackground =
-                Bitmap.createScaledBitmap(rackBackground,getWidth(),getHeight(),false);
+                Bitmap.createScaledBitmap
+                        (rackBackground,getWidth(),getHeight(),false);
         c.drawBitmap(rackBackground,0,0,null);
     }
 

@@ -31,9 +31,9 @@
 
         <LinearLayout
             android:id="@+id/LayoutTileDisplay"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:background="#619955"
             android:orientation="vertical">
 
@@ -87,7 +87,8 @@
             android:id="@+id/ViewHand"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5" />
+            android:layout_weight="5"
+            android:background="@drawable/rack_background" />
 
         <Button
             android:id="@+id/ButtonKnockDraw"
