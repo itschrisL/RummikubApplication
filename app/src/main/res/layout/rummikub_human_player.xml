@@ -44,26 +44,16 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal|center"
                 android:text="Tile Count"
-                android:textSize="24sp" />
+                android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/textViewPlayer1Tiles"
+                android:id="@+id/textViewTileCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:drawable/picture_frame"
-                android:gravity="center_horizontal|center"
-                android:text="John: 14"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/textViewPlayer2Tiles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center"
+                android:layout_weight="6"
+                android:gravity="top|center_horizontal|center"
                 android:text="JaneBot: 9"
-                android:textSize="24sp" />
+                android:textSize="16dp" />
 
         </LinearLayout>
 
@@ -122,25 +112,16 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal|center"
                 android:text="Score Board"
-                android:textSize="24sp" />
+                android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/textViewPlayer1Score"
+                android:id="@+id/textViewScoreBoard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center"
-                android:text="John: -53"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/textViewPlayer2Score"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center"
+                android:layout_weight="6"
+                android:gravity="top|center_horizontal|center"
                 android:text="JaneBot: 53"
-                android:textSize="24sp" />
+                android:textSize="16dp" />
 
         </LinearLayout>
 

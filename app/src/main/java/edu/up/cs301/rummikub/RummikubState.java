@@ -265,7 +265,12 @@ public class RummikubState extends GameState{
      * @param playerIdx
      */
     private void giveTileToPlayer(int playerIdx){
+
             Tile drawTile= drawPile.draw();
+
+            //checks to see if there is a tile to draw in pile
+            if( drawTile == null ) return;
+
 
             drawTile.setX(500);
             drawTile.setY(300);
@@ -304,7 +309,6 @@ public class RummikubState extends GameState{
         if(!currentPlayerPlayed) return false;
         else if(!isValidTable()) return false;
         else {
-            Log.i("cool kids", "daylin ");
             nextTurn();
             return true;
         }
