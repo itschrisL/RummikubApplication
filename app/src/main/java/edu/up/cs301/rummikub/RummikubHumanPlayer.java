@@ -37,10 +37,8 @@ import edu.up.cs301.rummikub.action.RummikubUndoAction;
 public class RummikubHumanPlayer extends GameHumanPlayer
         implements View.OnClickListener, View.OnTouchListener {
 
-    private TextView player1Score;
-    private TextView player2Score;
-    private TextView player1Tiles;
-    private TextView player2Tiles;
+    private TextView playerScores;
+    private TextView playerTileCount;;
 
     private Button drawKnockButton;
     private Button undoButton;
@@ -83,14 +81,10 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         hand.setOnTouchListener(this);
 
         //initializes text views
-        this.player1Tiles =
-                (TextView) activity.findViewById(R.id.textViewPlayer1Tiles);
-        this.player2Tiles =
-                (TextView) activity.findViewById(R.id.textViewPlayer2Tiles);
-        this.player1Score =
-                (TextView) activity.findViewById(R.id.textViewPlayer1Score);
-        this.player2Score =
-                (TextView) activity.findViewById(R.id.textViewPlayer2Score);
+        this.playerScores =
+                (TextView) activity.findViewById(R.id.textViewScoreBoard);
+        this.playerTileCount =
+                (TextView) activity.findViewById(R.id.textViewTileCount);
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated
@@ -347,6 +341,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         else{ //player has not played on table
             drawKnockButton.setText("Draw");
         }
+
     }
 
     /**
@@ -372,12 +367,29 @@ public class RummikubHumanPlayer extends GameHumanPlayer
      * updates the text views on the board to display updated information
      */
     private void updateTextViews(){
-        player1Tiles.setText( name + " " + state.getPlayerHand(0).groupSize());
-        player2Tiles.setText( allPlayerNames[1] + " " + state.getPlayerHand(1).groupSize());
 
-        player1Score.setText( name + " " + state.getScore(0));
-        player2Score.setText( allPlayerNames[1] + " " + state.getScore(1));
+        //updates tile text view based on number of players
+        playerTileCount.setText(allPlayerNames[0] + "\n" + state.getPlayerHand(0).groupSize() + "\n"
+                + allPlayerNames[1] + "\n" + state.getPlayerHand(1).groupSize());
+        if( allPlayerNames.length == 3){
+            playerTileCount.append(allPlayerNames[2] + "\n" + state.getPlayerHand(2));
+        }
+        else if( allPlayerNames.length == 4){
+            playerTileCount.append(allPlayerNames[3] + "\n" + state.getPlayerHand(3));
+        }
 
+        //updates score text view based on number of players
+        playerScores.setText(allPlayerNames[0] + "\n" + state.getScore(0) + "\n"
+                    + allPlayerNames[1] + "\n" + state.getScore(1));
+        if( allPlayerNames.length == 3) {
+            playerScores.append( "\n" + allPlayerNames[2] + "\n" + state.getScore(2));
+        }
+        else if( allPlayerNames.length == 4){
+            playerScores.append("\n" + allPlayerNames[3] +
+                    "\n" + state.getScore(3));
+        }
+
+        /*
         Drawable background=
                 myActivity.getResources().getDrawable(
                 android.R.drawable.picture_frame);
@@ -390,5 +402,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             player2Tiles.setBackground(background);
             player1Tiles.setBackground(null);
         }
+        */
     }
+
 }
