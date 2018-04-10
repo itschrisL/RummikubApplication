@@ -55,7 +55,12 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         int[] indexesToPlay= findSetInHand();
 
         if(indexesToPlay == null){
-            game.sendAction(new RummikubDrawAction(this));
+            if(state.canKnock(playerNum)){
+                game.sendAction(new RummikubKnockAction(this));
+            }
+            else {
+                game.sendAction(new RummikubDrawAction(this));
+            }
         }
         else{
             game.sendAction(new RummikubPlayGroupAction(this,indexesToPlay));
