@@ -29,7 +29,8 @@ public class Tile {
 
     //sizing (width and height) of tile
     public static final int WIDTH = 110;
-    public static final int HEIGHT = 120;
+    public static final int HEIGHT = 110;
+
 
     //4 tile colors
     public static final int BLUE = Color.argb(255,0,0,255);
@@ -147,7 +148,7 @@ public class Tile {
 
         Paint valColor = new Paint ();
         valColor.setColor(color);
-        valColor.setTextSize(80.0f);
+        valColor.setTextSize((float)0.72*WIDTH);
 
         //for the numbers that consist of 2 chars (ex: 10,11,12,13)
         //moves the value printing more to the left
