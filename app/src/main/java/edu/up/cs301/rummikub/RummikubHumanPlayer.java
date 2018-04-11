@@ -1,6 +1,5 @@
 package edu.up.cs301.rummikub;
 
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -200,29 +199,10 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         return false;
     }
 
-    private RummikubSplitAction splitAction( float x, float y, ArrayList<TileGroup> tableGroup ){
-        if( state.getSelectedGroup() == null ) return null;
-
-        int hitGroup = -1;
-        for( int i = 0; i < tableGroup.size(); i++){
-            if(tableGroup.get(i).hitTile(x,y) != -1) {
-                hitGroup = i;
-                break;
-            }
-        }
-        if( hitGroup == -1 ) return null;
-        if(tableGroup.get(hitGroup).groupSize() < 2 ) return null;
-        if( !(tableGroup.get(hitGroup) == state.getSelectedGroup())) return null;
-
-        return new RummikubSplitAction(this, hitGroup);
-    }
-
-
-
     /**
      * creates a select tile action
      * @param x the x-coord of the touch event
-     * @param y the y-ccord of the touch event
+     * @param y the y-coord of the touch event
      * @param hand the TileGroup that is this players hand
      * @return an action to play a tile
      *          null is no tile should be played
@@ -245,7 +225,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     /**
      * creates a play tile action
      * @param x the x-coord of the touch event
-     * @param y the y-ccord of the touch event
+     * @param y the y-coord of the touch event
      * @param tableGroup the TileGroups on the table
      * @return an action to play a tile
      *          null is no tile should be played
@@ -270,7 +250,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     /**
      * creates a connect action
      * @param x the x-coord of the touch event
-     * @param y the y-ccord of the touch event
+     * @param y the y-coord of the touch event
      * @param tableGroup the TileGroups on the table
      * @return an action to play a tile
      *          null is no tile should be connected
@@ -319,6 +299,32 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         }
 
         return null;
+    }
+
+    /**
+     * creates a split tile action
+     * @param x x-coord of the touch event
+     * @param y the y-coord of the touch event
+     * @param tableGroup the TileGroup that is this players hand
+     * @return an action to play a tile
+     *          null is no tile should be played
+     */
+    private RummikubSplitAction splitAction
+    ( float x, float y, ArrayList<TileGroup> tableGroup ){
+        if( state.getSelectedGroup() == null ) return null;
+
+        int hitGroup = -1;
+        for( int i = 0; i < tableGroup.size(); i++){
+            if(tableGroup.get(i).hitTile(x,y) != -1) {
+                hitGroup = i;
+                break;
+            }
+        }
+        if( hitGroup == -1 ) return null;
+        if(tableGroup.get(hitGroup).groupSize() < 2 ) return null;
+        if( !(tableGroup.get(hitGroup) == state.getSelectedGroup())) return null;
+
+        return new RummikubSplitAction(this, hitGroup);
     }
 
     protected void updateDisplay(){

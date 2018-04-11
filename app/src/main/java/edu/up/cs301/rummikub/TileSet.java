@@ -1,7 +1,8 @@
 package edu.up.cs301.rummikub;
 
 /**
- * Created on 3/26/2018.
+ * class TileSet
+ *determines whether tile set is run or book
  *
  * @author Daylin Kuboyama
  * @author Harry Thoma
@@ -10,6 +11,7 @@ package edu.up.cs301.rummikub;
  */
 
 import android.util.Log;
+import java.util.ArrayList;
 
 /**
  * class TileSet
@@ -56,6 +58,8 @@ public class TileSet extends TileGroup {
         for(Tile t : group.tiles){
             this.add(t);
         }
+
+        if (isRun) numericalOrder();
     }
 
     /**
@@ -76,6 +80,29 @@ public class TileSet extends TileGroup {
      */
     public static boolean isValidSet(TileGroup group){
         return (isRun(group) || isBook(group));
+    }
+
+    /**
+     * sorts a run of tiles in numerical order
+     */
+    public void numericalOrder () {
+        //empty arraylist
+        ArrayList <Tile> temp= new ArrayList<Tile>();
+
+         while (!tiles.isEmpty()) {
+            Tile currTile= tiles.get(0); //first tile in arrayList
+
+            for (int i= 1; i< tiles.size(); i++) {
+                if (tiles.get(i).getValue() < currTile.getValue()) {
+                    currTile= tiles.get(i);
+                }
+            }
+
+             temp.add(currTile);
+             tiles.remove(currTile);
+        }
+
+        tiles= temp; //replaces with sorted tiles arrayList
     }
 
     /**
