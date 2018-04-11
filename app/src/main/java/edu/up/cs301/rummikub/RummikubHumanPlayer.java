@@ -377,17 +377,20 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     private void updateTextViews() {
 
         //updates tile text view based on number of players
+        playerTileCount.setText("TILE COUNT");
+        for (int i = 0; i < allPlayerNames.length; i++) {
+            if( i == state.getCurrentPlayer()){
+                playerTileCount.append( "\n" + "*" + allPlayerNames[i] + "\n" + state.getPlayerHand(i).groupSize());
 
-        playerTileCount.setText(allPlayerNames[0] + "\n" + state.getPlayerHand(0).groupSize() + "\n"
-                + allPlayerNames[1] + "\n" + state.getPlayerHand(1).groupSize());
-        for (int i = 2; i < allPlayerNames.length; i++) {
-            playerTileCount.append("\n" + allPlayerNames[i] + "\n" + state.getPlayerHand(i).groupSize());
+            }
+            else{
+                playerTileCount.append("\n" + allPlayerNames[i] + "\n" + state.getPlayerHand(i).groupSize());
+            }
         }
 
         //updates score text view based on number of players
-        playerScores.setText(allPlayerNames[0] + "\n" + state.getScore(0) + "\n"
-                + allPlayerNames[1] + "\n" + state.getScore(1));
-        for (int i = 2; i < allPlayerNames.length; i++) {
+        playerScores.setText("SCORE BOARD");
+        for (int i = 0; i < allPlayerNames.length; i++) {
             playerScores.append("\n" + allPlayerNames[i] + "\n" + state.getScore(i));
         }
     }

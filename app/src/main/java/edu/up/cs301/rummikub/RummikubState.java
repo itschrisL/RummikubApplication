@@ -208,6 +208,8 @@ public class RummikubState extends GameState{
         return players[index];
     }
 
+    public int getCurrentPlayer(){ return currentPlayer; }
+
     //gets player score from playerScores array
     public int getScore( int index){
         return playerScores[index];
