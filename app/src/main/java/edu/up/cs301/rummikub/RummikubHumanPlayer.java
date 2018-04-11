@@ -377,22 +377,40 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     private void updateTextViews() {
 
         //updates tile text view based on number of players
-        playerTileCount.setText("TILE COUNT");
+        playerTileCount.setText("");
         for (int i = 0; i < allPlayerNames.length; i++) {
-            if( i == state.getCurrentPlayer()){
-                playerTileCount.append( "\n" + "*" + allPlayerNames[i] + "\n" + state.getPlayerHand(i).groupSize());
-
+            if( i == 0){
+                if( i == state.getCurrentPlayer()){
+                    playerTileCount.append( "*" + allPlayerNames[i] + "\n" +
+                            state.getPlayerHand(i).groupSize());
+                }
+                else {
+                    playerTileCount.append(allPlayerNames[i] + "\n" +
+                            state.getPlayerHand(i).groupSize());
+                }
             }
-            else{
-                playerTileCount.append("\n" + allPlayerNames[i] + "\n" + state.getPlayerHand(i).groupSize());
+            else {
+                if( i == state.getCurrentPlayer()) {
+                    playerTileCount.append("\n" + "*" + allPlayerNames[i] +
+                            "\n" + state.getPlayerHand(i).groupSize());
+                }
+                else{
+                    playerTileCount.append("\n" + allPlayerNames[i] +
+                            "\n" + state.getPlayerHand(i).groupSize());
+                }
             }
         }
 
         //updates score text view based on number of players
-        playerScores.setText("SCORE BOARD");
+        playerScores.setText("");
         for (int i = 0; i < allPlayerNames.length; i++) {
-            playerScores.append("\n" + allPlayerNames[i] + "\n" + state.getScore(i));
+            if( i == 0){
+                playerScores.append(allPlayerNames[i] + "\n" + state.getScore(i));
+            }
+            else if( i != 0) {
+                playerScores.append("\n" + allPlayerNames[i] + "\n" +
+                        state.getScore(i));
+            }
         }
     }
-
 }
