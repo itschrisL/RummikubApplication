@@ -377,6 +377,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     private void updateTextViews() {
 
         //updates tile text view based on number of players
+
         playerTileCount.setText(allPlayerNames[0] + "\n" + state.getPlayerHand(0).groupSize() + "\n"
                 + allPlayerNames[1] + "\n" + state.getPlayerHand(1).groupSize());
         for (int i = 2; i < allPlayerNames.length; i++) {
