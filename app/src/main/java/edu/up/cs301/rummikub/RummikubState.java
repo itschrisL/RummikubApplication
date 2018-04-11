@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -48,29 +49,30 @@ public class RummikubState extends GameState{
     /**
      * RumikubState Constructor
      */
-    public RummikubState() {
-        this.numPlayers = 2;
+    public RummikubState( int inPlayers ) {
+        this.numPlayers = inPlayers;
+
         this.round = 1;
-        this.players = new String[numPlayers];
-        this.players[0] = "Matt";
-        this.players[1] = "Nux";
 
         initDrawPile();
 
         this.playerHands = new TileGroup[numPlayers];
 
-        this.playerHands[0] = new TileGroup();
-        this.playerHands[1] = new TileGroup();
+        for( int i = 0; i < numPlayers; i++){
+            this.playerHands[i] = new TileGroup();
+        }
 
         dealHands();
 
         this.playerScores = new int[numPlayers];
-        this.playerScores[0] = 0;
-        this.playerScores[1] = 0;
+        for( int i = 0; i < numPlayers; i++){
+            this.playerScores[i] = 0;
+        }
 
         this.playersMelded = new boolean[numPlayers];
-        this.playersMelded[0] = false;
-        this.playersMelded[1] = false;
+        for( int i = 0; i < numPlayers; i++){
+            this.playersMelded[i] = false;
+        }
 
         this.currentPlayer = 0;
         this.currentPlayerPlayed = false;
@@ -102,11 +104,6 @@ public class RummikubState extends GameState{
             //copies num of players
             numPlayers = copy.numPlayers;
             round = copy.round;
-            //copies names of players
-            players = new String[numPlayers];
-            for (int i = 0; i < numPlayers; i++) {
-                this.players[i] = new String(copy.players[i]);
-            }
 
             //copies players' hands
             playerHands = new TileGroup[numPlayers];
@@ -515,7 +512,6 @@ public class RummikubState extends GameState{
         String stateString= "";
 
         stateString+= getNumPlayerString();
-        stateString+= getPlayersString();
         stateString+= getPlayerHandsString();
         stateString+= getPlayerScoresString();
         stateString+= getPlayersMeldedString();
@@ -546,6 +542,8 @@ public class RummikubState extends GameState{
      *
      * @return string representation of the array players
      */
+    /*
+
     private String getPlayersString(){
         //playerString is the string of the entire players array
         String playersString= "";
@@ -561,6 +559,7 @@ public class RummikubState extends GameState{
 
         return playersString;
     }
+    */
 
     /**
      *looks like:

@@ -366,43 +366,21 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     /**
      * updates the text views on the board to display updated information
      */
-    private void updateTextViews(){
+    private void updateTextViews() {
 
         //updates tile text view based on number of players
         playerTileCount.setText(allPlayerNames[0] + "\n" + state.getPlayerHand(0).groupSize() + "\n"
                 + allPlayerNames[1] + "\n" + state.getPlayerHand(1).groupSize());
-        if( allPlayerNames.length == 3){
-            playerTileCount.append(allPlayerNames[2] + "\n" + state.getPlayerHand(2));
-        }
-        else if( allPlayerNames.length == 4){
-            playerTileCount.append(allPlayerNames[3] + "\n" + state.getPlayerHand(3));
+        for (int i = 2; i < allPlayerNames.length; i++) {
+            playerTileCount.append("\n" + allPlayerNames[i] + "\n" + state.getPlayerHand(i).groupSize());
         }
 
         //updates score text view based on number of players
         playerScores.setText(allPlayerNames[0] + "\n" + state.getScore(0) + "\n"
-                    + allPlayerNames[1] + "\n" + state.getScore(1));
-        if( allPlayerNames.length == 3) {
-            playerScores.append( "\n" + allPlayerNames[2] + "\n" + state.getScore(2));
+                + allPlayerNames[1] + "\n" + state.getScore(1));
+        for (int i = 2; i < allPlayerNames.length; i++) {
+            playerScores.append("\n" + allPlayerNames[i] + "\n" + state.getScore(i));
         }
-        else if( allPlayerNames.length == 4){
-            playerScores.append("\n" + allPlayerNames[3] +
-                    "\n" + state.getScore(3));
-        }
-
-        /*
-        Drawable background=
-                myActivity.getResources().getDrawable(
-                android.R.drawable.picture_frame);
-
-        if(state.isPlayerTurn(0)){
-            player1Tiles.setBackground(background);
-            player2Tiles.setBackground(null);
-        }
-        else{
-            player2Tiles.setBackground(background);
-            player1Tiles.setBackground(null);
-        }
-        */
     }
 
 }

@@ -24,8 +24,17 @@ public class RummikubLocalGame extends LocalGame {
 
     Stack<RummikubState> prevState= new Stack<RummikubState>();
 
+    private Object syncObject = new Object();
+
     public RummikubLocalGame(){
-        this.state= new RummikubState();
+
+    }
+
+    @Override
+    public void start(GamePlayer[] players){
+        super.start(players);
+        this.state= new RummikubState( players.length );
+
     }
 
     /**
@@ -38,7 +47,9 @@ public class RummikubLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         int playerId= getPlayerIdx(p);
-        p.sendInfo(new RummikubState(state,playerId));
+        synchronized (syncObject){
+            p.sendInfo(new RummikubState(state,playerId));
+        }
     }
 
     @Override
@@ -56,33 +67,34 @@ public class RummikubLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
 
 
-
-        if(action instanceof RummikubPlayTileAction){
-            return playTileAction((RummikubPlayTileAction)action);
-        }
-        if(action instanceof RummikubSelectTileAction){
-            return selectTileAction((RummikubSelectTileAction)action);
-        }
-        if(action instanceof RummikubSelectTileGroupAction){
-            return selectTileGroupAction((RummikubSelectTileGroupAction)action);
-        }
-        if(action instanceof RummikubConnectAction){
-            return connectAction((RummikubConnectAction)action);
-        }
-        if(action instanceof RummikubSplitAction){
-            return splitAction((RummikubSplitAction)action);
-        }
-        if(action instanceof RummikubDrawAction){
-            return drawAction((RummikubDrawAction)action);
-        }
-        if(action instanceof RummikubKnockAction){
-            return knockAction((RummikubKnockAction)action);
-        }
-        if(action instanceof RummikubUndoAction){
-            return undoAction((RummikubUndoAction)action);
-        }
-        if(action instanceof RummikubRevertAction){
-            return revertAction((RummikubRevertAction)action);
+        synchronized (syncObject) {
+            if (action instanceof RummikubPlayTileAction) {
+                return playTileAction((RummikubPlayTileAction) action);
+            }
+            if (action instanceof RummikubSelectTileAction) {
+                return selectTileAction((RummikubSelectTileAction) action);
+            }
+            if (action instanceof RummikubSelectTileGroupAction) {
+                return selectTileGroupAction((RummikubSelectTileGroupAction) action);
+            }
+            if (action instanceof RummikubConnectAction) {
+                return connectAction((RummikubConnectAction) action);
+            }
+            if (action instanceof RummikubSplitAction) {
+                return splitAction((RummikubSplitAction) action);
+            }
+            if (action instanceof RummikubDrawAction) {
+                return drawAction((RummikubDrawAction) action);
+            }
+            if (action instanceof RummikubKnockAction) {
+                return knockAction((RummikubKnockAction) action);
+            }
+            if (action instanceof RummikubUndoAction) {
+                return undoAction((RummikubUndoAction) action);
+            }
+            if (action instanceof RummikubRevertAction) {
+                return revertAction((RummikubRevertAction) action);
+            }
         }
 
         //if we got this far, noting happened
