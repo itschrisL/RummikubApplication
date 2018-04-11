@@ -55,6 +55,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     public RummikubHumanPlayer(String name){
         super(name);
     }
+
     public void setAsGui(GameMainActivity activity) {
 
         //remember the activity
@@ -73,6 +74,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         drawKnockButton = (Button) activity.findViewById(R.id.ButtonKnockDraw);
         drawKnockButton.setOnClickListener(this);
+
 
         table= (GameBoard) activity.findViewById(R.id.ViewGameBoard);
         table.setOnTouchListener(this);

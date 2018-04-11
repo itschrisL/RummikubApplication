@@ -1,9 +1,11 @@
 package edu.up.cs301.rummikub;
 
+import java.util.ArrayList;
+
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.util.Tickable;
-import edu.up.cs301.rummikub.action.RummikubDrawAction;
+import edu.up.cs301.rummikub.action.*;
 
 /**
  * The computer player.
@@ -12,6 +14,9 @@ import edu.up.cs301.rummikub.action.RummikubDrawAction;
  * @author Harry Thoma
  */
 public class RummikubComputerPlayer extends GameComputerPlayer {
+
+    //the copy of the state
+    private RummikubState state= null;
 
     /**
      * Constructor for objects of class CounterComputerPlayer1
@@ -32,23 +37,61 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        if(info instanceof RummikubState){
+            this.state= (RummikubState)info;
+        }
+
         //if we are not yet hooked up to a game, ignore
         if(game == null){
             return;
         }
 
-        //if this is not a state, ignore
-        if(!(info instanceof RummikubState)){
-            return;
+        if(state.isPlayerTurn(playerNum)){
+            makeMove();
         }
+    }
 
-        RummikubState state= (RummikubState)info;
+    private void makeMove(){
+        int[] indexesToPlay= findSetInHand();
 
-        //if it is not our turn, ignore
-        if(!state.isPlayerTurn(playerNum)){
-            return;
+        if(indexesToPlay == null){
+            if(state.canKnock(playerNum)){
+                game.sendAction(new RummikubKnockAction(this));
+            }
+            else {
+                game.sendAction(new RummikubDrawAction(this));
+            }
         }
+        else{
+            game.sendAction(new RummikubPlayGroupAction(this,indexesToPlay));
+        }
+    }
 
-        game.sendAction(new RummikubDrawAction(this));
+    /**
+     * finds a set of playable tiles in this players hand
+     * @return the array of indexes of the group the player wants to play
+     *          null if no set exists
+     */
+    private int[] findSetInHand(){
+        ArrayList<Tile> tiles= state.getPlayerHand(playerNum).getTileGroup();
+
+        //go the hand, looking at each combination of three tiles
+        for(int i= 0; i<tiles.size(); i++){
+            for(int j= i+1; j<tiles.size(); j++){
+                for(int k= j+1; k<tiles.size(); k++){
+                    Tile t1= tiles.get(i);
+                    Tile t2= tiles.get(j);
+                    Tile t3= tiles.get(k);
+
+                    TileGroup group= new TileGroup(t1,t2,t3);
+                    if(TileSet.isValidSet(group)){
+                        return new int[]{i,j,k};
+                    }
+                }//k loop
+            }//j loop
+        }//i loop
+
+        //if we got this far, we didn't find a valid set
+        return null;
     }
 }

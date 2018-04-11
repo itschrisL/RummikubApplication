@@ -60,7 +60,19 @@ public class RummikubLocalGame extends LocalGame {
 
     @Override
     protected String checkIfGameOver() {
-        return null;
+
+        //if the draw pile is empty, the game is a tie
+        if(state.getDrawPile().groupSize() == 0){
+            return "Tie";
+        }
+
+        int winner= state.getWinner();
+
+        //if no winner
+        if(winner == -1) return null;
+
+        return playerNames[winner] + " won";
+
     }
 
     @Override
@@ -96,7 +108,9 @@ public class RummikubLocalGame extends LocalGame {
                 return revertAction((RummikubRevertAction) action);
             }
         }
-
+        if(action instanceof RummikubPlayGroupAction){
+            return playTileGroupAction((RummikubPlayGroupAction)action);
+        }
         //if we got this far, noting happened
         return false;
     }
@@ -115,6 +129,29 @@ public class RummikubLocalGame extends LocalGame {
         //attempt to change the state by playing a tile
         boolean stateChanged=
                 state.canPlayTile(playerId,action.getTileIndex());
+
+        //if the state did not change, we don't want to save the state on the undo stack
+        if(!stateChanged){
+            prevState.pop();
+        }
+
+        return stateChanged;
+    }
+
+    /**
+     * Attemps to play TileGroup
+     * @param action
+     * @return
+     */
+    private boolean playTileGroupAction(RummikubPlayGroupAction action){
+        // Set variables
+        int playerId = getPlayerIdx(action.getPlayer());
+
+        //since we are about to change the state, push a copy onto the undo stack
+        prevState.push(new RummikubState(state,-1));
+
+        //attempt to change the state by playing a tile
+        boolean stateChanged = state.canPlayTileGroup(playerId, action.getTiles());
 
         //if the state did not change, we don't want to save the state on the undo stack
         if(!stateChanged){

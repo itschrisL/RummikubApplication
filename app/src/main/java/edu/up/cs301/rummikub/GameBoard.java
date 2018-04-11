@@ -144,7 +144,7 @@ public class GameBoard extends View {
             //if this tile group will draw off screen
             if(currX + groupWidth > surfaceWidth - wallPadding){
                 //drop down to the next line
-                currX= 0;
+                currX= wallPadding;
                 currY+= Tile.HEIGHT + topPadding;
             }
 
