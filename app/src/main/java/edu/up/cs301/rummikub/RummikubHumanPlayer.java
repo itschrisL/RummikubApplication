@@ -37,7 +37,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         implements View.OnClickListener, View.OnTouchListener {
 
     private TextView playerScores;
-    private TextView playerTileCount;;
+    private TextView playerTileCount;
 
     private Button drawKnockButton;
     private Button undoButton;
@@ -344,7 +344,9 @@ public class RummikubHumanPlayer extends GameHumanPlayer
      */
     private void updateDrawKnock() {
         if(state.hasCurrentPlayerPlayed()){
-            drawKnockButton.setText("Knock");
+            if(state.getCurrentPlayer() == this.playerNum){
+                drawKnockButton.setText("Knock");
+            }
         }
         else{ //player has not played on table
             drawKnockButton.setText("Draw");
