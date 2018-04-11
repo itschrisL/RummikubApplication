@@ -1,6 +1,7 @@
 package edu.up.cs301.rummikub;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.infoMsg.GameInfo;
@@ -52,6 +53,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
     }
 
     private void makeMove(){
+        randomSleep();
         int[] indexesToPlay= findSetInHand();
 
         if(indexesToPlay == null){
@@ -93,5 +95,11 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
 
         //if we got this far, we didn't find a valid set
         return null;
+    }
+
+    private void randomSleep() {
+        Random random = new Random();
+        // Randomly choses a sleeping time between 1 and 4 seconds
+        sleep(random.nextInt(3000)+1000);
     }
 }
