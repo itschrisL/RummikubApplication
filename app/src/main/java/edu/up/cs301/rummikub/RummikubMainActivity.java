@@ -2,7 +2,6 @@ package edu.up.cs301.rummikub;
 
 import java.util.ArrayList;
 
-import edu.up.cs301.counter.CounterComputerPlayer1;
 import edu.up.cs301.counter.CounterComputerPlayer2;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.GamePlayer;
@@ -67,7 +66,7 @@ public class RummikubMainActivity extends GameMainActivity {
 		// - from 1 to 2 players
 		// - name of game is "Counter Game"
 		// - port number as defined above
-		GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Counter Game",
+		GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Rummikub",
 				PORT_NUMBER);
 
 		// Add the default players to the configuration
