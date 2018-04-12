@@ -269,7 +269,7 @@ public class RummikubState extends GameState{
      *  - true - if player has made move, end draw
      */
     public boolean canDraw(int playerIdx){
-        if(!(currentPlayerPlayed)){
+        if(!(currentPlayerPlayed) && isValidTable() == true) {
             giveTileToPlayer(playerIdx);
             nextTurn();
             return true;
