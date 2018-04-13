@@ -66,6 +66,9 @@ public class RummikubLocalGame extends LocalGame {
             return "Tie";
         }
 
+        //checks to see if its the last round of the game
+        if( state.getRound() != 0) return null;
+
         int winner= state.getWinner();
 
         //if no winner

@@ -15,6 +15,7 @@ package edu.up.cs301.rummikub;
 public class HiddenTileGroup extends TileGroup {
     //the size of the hidden tile group
     int groupSize;
+    int handScore;
 
     /**
      * constructor for a hidden tile group
@@ -30,10 +31,10 @@ public class HiddenTileGroup extends TileGroup {
         if(group == null || group.tiles == null){
             groupSize= 0;
         }
-        else{
-            groupSize= group.groupSize();
+        else {
+            groupSize = group.groupSize();
         }
-
+        handScore = groupPointValues();
         //in any case, set tiles to null
         this.tiles= null; //tiles is an inherited field
     }
@@ -44,6 +45,18 @@ public class HiddenTileGroup extends TileGroup {
     @Override
     public int groupSize(){
         return groupSize;
+    }
+
+    /**
+     * @return the sum of the point in players hand
+     */
+    @Override
+    public int groupPointValues(){
+        int rtnVal = 0;
+        for(Tile t : tiles){
+            rtnVal = rtnVal + t.getValue();
+        }
+        return rtnVal;
     }
 
     /**
