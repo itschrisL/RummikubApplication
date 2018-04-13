@@ -196,11 +196,17 @@ public class RummikubState extends GameState{
      * deals 14 tiles from drawpile to each player's hand
      */
     private void dealHands(){
-        for(int i=0;i<14;i++){
+        for(int i=0;i<11;i++){
             for(int j=0;j<numPlayers;j++){
                 playerHands[j].add(drawPile.draw());
             }
         }
+
+        playerHands[0].add(new Tile(0,0,1,Tile.BLACK));
+        playerHands[0].add(new Tile(0,0,2,Tile.BLACK));
+        playerHands[0].add(new Tile(0,0,3,Tile.BLACK));
+
+        playerHands[1].add(new Tile(0,0,4,Tile.BLACK));
     }
 
     //gets players name from players array

@@ -106,6 +106,11 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         // update our state; then update the display
         this.state = (RummikubState) info;
+
+
+        //after anything new happens, we don't want to see invalid groups
+        table.outlineInvalidGroups(false);
+
         updateDisplay();
     }
 
@@ -151,9 +156,6 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         if(!(motionEvent.getAction() == MotionEvent.ACTION_DOWN)){
             return false;
         }
-
-        //after we touch the table, we don't want to see invalid groups
-        table.outlineInvalidGroups(false);
 
         //where player touched on screen
         float x= motionEvent.getX();

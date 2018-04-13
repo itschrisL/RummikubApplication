@@ -190,59 +190,19 @@ public class TileGroup {
     }
 
     /**
-     * @return the left most coord in this tile group
+     * determines whether the argument tile can be added
+     * and this group would then be a set
+     * @param tile the tile we are trying to add
+     * @return whether the tile could be added and make this group a set
      */
-    public float getLeft(){
-        float left= tiles.get(0).getX();
-        for(Tile tile : tiles){
-            if(tile.getX() < left){
-                left= tile.getX();
-            }
-        }
+    public boolean canAddForSet(Tile tile){
+        //make a copy of this group
+        TileGroup group = new TileGroup(this);
+        //add the given tile
+        group.add(tile);
 
-        return left;
-    }
-
-    /**
-     * @return the right most coord in this tile group
-     */
-    public float getRight(){
-        float right= tiles.get(0).getX() + Tile.WIDTH;
-        for(Tile tile : tiles){
-            if(tile.getX() + Tile.WIDTH > right){
-                right= tile.getX() + Tile.WIDTH;
-            }
-        }
-
-        return right;
-    }
-
-    /**
-     * @return the top most coord in this tile group
-     */
-    public float getTop(){
-        float top= tiles.get(0).getY();
-        for(Tile tile : tiles){
-            if(tile.getY() < top){
-                top= tile.getX();
-            }
-        }
-
-        return top;
-    }
-
-    /**
-     * @return the bottom most coord in this tile group
-     */
-    public float getBottom(){
-        float bottom= tiles.get(0).getY() + Tile.HEIGHT;
-        for(Tile tile : tiles){
-            if(tile.getX() + Tile.HEIGHT > bottom){
-                bottom= tile.getY() + Tile.HEIGHT;
-            }
-        }
-
-        return bottom;
+        //return whether it is still a set
+        return TileSet.isValidSet(group);
     }
 
     /**

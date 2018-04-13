@@ -3,12 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="ed1ce269a59b63ea7a66dc2057789c3cc3e94d30">
-        <dex dex="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_822a312e8df3cfd44bb9e5385c04a3f18ad07d53\classes.dex" />
+        sha1="67d317a1a1d31e5b4e03ee01b8cfa86cd4ff8906">
+        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_f20acb0fdf41d9ea0e215e9dad32a4a7114a4c3b\classes.dex" />
     </item>
 
 </items>

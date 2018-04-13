@@ -1,9 +1,12 @@
 package edu.up.cs301.rummikub;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 import edu.up.cs301.game.GameComputerPlayer;
+import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.util.Tickable;
 import edu.up.cs301.rummikub.action.*;
@@ -18,6 +21,9 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
 
     //the copy of the state
     private RummikubState state= null;
+
+    //Queue of actions the player wants to play this turn
+    private LinkedList<GameAction> playActions= new LinkedList<GameAction>();
 
     /**
      * Constructor for objects of class CounterComputerPlayer1
@@ -48,25 +54,53 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         }
 
         if(state.isPlayerTurn(playerNum)){
-            makeMove();
+            //if we have not figured out our play, do so
+            if(playActions.isEmpty()){
+                findMove();
+            }
+            //then, we want to make our play,
+            //one action at a time
+            randomSleep();
+            game.sendAction(playActions.remove());
         }
     }
 
-    private void makeMove(){
-        randomSleep();
+    /**
+     * changes the playActions queue to reflect the actions
+     * this player wants to make this move
+     */
+    private void findMove(){
         int[] indexesToPlay= findSetInHand();
 
-        if(indexesToPlay == null){
-            if(state.canKnock(playerNum)){
-                game.sendAction(new RummikubKnockAction(this));
-            }
-            else {
-                game.sendAction(new RummikubDrawAction(this));
-            }
+        //if we found a set in our hand
+        if(indexesToPlay != null){
+            //we want to play it, then knock
+            playActions.add(new RummikubPlayGroupAction(this,indexesToPlay));
+            playActions.add(new RummikubKnockAction(this));
+
+            return;
         }
-        else{
-            game.sendAction(new RummikubPlayGroupAction(this,indexesToPlay));
+
+        //now check if there is a single tile to play
+        int[] playPair= findTileToPlay();
+
+        //if we found a tile to play
+        if(playPair != null){
+            playActions.add(new RummikubPlayTileAction(this,playPair[0]));
+
+            //find the index on the table of the tile you just played
+            int newGroupIndex= state.getTableTileGroups().size();
+
+            playActions.add(new RummikubConnectAction(this,playPair[1],newGroupIndex));
+            //then knock
+            playActions.add(new RummikubKnockAction(this));
+
+            return;
         }
+
+
+        //if we get this far we need to draw
+        playActions.add(new RummikubDrawAction(this));
     }
 
     /**
@@ -94,6 +128,33 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         }//i loop
 
         //if we got this far, we didn't find a valid set
+        return null;
+    }
+
+    /**
+     * finds a tile that can be added to a group
+     * @return a 2-big array,
+     *          the first index is the tile to play
+     *          the second is the index of the group it can be added to
+     *          null if no tile can be played
+     */
+    private int[] findTileToPlay(){
+        TileGroup hand= state.getPlayerHand(playerNum);
+        ArrayList<TileGroup> groups= state.getTableTileGroups();
+
+        //go through each tile in our hand
+        for(int tileIndex=0; tileIndex<hand.groupSize(); tileIndex++){
+            Tile tile= hand.getTile(tileIndex);
+            //go through each group on the table
+            for(int groupIndex=0; groupIndex<groups.size(); groupIndex++){
+                //see if the tile can be added to the group
+                if(groups.get(groupIndex).canAddForSet(tile)){
+                    return new int[]{tileIndex,groupIndex};
+                }
+            }
+        }
+
+        //if we get all the way here, no valid play was found
         return null;
     }
 
