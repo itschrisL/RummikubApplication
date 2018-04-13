@@ -128,6 +128,8 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             //if they want to draw
             else {
                 action = new RummikubDrawAction(this);
+                table.outlineInvalidGroups(true);
+                updateTable();
             }
         }
         else if(view == undoButton){
