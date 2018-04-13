@@ -335,7 +335,6 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         updateHand();
         updateTable();
         updateTextViews();
-
         updateDrawKnock();
 
     }
@@ -411,7 +410,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             if( i == 0){
                 playerScores.append(allPlayerNames[i] + "\n" + state.getScore(i));
             }
-            else if( i != 0) {
+            else{
                 playerScores.append("\n" + allPlayerNames[i] + "\n" +
                         state.getScore(i));
             }

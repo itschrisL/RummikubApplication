@@ -1,11 +1,13 @@
 package edu.up.cs301.rummikub;
 
 
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GamePlayer;
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -55,33 +57,14 @@ public class RummikubState extends GameState{
      */
     public RummikubState( int inPlayers ) {
         this.numPlayers = inPlayers;
-
-        this.round = 1;
-
-        initDrawPile();
-
-        this.playerHands = new TileGroup[numPlayers];
-
-        for( int i = 0; i < numPlayers; i++){
-            this.playerHands[i] = new TileGroup();
-        }
-
-        dealHands();
+        if( numPlayers == 2 || numPlayers == 4) this.round = 3;
+        if( numPlayers == 3) this.round = 2;
 
         this.playerScores = new int[numPlayers];
         for( int i = 0; i < numPlayers; i++){
             this.playerScores[i] = 0;
         }
-
-        this.playersMelded = new boolean[numPlayers];
-        for( int i = 0; i < numPlayers; i++){
-            this.playersMelded[i] = false;
-        }
-
-        this.currentPlayer = 0;
-        this.currentPlayerPlayed = false;
-        this.selectedGroup = null;
-        this.tableTileGroups = new ArrayList<TileGroup>();
+        newRound();
     }
 
     /**
@@ -94,6 +77,28 @@ public class RummikubState extends GameState{
     public RummikubState (RummikubState copy, int playerIndex) {
         this.setThisToCopy(copy,playerIndex);
     }
+
+    private void newRound(){
+
+        this.playerHands = new TileGroup[numPlayers];
+        this.playersMelded = new boolean[numPlayers];
+        this.tableTileGroups = new ArrayList<TileGroup>();
+
+        this.selectedGroup = null;
+        winner = -1;
+        this.currentPlayer = 0;
+        this.currentPlayerPlayed = false;
+
+        for( int i = 0; i < numPlayers; i++){
+            playerHands[i] = new TileGroup();
+            playersMelded[i] = false;
+            this.playerHands[i] = new TileGroup();
+        }
+
+        initDrawPile();
+        dealHands();
+    }
+
 
     /**
      * Called from copy constructor for gameState
@@ -129,7 +134,7 @@ public class RummikubState extends GameState{
             //copies players' scores
             playerScores = new int[numPlayers];
             for (int i = 0; i < numPlayers; i++) {
-                playerScores[i] = playerScores[i];
+                playerScores[i] = copy.playerScores[i];
             }
 
             //copies boolean[] whether player melded or not
@@ -293,11 +298,32 @@ public class RummikubState extends GameState{
         else {
             //if the player played all their tiles
             if(playerHands[currentPlayer].groupSize() == 0){
-                winner= currentPlayer;
+                roundOver();
+                return true;
             }
             nextTurn();
             return true;
         }
+    }
+
+    /**
+     * updates the scores when the round ends
+     * checks to see if it was the final round of the game
+     * if so it sets the winner
+     */
+    private void roundOver(){
+        for( int i = 0; i < numPlayers; i++  ){
+            playerScores[currentPlayer] +=  playerHands[i].groupPointValues();
+            playerScores[i] -= playerHands[i].groupPointValues();
+        }
+
+        //checks to see if the game is completely over
+        if( round == 0){
+            winner = currentPlayer;
+            return;
+        }
+        round--;
+        newRound();
     }
 
     /**
@@ -749,5 +775,7 @@ public class RummikubState extends GameState{
     public TileGroup getSelectedGroup() {
         return selectedGroup;
     }
+
+    public int getRound(){return round;}
 
 }
