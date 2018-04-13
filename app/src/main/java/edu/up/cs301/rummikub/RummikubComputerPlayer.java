@@ -8,8 +8,9 @@ import java.util.Random;
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
-import edu.up.cs301.game.util.Tickable;
-import edu.up.cs301.rummikub.action.*;
+import edu.up.cs301.rummikub.action.RummikubDrawAction;
+import edu.up.cs301.rummikub.action.RummikubKnockAction;
+import edu.up.cs301.rummikub.action.RummikubPlayGroupAction;
 
 /**
  * The computer player.
