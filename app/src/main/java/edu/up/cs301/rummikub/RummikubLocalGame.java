@@ -81,7 +81,6 @@ public class RummikubLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
 
-
         synchronized (syncObject) {
             if (action instanceof RummikubPlayTileAction) {
                 return playTileAction((RummikubPlayTileAction) action);
@@ -274,6 +273,7 @@ public class RummikubLocalGame extends LocalGame {
      */
     private boolean knockAction(RummikubKnockAction action){
         int playerId= getPlayerIdx(action.getPlayer());
+
 
         boolean turnEnded= state.canKnock(playerId);
 

@@ -191,6 +191,9 @@ public class RummikubState extends GameState {
                 }
             }
         }
+        for(int j = 0; j < 4; j++){
+            drawPile.add(new JokerTile(-1, -1, 0, Tile.colorArray[4]));
+        }
 
         drawPile.randomize();
     }
@@ -220,10 +223,10 @@ public class RummikubState extends GameState {
         return playerScores[index];
     }
 
-    /*
+    /**
      *
      * @param playerIdx
-     * @return whether it is the player's turn
+     * @return Wether it is the player's turn
      */
     public boolean isPlayerTurn(int playerIdx) {
         if (playerIdx == currentPlayer) {
@@ -761,4 +764,7 @@ public class RummikubState extends GameState {
         return selectedGroup;
     }
 
+    public int getRound(){
+        return this.round;
+    }
 }

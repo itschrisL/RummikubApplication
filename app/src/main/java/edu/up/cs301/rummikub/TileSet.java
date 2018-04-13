@@ -113,12 +113,14 @@ public class TileSet extends TileGroup {
      */
     private static boolean isRun(TileGroup group){
         if(group == null) return false;
-        if(group.tiles.size() < 3 || group.tiles.size() > 13) return false;
+        if(group.tiles.size() < 3 || group.tiles.size() > 13){ return false;}
 
         //make a copy
         group= new TileGroup(group);
         Tile[] tileAr= new Tile[group.tiles.size()];
         group.tiles.toArray(tileAr);
+
+        ArrayList<Tile> tempArrayList = new ArrayList<Tile>();
 
         //bubble sort the list
         for(int j= tileAr.length -1 ;j>=0;j--){
@@ -131,12 +133,29 @@ public class TileSet extends TileGroup {
             }
         }
 
+        if(containsJoker(group)){
+            for(int t = 0; t < tileAr.length; t++){
+                if(tileAr[t].getValue()+1 == tileAr[t].getValue()){
+                    tempArrayList.add(tileAr[t]);
+                }
+                else {
+                    tempArrayList.add(tileAr[group.tiles.size()-1]);
+                }
+            }
+        }
+
         int tileColor= tileAr[0].getColor();
         //walk array and make sure they are in natural order
         //and all same color
         for(int i=1;i<tileAr.length;i++){
-            if(tileAr[i].getColor() != tileColor) return false;
-            if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
+            if(containsJoker(group)){
+                if(tileAr[i].getColor() != tileColor && tileAr[i].getValue() != 30) return false;
+                if(tileAr[i-1].getValue()+1 != tileAr[i].getValue() && tileAr[i].getValue() != 30) return false;
+            }
+            else {
+                if(tileAr[i].getColor() != tileColor && tileAr[i].getValue() != 30) return false;
+                if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
+            }
         }
 
         return true;
@@ -157,40 +176,63 @@ public class TileSet extends TileGroup {
         boolean seenGreen= false;
         boolean seenBlack= false;
         boolean seenBlue= false;
-
-        int bookVal= group.tiles.get(0).getValue();
+        int bookVal = 0;
+        for (Tile t: group.tiles){
+            if(t.getValue() != 30){
+                bookVal = t.getValue();
+                break;
+            }
+        }
         for(Tile t : group.tiles){
-            if(t.getValue() != bookVal){
-                return false;
-            }
-            int tileColor= t.getColor();
-            if(tileColor == Tile.RED){
-                if(seenRed){
+            // Check if tile is joker
+            if(t.getValue() != 30){
+                if(t.getValue() != bookVal){
                     return false;
                 }
-                seenRed= true;
-            }
-            else if(tileColor == Tile.GREEN){
-                if(seenGreen){
-                    return false;
+                int tileColor= t.getColor();
+                if(tileColor == Tile.RED){
+                    if(seenRed){
+                        return false;
+                    }
+                    seenRed= true;
                 }
-                seenGreen= true;
-            }
-            else if(tileColor == Tile.BLACK){
-                if(seenBlack){
-                    return false;
+                else if(tileColor == Tile.GREEN){
+                    if(seenGreen){
+                        return false;
+                    }
+                    seenGreen= true;
                 }
-                seenBlack= true;
-            }
-            else if(tileColor == Tile.BLUE){
-                if(seenBlue){
-                    return false;
+                else if(tileColor == Tile.BLACK){
+                    if(seenBlack){
+                        return false;
+                    }
+                    seenBlack= true;
                 }
-                seenBlue= true;
+                else if(tileColor == Tile.BLUE){
+                    if(seenBlue){
+                        return false;
+                    }
+                    seenBlue= true;
+                }
             }
+
         }
 
         return true;
+    }
+
+    /**
+     * Checks if joker is in this TileGroup
+     * @param group - given tile group
+     * @return - true if it is and false if not
+     */
+    private static boolean containsJoker(TileGroup group){
+        for(Tile t : group.tiles){
+            if(t.getValue() == 30){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
