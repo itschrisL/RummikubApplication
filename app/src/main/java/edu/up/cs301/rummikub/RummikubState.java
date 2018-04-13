@@ -205,10 +205,6 @@ public class RummikubState extends GameState {
                 playerHands[j].add(drawPile.draw());
             }
         }
-
-        playerHands[1].add(new Tile(0,0,10,Tile.BLUE));
-        playerHands[1].add(new Tile(0,0,10,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,10,Tile.BLACK));
     }
 
     //gets players name from players array
