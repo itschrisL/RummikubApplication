@@ -205,6 +205,10 @@ public class RummikubState extends GameState {
                 playerHands[j].add(drawPile.draw());
             }
         }
+
+        playerHands[1].add(new Tile(0,0,10,Tile.BLUE));
+        playerHands[1].add(new Tile(0,0,10,Tile.GREEN));
+        playerHands[1].add(new Tile(0,0,10,Tile.BLACK));
     }
 
     //gets players name from players array
@@ -308,7 +312,6 @@ public class RummikubState extends GameState {
         nextTurn();
         return true;
     }
-
 
     /**
      * Player can select the menu to display a popup
@@ -499,7 +502,12 @@ public class RummikubState extends GameState {
             else {
                 // Else add tile to tg which will be returned if method returns true
                 tg.add(hand.getTile(tileIndexs[i]));
+
+                //add each tile to tilesFromHand
+                tilesFromHand.add(hand.getTile(tileIndexs[i]));
+
                 playerHands[playerIdx].remove(hand.getTile(tileIndexs[i]));
+
             }
         }
 
@@ -761,5 +769,7 @@ public class RummikubState extends GameState {
     public TileGroup getSelectedGroup() {
         return selectedGroup;
     }
+
+    public boolean hasMelded(int playerIdx){ return playersMelded[playerIdx]; }
 
 }

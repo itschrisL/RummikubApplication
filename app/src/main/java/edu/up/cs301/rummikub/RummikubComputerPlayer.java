@@ -8,9 +8,11 @@ import java.util.Random;
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
+import edu.up.cs301.rummikub.action.RummikubConnectAction;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubPlayGroupAction;
+import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 /**
  * The computer player.
@@ -85,8 +87,8 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         //now check if there is a single tile to play
         int[] playPair= findTileToPlay();
 
-        //if we found a tile to play
-        if(playPair != null){
+        //if we found a tile to play and we've melded
+        if(playPair != null && state.hasMelded(playerNum)){
             playActions.add(new RummikubPlayTileAction(this,playPair[0]));
 
             //find the index on the table of the tile you just played
@@ -121,7 +123,8 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
                     Tile t3= tiles.get(k);
 
                     TileGroup group= new TileGroup(t1,t2,t3);
-                    if(TileSet.isValidSet(group)){
+                    if(isValidSet(group)){
+
                         return new int[]{i,j,k};
                     }
                 }//k loop
@@ -130,6 +133,26 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
 
         //if we got this far, we didn't find a valid set
         return null;
+    }
+
+    /**
+     * finds out if the player could play this group
+     * takes into account whether the player has melded
+     * and if this is a sufficient meld
+     * @param group the group to check
+     * @return whether it is a valid play
+     */
+    private boolean isValidSet(TileGroup group){
+        //if the group is not a valid set
+        if(!TileSet.isValidSet(group)) return false;
+
+        //if we've melded, any valid set is good to go
+        if(state.hasMelded(playerNum)) return true;
+
+        //if we are here, we haven't melded, so we need at least 30
+        if(group.groupPointValues() < 30) return false;
+
+        return true;
     }
 
     /**
