@@ -1,10 +1,12 @@
 package edu.up.cs301.rummikub;
 
 
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -20,7 +22,7 @@ import edu.up.cs301.game.infoMsg.GameState;
  * @author Chris Lytle
  */
 
-public class RummikubState extends GameState {
+public class RummikubState extends GameState{
     private int numPlayers; //number of players in the game
 
     // These instance variables are parallel to players[]
@@ -31,7 +33,7 @@ public class RummikubState extends GameState {
     private boolean[] playersMelded; //indicates whether each player has melded
 
     //the index of the winner
-    private int winner = -1;
+    private int winner= -1;
 
     private int currentPlayer; //index of players[], indicates whose turn it is
     private boolean currentPlayerPlayed; //Boolean if Current player has made a move yet.
@@ -55,58 +57,60 @@ public class RummikubState extends GameState {
     /**
      * RumikubState Constructor
      */
-    public RummikubState(int inPlayers) {
+    public RummikubState( int inPlayers ) {
         this.numPlayers = inPlayers;
-
-        this.round = 1;
-
-        initDrawPile();
-
-        this.playerHands = new TileGroup[numPlayers];
-
-        for (int i = 0; i < numPlayers; i++) {
-            this.playerHands[i] = new TileGroup();
-        }
-
-        dealHands();
+        if( numPlayers == 2 || numPlayers == 4) this.round = 3;
+        if( numPlayers == 3) this.round = 2;
 
         this.playerScores = new int[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
+        for( int i = 0; i < numPlayers; i++){
             this.playerScores[i] = 0;
         }
-
-        this.playersMelded = new boolean[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
-            this.playersMelded[i] = false;
-        }
-
-        this.currentPlayer = 0;
-        this.currentPlayerPlayed = false;
-        this.selectedGroup = null;
-        this.tilesFromHand = new TileGroup();
-        this.tableTileGroups = new ArrayList<TileGroup>();
+        newRound();
     }
 
     /**
      * Copy constructor for gameState
      *
-     * @param copy        rummikubState to copy
+     * @param copy rummikubState to copy
      * @param playerIndex player that this is a copy for
      *                    if playerIndex == -1, a complete copy is made
      */
-    public RummikubState(RummikubState copy, int playerIndex) {
-        this.setThisToCopy(copy, playerIndex);
+    public RummikubState (RummikubState copy, int playerIndex) {
+        this.setThisToCopy(copy,playerIndex);
     }
+
+    private void newRound(){
+
+        this.playerHands = new TileGroup[numPlayers];
+        this.playersMelded = new boolean[numPlayers];
+        this.tableTileGroups = new ArrayList<TileGroup>();
+
+        this.selectedGroup = null;
+        winner = -1;
+        this.currentPlayer = 0;
+        this.currentPlayerPlayed = false;
+
+        for( int i = 0; i < numPlayers; i++){
+            playerHands[i] = new TileGroup();
+            playersMelded[i] = false;
+            this.playerHands[i] = new TileGroup();
+        }
+
+        initDrawPile();
+        dealHands();
+    }
+
 
     /**
      * Called from copy constructor for gameState
      * sets this RummikubState to a deep copy of copy
      *
-     * @param copy        rummikubState to copy
+     * @param copy rummikubState to copy
      * @param playerIndex player that this is a copy for
      *                    if playerIndex == -1, a complete copy is made
      */
-    private void setThisToCopy(RummikubState copy, int playerIndex) {
+    private void setThisToCopy(RummikubState copy, int playerIndex){
         if (-1 <= playerIndex && playerIndex < copy.numPlayers) {
             //copies num of players
             numPlayers = copy.numPlayers;
@@ -132,7 +136,7 @@ public class RummikubState extends GameState {
             //copies players' scores
             playerScores = new int[numPlayers];
             for (int i = 0; i < numPlayers; i++) {
-                playerScores[i] = playerScores[i];
+                playerScores[i] = copy.playerScores[i];
             }
 
             //copies boolean[] whether player melded or not
@@ -143,17 +147,19 @@ public class RummikubState extends GameState {
 
             //copies current player
             currentPlayer = copy.currentPlayer;
-            currentPlayerPlayed = copy.currentPlayerPlayed;
+            currentPlayerPlayed= copy.currentPlayerPlayed;
 
             //copies draw pile, hidden to all players
-            if (playerIndex == -1) {
-                this.drawPile = new TileGroup(copy.drawPile);
-            } else drawPile = new HiddenTileGroup(copy.drawPile);
+            if(playerIndex == -1){
+                this.drawPile= new TileGroup(copy.drawPile);
+            }
+            else drawPile = new HiddenTileGroup(copy.drawPile);
 
             //copies selectedGroup on table
-            if (copy.selectedGroup == null) {
-                this.selectedGroup = null;
-            } else {
+            if(copy.selectedGroup == null){
+                this.selectedGroup= null;
+            }
+            else{
                 this.selectedGroup = new TileGroup(copy.selectedGroup);
             }
 
@@ -164,7 +170,7 @@ public class RummikubState extends GameState {
             tableTileGroups = new ArrayList<TileGroup>();
             for (TileGroup group : copy.tableTileGroups) {
                 //if group is the selected group
-                if (group == copy.selectedGroup) {
+                if(group == copy.selectedGroup){
                     //we don't want to make a new copy
                     this.tableTileGroups.add(this.selectedGroup);
                 }
@@ -173,8 +179,9 @@ public class RummikubState extends GameState {
                     this.tableTileGroups.add(new TileGroup(group));
                 }
             }
-        } else {
-            Log.i("state copy", "Invalid player index");
+        }
+        else {
+            Log.i ("state copy", "Invalid player index");
             System.exit(-1);
         }
     }
@@ -182,11 +189,11 @@ public class RummikubState extends GameState {
     /**
      * Initial Setup State's Draw Pile
      */
-    private void initDrawPile() {
+    private void initDrawPile(){
         drawPile = new TileGroup();
-        for (int i = 0; i < 2; i++) {
-            for (int val = 1; val <= 13; val++) {
-                for (int col = 0; col <= 3; col++) {
+        for(int i = 0; i < 2; i++){
+            for(int val = 1; val <= 13; val++){
+                for(int col = 0; col <= 3; col++){
                     drawPile.add(new Tile(-1, -1, val, Tile.colorArray[col]));
                 }
             }
@@ -198,25 +205,23 @@ public class RummikubState extends GameState {
     /**
      * deals 14 tiles from drawpile to each player's hand
      */
-    private void dealHands() {
-        for (int i = 0; i < 14; i++) {
-            for (int j = 0; j < numPlayers; j++) {
+    private void dealHands(){
+        for(int i=0;i<14;i++){
+            for(int j=0;j<numPlayers;j++){
                 playerHands[j].add(drawPile.draw());
             }
         }
     }
 
     //gets players name from players array
-    public String getPlayerName(int index) {
+    public String getPlayerName( int index){
         return players[index];
     }
 
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
+    public int getCurrentPlayer(){ return currentPlayer; }
 
     //gets player score from playerScores array
-    public int getScore(int index) {
+    public int getScore( int index){
         return playerScores[index];
     }
 
@@ -225,10 +230,11 @@ public class RummikubState extends GameState {
      * @param playerIdx
      * @return whether it is the player's turn
      */
-    public boolean isPlayerTurn(int playerIdx) {
-        if (playerIdx == currentPlayer) {
+    public boolean isPlayerTurn(int playerIdx){
+        if(playerIdx == currentPlayer){
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -236,9 +242,9 @@ public class RummikubState extends GameState {
     /**
      * change variables for next player's turn
      */
-    private void nextTurn() {
+    private void nextTurn(){
         currentPlayer++;
-        if (currentPlayer >= numPlayers) {
+        if(currentPlayer >= numPlayers){
             currentPlayer = 0;
         }
         currentPlayerPlayed = false;
@@ -251,29 +257,30 @@ public class RummikubState extends GameState {
      *
      * @param playerIdx
      */
-    private void giveTileToPlayer(int playerIdx) {
+    private void giveTileToPlayer(int playerIdx){
 
-        Tile drawTile = drawPile.draw();
+            Tile drawTile= drawPile.draw();
 
-        //checks to see if there is a tile to draw in pile
-        if (drawTile == null) return;
+            //checks to see if there is a tile to draw in pile
+            if( drawTile == null ) return;
 
 
-        drawTile.setX(500);
-        drawTile.setY(300);
+            drawTile.setX(500);
+            drawTile.setY(300);
 
-        playerHands[playerIdx].add(drawTile);
+            playerHands[playerIdx].add(drawTile);
     }
 
     /**
      * Helper method which returns if a player can draw
      *
      * @param playerIdx
-     * @return - false - if player has not made move and can't draw
-     * - true - if player has made move, end draw
+     * @return
+     *  - false - if player has not made move and can't draw
+     *  - true - if player has made move, end draw
      */
-    public boolean canDraw(int playerIdx) {
-        if (!(currentPlayerPlayed)) {
+    public boolean canDraw(int playerIdx){
+        if(!(currentPlayerPlayed) && isValidTable() == true) {
             giveTileToPlayer(playerIdx);
             nextTurn();
             return true;
@@ -286,10 +293,11 @@ public class RummikubState extends GameState {
      * Helper method which returns if a player can knock
      *
      * @param playerIdx
-     * @return - false - if player has not made move and can't knock
-     * - true - if player has made move, end turn
+     * @return
+     *  - false - if player has not made move and can't knock
+     *  - true - if player has made move, end turn
      */
-    public boolean canKnock(int playerIdx) {
+    public boolean canKnock(int playerIdx){
 
         if (!currentPlayerPlayed) return false;
         else if (!isValidTable()) return false;
@@ -301,11 +309,32 @@ public class RummikubState extends GameState {
 
         //if the player played all their tiles
         if (playerHands[currentPlayer].groupSize() == 0) {
-            winner = currentPlayer;
+            roundOver();
+            return true;
         }
 
         nextTurn();
         return true;
+    }
+
+    /**
+     * updates the scores when the round ends
+     * checks to see if it was the final round of the game
+     * if so it sets the winner
+     */
+    private void roundOver(){
+        for( int i = 0; i < numPlayers; i++  ){
+            playerScores[currentPlayer] +=  playerHands[i].groupPointValues();
+            playerScores[i] -= playerHands[i].groupPointValues();
+        }
+
+        //checks to see if the game is completely over
+        if( round == 0){
+            winner = currentPlayer;
+            return;
+        }
+        round--;
+        newRound();
     }
 
     /**
@@ -766,5 +795,7 @@ public class RummikubState extends GameState {
     }
 
     public boolean hasMelded(int playerIdx){ return playersMelded[playerIdx]; }
+
+    public int getRound(){return round;}
 
 }
