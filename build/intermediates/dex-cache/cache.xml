@@ -3,12 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="67d317a1a1d31e5b4e03ee01b8cfa86cd4ff8906">
-        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_f20acb0fdf41d9ea0e215e9dad32a4a7114a4c3b\classes.dex" />
+        sha1="bc469adb11def63a97d9eca746ab80678df6471c">
+        <dex dex="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_ab2d848d7423e77fcca9140b312abc0e340c23ca\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_bdddb521b5be6a1cdf5e4e607f4f823b8a0e4564\classes.dex" />
     </item>
 
 </items>

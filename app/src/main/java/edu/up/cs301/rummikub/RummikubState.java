@@ -5,7 +5,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -244,7 +243,7 @@ public class RummikubState extends GameState {
         }
         currentPlayerPlayed = false;
         selectedGroup = null;
-        tilesFromHand = new TileGroup();
+        tilesFromHand = null;
     }
 
     /**
@@ -273,8 +272,8 @@ public class RummikubState extends GameState {
      * @return - false - if player has not made move and can't draw
      * - true - if player has made move, end draw
      */
-    public boolean canDraw(int playerIdx){
-        if(!(currentPlayerPlayed) && isValidTable() == true) {
+    public boolean canDraw(int playerIdx) {
+        if (!(currentPlayerPlayed)) {
             giveTileToPlayer(playerIdx);
             nextTurn();
             return true;
