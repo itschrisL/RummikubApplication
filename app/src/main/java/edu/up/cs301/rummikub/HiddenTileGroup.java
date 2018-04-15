@@ -1,5 +1,7 @@
 package edu.up.cs301.rummikub;
 
+import java.io.Serializable;
+
 /**
  * class HiddenTileGroup
  *
@@ -12,11 +14,12 @@ package edu.up.cs301.rummikub;
  *
  */
 
-public class HiddenTileGroup extends TileGroup {
+public class HiddenTileGroup extends TileGroup implements Serializable {
     //the size of the hidden tile group
     int groupSize;
     int handScore;
 
+    private static final long serialVersionUID = 5737393762469851826L;
     /**
      * constructor for a hidden tile group
      *

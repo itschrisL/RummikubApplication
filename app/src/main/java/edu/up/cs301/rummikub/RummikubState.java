@@ -1,10 +1,13 @@
 package edu.up.cs301.rummikub;
 
 
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.game.GamePlayer;
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -23,6 +26,8 @@ import edu.up.cs301.game.infoMsg.GameState;
 public class RummikubState extends GameState{
     private int numPlayers; //number of players in the game
 
+    private static final long serialVersionUID = 7737393762469851826L;
+
     // These instance variables are parallel to players[]
     // Instance variables for Player information
     private String[] players; //names of players
@@ -31,7 +36,7 @@ public class RummikubState extends GameState{
     private boolean[] playersMelded; //indicates whether each player has melded
 
     //the index of the winner
-    private int winner = -1;
+    private int winner= -1;
 
     private int currentPlayer; //index of players[], indicates whose turn it is
     private boolean currentPlayerPlayed; //Boolean if Current player has made a move yet.
@@ -251,6 +256,7 @@ public class RummikubState extends GameState{
         }
         currentPlayerPlayed = false;
         selectedGroup = null;
+        tilesFromHand = new TileGroup();
     }
 
     /**
@@ -325,8 +331,8 @@ public class RummikubState extends GameState{
      */
     private void roundOver(){
         for( int i = 0; i < numPlayers; i++  ){
-            playerScores[currentPlayer] +=  playerHands[i].groupPointValues();
-            playerScores[i] -= playerHands[i].groupPointValues();
+            playerScores[currentPlayer] +=  playerHands[i].roundGroupPointValues();
+            playerScores[i] -= playerHands[i].roundGroupPointValues();
         }
 
         //checks to see if the game is completely over
@@ -419,12 +425,15 @@ public class RummikubState extends GameState{
         TileGroup group = tableTileGroups.get(groupIndex);
         if(!isOnTable(group)) return false;
 
+        //find the index of the group on the table
+        int index= tableTileGroups.indexOf(group);
 
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
         //go thru each tile in the tile group
         for(Tile tile : tilesInGroup){
-            //add each tile to the table
-            tableTileGroups.add(new TileGroup(tile));
+            //add each tile to the table at the correct index
+            tableTileGroups.add(index,new TileGroup(tile));
+            index++; //the index to add to has now shifted
         }
 
         //remove the group from the table
@@ -455,6 +464,13 @@ public class RummikubState extends GameState{
         ArrayList<TileGroup> validGroups=
                 new ArrayList<TileGroup>();
 
+        int validCount= 0;
+        for(TileGroup tg : tableTileGroups){
+            if(TileSet.isValidSet(tg)){
+                validCount++;
+            }
+        }
+
         // Iterate though TileGroups on table
 
         boolean isValidTable= true;
@@ -468,9 +484,12 @@ public class RummikubState extends GameState{
 
         //we found the valid groups, go make them into sets
         for(TileGroup group : validGroups){
+            //make the set we want to add
             TileSet tempSet = new TileSet(group);
-            tableTileGroups.add(tempSet);
-            tableTileGroups.remove(group);
+            //find where the old TileGroup version is
+            int index= tableTileGroups.indexOf(group);
+            //replace the old group version with the new set version
+            tableTileGroups.set(index,tempSet);
         }
 
         return isValidTable;
@@ -527,7 +546,12 @@ public class RummikubState extends GameState{
             else {
                 // Else add tile to tg which will be returned if method returns true
                 tg.add(hand.getTile(tileIndexs[i]));
+
+                //add each tile to tilesFromHand
+                tilesFromHand.add(hand.getTile(tileIndexs[i]));
+
                 playerHands[playerIdx].remove(hand.getTile(tileIndexs[i]));
+
             }
         }
 
@@ -747,6 +771,8 @@ public class RummikubState extends GameState{
     public TileGroup getSelectedGroup() {
         return selectedGroup;
     }
+
+    public boolean hasMelded(int playerIdx){ return playersMelded[playerIdx]; }
 
     public int getRound(){return round;}
 
