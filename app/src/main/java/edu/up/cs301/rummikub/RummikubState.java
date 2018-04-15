@@ -538,19 +538,6 @@ public class RummikubState extends GameState{
     }
 
     /**
-     *
-     * @param tiles
-     * @param playerIdx
-     */
-    public void isMeld(TileGroup tiles, int playerIdx){
-        int meldVal = tiles.groupPointValues();
-
-        if(meldVal >= 30){
-            playersMelded[playerIdx] = true;
-        }
-    }
-
-    /**
      * this state as a string
      * will be the variable name followed by a colon and newline
      * then the value of the variable
@@ -590,35 +577,6 @@ public class RummikubState extends GameState{
         return "numPlayers:\n"+
                 numPlayers+"\n";
     }
-
-    /**
-     *looks like:
-     *
-     * players[0]:
-     * Matt
-     * players[1]:
-     * Nux
-     *
-     * @return string representation of the array players
-     */
-    /*
-
-    private String getPlayersString(){
-        //playerString is the string of the entire players array
-        String playersString= "";
-        for(int i=0;i<numPlayers;i++){
-            //currPlayerString is each string in players
-            String currPlayerString=
-                    "players["+i+"]:\n";
-            currPlayerString+= players[i];
-            currPlayerString+= "\n";
-
-            playersString+= currPlayerString;
-        }
-
-        return playersString;
-    }
-    */
 
     /**
      *looks like:

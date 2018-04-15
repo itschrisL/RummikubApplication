@@ -193,11 +193,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
                 game.sendAction(action);
                 return true;
             }
-
-
-
         }
-
         return false;
     }
 

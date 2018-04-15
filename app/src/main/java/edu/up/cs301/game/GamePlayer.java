@@ -11,7 +11,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
  * @version July 2013
  */
 
-public interface GamePlayer {
+public interface  GamePlayer {
 	
 	// sets this player as the GUI player (implemented as final in the
 	// major player classes)
