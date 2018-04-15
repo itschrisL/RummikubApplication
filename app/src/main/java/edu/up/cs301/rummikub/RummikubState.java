@@ -331,8 +331,8 @@ public class RummikubState extends GameState{
      */
     private void roundOver(){
         for( int i = 0; i < numPlayers; i++  ){
-            playerScores[currentPlayer] +=  playerHands[i].groupPointValues();
-            playerScores[i] -= playerHands[i].groupPointValues();
+            playerScores[currentPlayer] +=  playerHands[i].roundGroupPointValues();
+            playerScores[i] -= playerHands[i].roundGroupPointValues();
         }
 
         //checks to see if the game is completely over
