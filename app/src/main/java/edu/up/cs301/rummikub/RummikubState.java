@@ -461,6 +461,13 @@ public class RummikubState extends GameState{
         ArrayList<TileGroup> validGroups=
                 new ArrayList<TileGroup>();
 
+        int validCount= 0;
+        for(TileGroup tg : tableTileGroups){
+            if(TileSet.isValidSet(tg)){
+                validCount++;
+            }
+        }
+
         // Iterate though TileGroups on table
 
         boolean isValidTable= true;
@@ -474,9 +481,12 @@ public class RummikubState extends GameState{
 
         //we found the valid groups, go make them into sets
         for(TileGroup group : validGroups){
+            //make the set we want to add
             TileSet tempSet = new TileSet(group);
-            tableTileGroups.add(tempSet);
-            tableTileGroups.remove(group);
+            //find where the old TileGroup version is
+            int index= tableTileGroups.indexOf(group);
+            //replace the old group version with the new set version
+            tableTileGroups.set(index,tempSet);
         }
 
         return isValidTable;
