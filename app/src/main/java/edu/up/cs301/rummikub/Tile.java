@@ -22,6 +22,8 @@ import java.io.Serializable;
 
 public class Tile implements Serializable {
 
+    private static final long serialVersionUID = 1737393762469851826L;
+
     //coordinates of tile according to top left corner of tile
     private int x;
     private int y;

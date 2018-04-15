@@ -30,6 +30,8 @@ import java.util.ArrayList;
 
 public class TileSet extends TileGroup implements Serializable {
 
+    private static final long serialVersionUID = 3737393762469851826L;
+
     private boolean isRun; //for sets: true = run, false = book
 
     /**

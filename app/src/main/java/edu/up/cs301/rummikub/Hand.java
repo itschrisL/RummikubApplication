@@ -27,6 +27,8 @@ import edu.up.cs301.game.R;
 
 public class Hand extends View implements Serializable {
 
+    private static final long serialVersionUID = 4737393762469851826L;
+
     //background of player's tile rack
     Bitmap rackBackground;
 

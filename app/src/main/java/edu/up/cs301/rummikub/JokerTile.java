@@ -22,6 +22,8 @@ public class JokerTile extends Tile implements Serializable {
     public int jokerVal;
     public int jokerCol;
 
+    private static final long serialVersionUID = 6737393762469851826L;
+
     /**
      * Copy Constructor for JokerTile
      * @param tileX

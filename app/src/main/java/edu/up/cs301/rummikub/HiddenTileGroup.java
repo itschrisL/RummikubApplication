@@ -19,6 +19,7 @@ public class HiddenTileGroup extends TileGroup implements Serializable {
     int groupSize;
     int handScore;
 
+    private static final long serialVersionUID = 5737393762469851826L;
     /**
      * constructor for a hidden tile group
      *

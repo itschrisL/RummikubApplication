@@ -20,6 +20,8 @@ import java.util.Random;
 
 public class TileGroup implements Serializable {
 
+    private static final long serialVersionUID = 2737393762469851826L;
+
     //an array list of tile objects
     protected ArrayList<Tile> tiles;
 
@@ -100,6 +102,25 @@ public class TileGroup implements Serializable {
         return rtnVal;
     }
 
+    /**
+     * Add all the values of tiles in a TileGroup
+     * same as above method except only used at the end of the round
+     * @return
+     */
+    public int roundGroupPointValues(){
+        int rtnVal = 0;
+        for(Tile t : tiles){
+            //if tile is a joker at 30 points
+            //for any other tile at its face value
+            if( t.getValue() == 0){
+                rtnVal = rtnVal + 30;
+            }
+            else{
+                rtnVal = rtnVal + t.getValue();
+            }
+        }
+        return rtnVal;
+    }
     /**
      * Get tile based on index
      * @param index
