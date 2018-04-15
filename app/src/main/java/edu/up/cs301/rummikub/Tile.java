@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
+import java.io.Serializable;
+
 /**
  * class Tile
  * Saves value and color of tile.
@@ -18,7 +20,7 @@ import android.util.Log;
  * @author Chris Lytle
  */
 
-public class Tile {
+public class Tile implements Serializable {
 
     //coordinates of tile according to top left corner of tile
     private int x;

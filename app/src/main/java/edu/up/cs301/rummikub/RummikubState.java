@@ -26,6 +26,8 @@ import edu.up.cs301.game.infoMsg.GameState;
 public class RummikubState extends GameState{
     private int numPlayers; //number of players in the game
 
+    private static final long serialVersionUID = 7737393762469851826L;
+
     // These instance variables are parallel to players[]
     // Instance variables for Player information
     private String[] players; //names of players

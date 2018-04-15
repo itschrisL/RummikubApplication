@@ -1,5 +1,6 @@
 package edu.up.cs301.rummikub;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,7 +18,7 @@ import java.util.Random;
  * @author Chris Lytle
  */
 
-public class TileGroup {
+public class TileGroup implements Serializable {
 
     //an array list of tile objects
     protected ArrayList<Tile> tiles;

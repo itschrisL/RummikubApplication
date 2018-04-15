@@ -3,6 +3,15 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_bdddb521b5be6a1cdf5e4e607f4f823b8a0e4564\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
@@ -12,12 +21,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\snook\Desktop\Rummikub\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_bdddb521b5be6a1cdf5e4e607f4f823b8a0e4564\classes.dex" />
+        <dex dex="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_27bc0045bb2e42571777655003c6236b8167b206\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="750ce7fba9dde0af70d0d237c79286c62bb0c758">
+        <dex dex="C:\Users\snook\Desktop\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_3fda28aa2efb93a4937aff10e542318aef34cd93\classes.dex" />
     </item>
 
 </items>

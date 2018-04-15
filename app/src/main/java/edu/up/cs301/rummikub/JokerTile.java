@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.io.Serializable;
+
 import edu.up.cs301.rummikub.Tile;
 
 /**
@@ -15,7 +17,7 @@ import edu.up.cs301.rummikub.Tile;
  * @author Chris Lytle
  */
 
-public class JokerTile extends Tile {
+public class JokerTile extends Tile implements Serializable {
 
     public int jokerVal;
     public int jokerCol;

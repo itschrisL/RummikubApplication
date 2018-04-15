@@ -11,6 +11,8 @@ package edu.up.cs301.rummikub;
  */
 
 import android.util.Log;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +28,7 @@ import java.util.ArrayList;
  * @author Chris Lytle
  */
 
-public class TileSet extends TileGroup {
+public class TileSet extends TileGroup implements Serializable {
 
     private boolean isRun; //for sets: true = run, false = book
 

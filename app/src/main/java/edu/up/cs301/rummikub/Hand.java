@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.R;
@@ -24,7 +25,7 @@ import edu.up.cs301.game.R;
  * @author Chris Lytle
  */
 
-public class Hand extends View {
+public class Hand extends View implements Serializable {
 
     //background of player's tile rack
     Bitmap rackBackground;
