@@ -1,13 +1,10 @@
 package edu.up.cs301.rummikub;
 
 
-import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import edu.up.cs301.game.GamePlayer;
-import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -47,6 +44,9 @@ public class RummikubState extends GameState{
     private TileGroup selectedGroup; //the group on table that is selected by player
     //null if no group selected
 
+    private TileGroup tilesFromHand; //tiles played from player's hand
+    //null if no tiles played
+
     private ArrayList<TileGroup> tableTileGroups; //tiles and sets on the table
 
     // TODO add a previous tableTileGroup variable
@@ -85,6 +85,7 @@ public class RummikubState extends GameState{
         this.tableTileGroups = new ArrayList<TileGroup>();
 
         this.selectedGroup = null;
+        this.tilesFromHand= new TileGroup();
         winner = -1;
         this.currentPlayer = 0;
         this.currentPlayerPlayed = false;
@@ -161,6 +162,9 @@ public class RummikubState extends GameState{
                 this.selectedGroup = new TileGroup(copy.selectedGroup);
             }
 
+            //copies player's tiles played from hand
+            tilesFromHand = new TileGroup(copy.tilesFromHand);
+
             //copies tableTileGroups
             tableTileGroups = new ArrayList<TileGroup>();
             for (TileGroup group : copy.tableTileGroups) {
@@ -226,7 +230,7 @@ public class RummikubState extends GameState{
     /**
      *
      * @param playerIdx
-     * @return Wether it is the player's turn
+     * @return whether it is the player's turn
      */
     public boolean isPlayerTurn(int playerIdx){
         if(playerIdx == currentPlayer){
@@ -298,15 +302,20 @@ public class RummikubState extends GameState{
 
         if(!currentPlayerPlayed) return false;
         else if(!isValidTable()) return false;
-        else {
-            //if the player played all their tiles
-            if(playerHands[currentPlayer].groupSize() == 0){
-                roundOver();
-                return true;
-            }
-            nextTurn();
+        else if (!playersMelded[playerIdx]) {
+            //if player has not played 30 point meld
+            if (tilesFromHand.groupPointValues() < 30) return false;
+            playersMelded[playerIdx]= true;
+        }
+
+        //if the player played all their tiles
+        if(playerHands[currentPlayer].groupSize() == 0){
+            roundOver();
             return true;
         }
+
+        nextTurn();
+        return true;
     }
 
     /**
@@ -490,13 +499,15 @@ public class RummikubState extends GameState{
         playerHands[playerIdx].remove(tile);
         tableTileGroups.add(tg);
 
+        tilesFromHand.add(tile); //every tile player plays gets added to array
+
         currentPlayerPlayed= true;
 
         return true;
     }
 
     /**
-     * Moves a TileGorup from hand to the table
+     * Moves a TileGroup from hand to the table
      * @param playerIdx
      * @param tileIndexs
      * @return
