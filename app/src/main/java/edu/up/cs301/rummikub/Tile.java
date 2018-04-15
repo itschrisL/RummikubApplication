@@ -37,10 +37,11 @@ public class Tile {
     public static final int RED = Color.argb(255,255,0,0);
     public static final int BLACK = Color.argb(255,0,0,0);
     public static final int GREEN = Color.argb(255,50,205,50);
+    public static final int ORANGE = Color.argb(255, 255, 128, 0);
     public static final int TILECOLOR = Color.argb(255,255,250,250);
 
     //purpose of array is to assign numerical value to each color
-    public static final int[] colorArray = {BLUE, RED, BLACK, GREEN};
+    public static final int[] colorArray = {BLUE, RED, BLACK, GREEN, ORANGE};
 
     /**
      * When Tile is created, the coordinates of the tile, its value,
@@ -134,6 +135,14 @@ public class Tile {
     }
 
     /**
+     * Method to set value of Tile
+     * @param v - new value
+     */
+    public void setValue(int v){
+        this.value = v;
+    }
+
+    /**
      * This method draws tiles using Canvas.
      */
     public void drawTile(Canvas c) {
@@ -152,7 +161,10 @@ public class Tile {
 
         //for the numbers that consist of 2 chars (ex: 10,11,12,13)
         //moves the value printing more to the left
-        if (value > 9) {
+        if(value == 30){
+            c.drawText("J", x + WIDTH /3, y + (HEIGHT * 2) / 3, valColor);
+        }
+        else if(value > 9) {
             c.drawText(""+value, x+WIDTH/12,y+(HEIGHT*2)/3,valColor);
         }
         else {

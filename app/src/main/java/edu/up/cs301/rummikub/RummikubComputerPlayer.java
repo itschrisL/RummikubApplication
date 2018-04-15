@@ -184,7 +184,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
 
     private void randomSleep() {
         Random random = new Random();
-        // Randomly choses a sleeping time between 1 and 4 seconds
+        // Randomly chooses a sleeping time between 1 and 4 seconds
         sleep(random.nextInt(3000)+1000);
     }
 }

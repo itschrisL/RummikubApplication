@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GamePlayer;
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -87,6 +88,7 @@ public class RummikubState extends GameState{
         this.tableTileGroups = new ArrayList<TileGroup>();
 
         this.selectedGroup = null;
+        this.tilesFromHand= new TileGroup();
         winner = -1;
         this.currentPlayer = 0;
         this.currentPlayerPlayed = false;
@@ -198,6 +200,9 @@ public class RummikubState extends GameState{
                 }
             }
         }
+        for(int j = 0; j < 4; j++){
+            drawPile.add(new JokerTile(-1, -1, 0, Tile.colorArray[4]));
+        }
 
         drawPile.randomize();
     }
@@ -225,7 +230,7 @@ public class RummikubState extends GameState{
         return playerScores[index];
     }
 
-    /*
+    /**
      *
      * @param playerIdx
      * @return whether it is the player's turn
@@ -299,8 +304,8 @@ public class RummikubState extends GameState{
      */
     public boolean canKnock(int playerIdx){
 
-        if (!currentPlayerPlayed) return false;
-        else if (!isValidTable()) return false;
+        if(!currentPlayerPlayed) return false;
+        else if(!isValidTable()) return false;
         else if (!playersMelded[playerIdx]) {
             //if player has not played 30 point meld
             if (tilesFromHand.groupPointValues() < 30) return false;
@@ -308,7 +313,7 @@ public class RummikubState extends GameState{
         }
 
         //if the player played all their tiles
-        if (playerHands[currentPlayer].groupSize() == 0) {
+        if(playerHands[currentPlayer].groupSize() == 0){
             roundOver();
             return true;
         }
