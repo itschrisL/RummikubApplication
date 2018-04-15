@@ -425,12 +425,15 @@ public class RummikubState extends GameState{
         TileGroup group = tableTileGroups.get(groupIndex);
         if(!isOnTable(group)) return false;
 
+        //find the index of the group on the table
+        int index= tableTileGroups.indexOf(group);
 
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
         //go thru each tile in the tile group
         for(Tile tile : tilesInGroup){
-            //add each tile to the table
-            tableTileGroups.add(new TileGroup(tile));
+            //add each tile to the table at the correct index
+            tableTileGroups.add(index,new TileGroup(tile));
+            index++; //the index to add to has now shifted
         }
 
         //remove the group from the table
