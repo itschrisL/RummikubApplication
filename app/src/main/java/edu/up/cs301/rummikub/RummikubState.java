@@ -254,7 +254,7 @@ public class RummikubState extends GameState{
         }
         currentPlayerPlayed = false;
         selectedGroup = null;
-        tilesFromHand = null;
+        tilesFromHand = new TileGroup();
     }
 
     /**
