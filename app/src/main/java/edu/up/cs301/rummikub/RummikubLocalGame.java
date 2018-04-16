@@ -109,10 +109,11 @@ public class RummikubLocalGame extends LocalGame {
             if (action instanceof RummikubRevertAction) {
                 return revertAction((RummikubRevertAction) action);
             }
+            if(action instanceof RummikubPlayGroupAction){
+                return playTileGroupAction((RummikubPlayGroupAction)action);
+            }
         }
-        if(action instanceof RummikubPlayGroupAction){
-            return playTileGroupAction((RummikubPlayGroupAction)action);
-        }
+
         //if we got this far, noting happened
         return false;
     }

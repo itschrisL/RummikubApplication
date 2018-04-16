@@ -218,7 +218,7 @@ public class RummikubState extends GameState{
         Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[0]);
         Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[0]);
         Tile tile3 = new Tile(-1, -1, 12, Tile.colorArray[0]);
-        JokerTile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
+        Tile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
         playerHands[0].add(tile1);
         playerHands[0].add(tile2);
         playerHands[0].add(tile3);
@@ -416,25 +416,31 @@ public class RummikubState extends GameState{
         group1.merge(group2);
         tableTileGroups.remove(group2);
 
+        /*
         if(TileSet.containsJoker(group1)){
             for(int t = 0; t < group1.tiles.size(); t++){
                 if(group1.tiles.get(t) instanceof JokerTile){
                     if(t + 1 < group1.tiles.size()){
-                        ((JokerTile) group1.tiles.get(t)).jokerVal
-                                = group1.tiles.get(t + 1).getValue();
-                        ((JokerTile) group1.tiles.get(t)).assigned = true;
+                        ((JokerTile) group1.tiles.get(t)).setJokerVal(
+                                group1.tiles.get(t + 1).getValue()-1);
+                        ((JokerTile)group1.tiles.get(t)).setJokerCol(
+                                group1.tiles.get(t+1).getColor());
+                        ((JokerTile) group1.tiles.get(t)).setAssigned(true);
                     }
                     else if(t - 1 >= 0){
-                        ((JokerTile) group1.tiles.get(t)).jokerVal
-                                = group1.tiles.get(t - 1).getValue();
-                        ((JokerTile) group1.tiles.get(t)).assigned = true;
+                        ((JokerTile) group1.tiles.get(t)).setJokerVal(
+                                group1.tiles.get(t - 1).getValue()+1);
+                        ((JokerTile)group1.tiles.get(t)).setJokerCol(
+                                group1.tiles.get(t-1).getColor());
+                        ((JokerTile) group1.tiles.get(t)).setAssigned(true);
                     }
                     else {
-                        ((JokerTile) group1.tiles.get(t)).assigned = false;
+                        ((JokerTile) group1.tiles.get(t)).setAssigned(false);
                     }
                 }
             }
         }
+        */
 
         //deselect groups after connecting
         selectedGroup= null;
@@ -458,10 +464,9 @@ public class RummikubState extends GameState{
         //go thru each tile in the tile group
         for(Tile tile : tilesInGroup){
             //add each tile to the table
-            if(tile instanceof JokerTile){
-                ((JokerTile) tile).assigned = false;
+            if(tile instanceof JokerTile) {
+                ((JokerTile) tile).setAssigned(false);
             }
-            tableTileGroups.add(new TileGroup(tile));
             //add each tile to the table at the correct index
             tableTileGroups.add(index,new TileGroup(tile));
             index++; //the index to add to has now shifted

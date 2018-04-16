@@ -58,9 +58,15 @@ public class TileSet extends TileGroup implements Serializable {
             Log.i("TileSet","Invalid Set");
             System.exit(-1);
         }
-
+        //this.tiles = new ArrayList<Tile>();
         for(Tile t : group.tiles){
-            this.add(t);
+            if(t instanceof JokerTile){
+                this.add(new JokerTile((JokerTile)t));
+            }
+            else {
+                this.add(new Tile(t));
+            }
+            //this.add(t);
         }
 
         if (isRun) numericalOrder();
@@ -93,19 +99,25 @@ public class TileSet extends TileGroup implements Serializable {
         //empty arraylist
         ArrayList <Tile> temp= new ArrayList<Tile>();
 
-         while (!tiles.isEmpty()) {
-            Tile currTile= tiles.get(0); //first tile in arrayList
-
-            for (int i= 1; i< tiles.size(); i++) {
-                if (tiles.get(i).getValue() < currTile.getValue()) {
-                    currTile= tiles.get(i);
+        if(tiles.size() != 1){
+            while (!tiles.isEmpty()) {
+                Tile currTile= tiles.get(0); //first tile in arrayList
+                if(currTile instanceof JokerTile){
+                    if(!(((JokerTile) currTile).assigned)){
+                        Tile tempTile = tiles.get(1);
+                        ((JokerTile) currTile).setJokerValues(tempTile.getValue()-1, tempTile.getColor());
+                    }
                 }
+                for (int i= 1; i< tiles.size(); i++) {
+                    if (tiles.get(i).getValue() < currTile.getValue()) {
+                        currTile= tiles.get(i);
+                    }
+                }
+                Log.i("Numerical Order","Sorting");
+                temp.add(currTile);
+                tiles.remove(currTile);
             }
-
-             temp.add(currTile);
-             tiles.remove(currTile);
         }
-
         tiles= temp; //replaces with sorted tiles arrayList
     }
 
@@ -126,28 +138,60 @@ public class TileSet extends TileGroup implements Serializable {
 
         ArrayList<Tile> tempArrayList = new ArrayList<Tile>();
         int tileColor = 0;
+        int jokerIndex;
 
         for(Tile T : group.tiles){
-            if(T instanceof JokerTile){
-                ((JokerTile) T).jokerCol = 0;
+            if(!(T instanceof JokerTile)){
+                tileColor = T.getColor();
             }
         }
-        //bubble sort the list
-        for(int j= tileAr.length -1 ;j>=0;j--){
-            for (int i = 0; i < j; i++) {
-                 if (tileAr[i].getValue() > tileAr[i + 1].getValue()) {
-                    Tile temp = tileAr[i];
-                    tileAr[i] = tileAr[i + 1];
-                    tileAr[i + 1] = temp;
+        if(containsJoker(group)){
+            Log.i("Run","Contains Joker");
+            for(int i=0;i<tileAr.length-1;i++) {
+                if(tileAr[i] instanceof JokerTile){
+                    if(i + 1 < tileAr.length){
+                        ((JokerTile)tileAr[i]).setJokerValues(tileAr[i+1].getValue()-1, tileColor);
+                    }
+                    else{
+                        ((JokerTile)tileAr[i]).setJokerValues(tileAr[i-1].getValue()+1, tileColor);
+                    }
+                    if(((JokerTile)tileAr[i]).getJokerVal() > 13){
+                        return false;
+                    }
+                }
+                else {
+                    if (tileAr[i].getColor() != tileColor) return false;
+                    if(tileAr[i+1] instanceof JokerTile){
+                        if (tileAr[i].getValue() + 1 != ((JokerTile)tileAr[i+1]).getJokerVal()){
+                            return false;
+                        }
+                    }
+                    else {
+                        if (tileAr[i].getValue() + 1 != tileAr[i+1].getValue()) {
+                            return false;
+                        }
+                    }
                 }
             }
         }
-        //walk array and make sure they are in natural order
-        //and all same color
-        tileColor = tileAr[0].getColor();
-        for(int i=1;i<tileAr.length;i++){
-            if(tileAr[i].getColor() != tileColor) return false;
-            if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
+        else {
+            //bubble sort the list
+            for(int j= tileAr.length -1 ;j>=0;j--){
+                for (int i = 0; i < j; i++) {
+                    if (tileAr[i].getValue() > tileAr[i + 1].getValue()) {
+                        Tile temp = tileAr[i];
+                        tileAr[i] = tileAr[i + 1];
+                        tileAr[i + 1] = temp;
+                    }
+                }
+            }
+            //walk array and make sure they are in natural order
+            //and all same color
+            tileColor = tileAr[0].getColor();
+            for(int i=1;i<tileAr.length;i++){
+                if(tileAr[i].getColor() != tileColor) return false;
+                if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
+            }
         }
 
         /*
@@ -279,9 +323,28 @@ public class TileSet extends TileGroup implements Serializable {
                     seenBlue= true;
                 }
             }
+            else {
+                int color;
+                if(!seenBlack){
+                    color = Tile.BLACK;
+                }
+                else if (!seenBlue){
+                    color = Tile.BLUE;
+                }
+                else if(!seenGreen){
+                    color = Tile.GREEN;
+                }
+                else if(!seenRed){
+                    color = Tile.RED;
+                }
+                // Return false if all colors are used in book.  Shouldn't happen however.
+                else {
+                    return false;
+                }
+                ((JokerTile) t).setJokerValues(bookVal, color);
+            }
 
         }
-
         return true;
     }
 

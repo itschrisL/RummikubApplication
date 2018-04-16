@@ -168,12 +168,7 @@ public class GameBoard extends View {
 
             //go through each tile in the group
             for(Tile tile : tiles){
-                if(tile instanceof JokerTile){
-                    ((JokerTile) tile).drawJokerTile(c);
-                }
-                else {
-                    tile.drawTile(c);
-                }
+                tile.drawTile(c);
             }
         }
     }

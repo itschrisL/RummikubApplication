@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.Serializable;
 
+import edu.up.cs301.game.infoMsg.BindGameInfo;
 import edu.up.cs301.rummikub.Tile;
 
 /**
@@ -20,8 +21,8 @@ import edu.up.cs301.rummikub.Tile;
 
 public class JokerTile extends Tile implements Serializable {
 
-    public int jokerVal;
-    public int jokerCol;
+    private int jokerVal;
+    private int jokerCol;
     public boolean assigned;
 
     private static final long serialVersionUID = 6737393762469851826L;
@@ -45,6 +46,9 @@ public class JokerTile extends Tile implements Serializable {
      */
     public JokerTile(JokerTile copy){
         super(copy.getX(), copy.getY(), copy.getValue(), copy.getColor());
+        this.jokerVal = copy.getJokerVal();
+        this.jokerCol = copy.getJokerCol();
+        this.assigned = copy.getAssigned();
     }
 
     /**
@@ -58,7 +62,8 @@ public class JokerTile extends Tile implements Serializable {
     /**
      * Draw JokerTile
      */
-    public void drawJokerTile(Canvas c){
+    @Override
+    public void drawTile(Canvas c){
         //fills and outlines tile color
         Paint tileColor = new Paint ();
         tileColor.setColor(TILECOLOR);
@@ -72,14 +77,31 @@ public class JokerTile extends Tile implements Serializable {
         valColor.setColor(this.getColor());
         valColor.setTextSize((float)0.72*WIDTH);
 
+        c.drawText("J", this.getX() + WIDTH /3, this.getY() + (HEIGHT * 2) / 3,valColor);
+
         Paint jokerValColor = new Paint ();
-        jokerValColor.setColor(this.getColor());
-        jokerValColor.setTextSize((float)0.30*WIDTH);
+        if(assigned){
+            jokerValColor.setTextSize((float)0.3*WIDTH);
+            jokerValColor.setColor(this.getJokerCol());
+            c.drawText("" + this.getJokerVal(), this.getX()+WIDTH/20,this.getY()+(HEIGHT - 15),
+                    jokerValColor);
+            c.drawCircle(this.getX()+WIDTH-20, this.getY()+HEIGHT-20, 10, jokerValColor);
+        }
+        else {
+            jokerValColor.setColor(this.getColor());
+            this.jokerVal = 0;
+        }
 
-        c.drawText("J", this.getX()+WIDTH/12,this.getY()+(HEIGHT*2)/3,valColor);
 
-        c.drawText("" + jokerVal, this.getX()+WIDTH/12,this.getY()+(HEIGHT*2)/3,valColor);
-        c.drawCircle(this.getX(), this.getY(), 20, jokerValColor);
+
+
+
+    }
+
+    public void setJokerValues(int value, int color){
+        this.jokerVal = value;
+        this.jokerCol = color;
+        this.assigned = true;
     }
 
     @Override
@@ -94,7 +116,34 @@ public class JokerTile extends Tile implements Serializable {
             return null;
         }
 
-        return "J," + assigned + "," + this.jokerVal + "," + colorChar;
+        return "(J," + assigned + "," + this.jokerVal + "," + colorChar + ")";
     }
 
+    public int getValue(){
+        return this.jokerVal;
+    }
+
+    public int getJokerVal(){return this.jokerVal;}
+
+    public int getJokerCol(){return this.jokerCol;}
+
+    public boolean getAssigned(){return this.assigned;}
+
+    public void setAssigned(Boolean b){
+        if(b){
+            this.assigned = b;
+        }
+        else {
+            this.jokerVal = 0;
+            this.jokerCol = Tile.ORANGE;
+        }
+    }
+
+    public void setJokerVal(int val){
+        this.jokerVal = val;
+    }
+
+    public void setJokerCol(int col){
+        this.jokerCol = col;
+    }
 }
