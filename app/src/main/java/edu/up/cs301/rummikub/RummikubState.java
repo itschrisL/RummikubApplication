@@ -421,21 +421,17 @@ public class RummikubState extends GameState{
             for(int t = 0; t < group1.tiles.size(); t++){
                 if(group1.tiles.get(t) instanceof JokerTile){
                     if(t + 1 < group1.tiles.size()){
-                        ((JokerTile) group1.tiles.get(t)).setJokerVal(
-                                group1.tiles.get(t + 1).getValue()-1);
-                        ((JokerTile)group1.tiles.get(t)).setJokerCol(
-                                group1.tiles.get(t+1).getColor());
-                        ((JokerTile) group1.tiles.get(t)).setAssigned(true);
+                        ((JokerTile) group1.tiles.get(t)).jokerVal
+                                = group1.tiles.get(t + 1).getValue();
+                        ((JokerTile) group1.tiles.get(t)).assigned = true;
                     }
                     else if(t - 1 >= 0){
-                        ((JokerTile) group1.tiles.get(t)).setJokerVal(
-                                group1.tiles.get(t - 1).getValue()+1);
-                        ((JokerTile)group1.tiles.get(t)).setJokerCol(
-                                group1.tiles.get(t-1).getColor());
-                        ((JokerTile) group1.tiles.get(t)).setAssigned(true);
+                        ((JokerTile) group1.tiles.get(t)).jokerVal
+                                = group1.tiles.get(t - 1).getValue();
+                        ((JokerTile) group1.tiles.get(t)).assigned = true;
                     }
                     else {
-                        ((JokerTile) group1.tiles.get(t)).setAssigned(false);
+                        ((JokerTile) group1.tiles.get(t)).assigned = false;
                     }
                 }
             }
@@ -467,6 +463,7 @@ public class RummikubState extends GameState{
             if(tile instanceof JokerTile) {
                 ((JokerTile) tile).setAssigned(false);
             }
+
             //add each tile to the table at the correct index
             tableTileGroups.add(index,new TileGroup(tile));
             index++; //the index to add to has now shifted
