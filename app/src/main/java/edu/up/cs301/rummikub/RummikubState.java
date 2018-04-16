@@ -461,7 +461,7 @@ public class RummikubState extends GameState{
             if(tile instanceof JokerTile){
                 ((JokerTile) tile).assigned = false;
             }
-            tableTileGroups.add(new TileGroup(tile));
+
             //add each tile to the table at the correct index
             tableTileGroups.add(index,new TileGroup(tile));
             index++; //the index to add to has now shifted

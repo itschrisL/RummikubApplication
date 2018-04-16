@@ -51,7 +51,12 @@ public class TileGroup implements Serializable {
         tiles = new ArrayList<Tile>();
 
         for (Tile t : copyTileGroup.tiles) {
-            tiles.add (new Tile(t));
+            if(t instanceof JokerTile){
+                tiles.add(new JokerTile((JokerTile)t));
+            }
+            else {
+                tiles.add(new Tile(t));
+            }
         }
     }
 

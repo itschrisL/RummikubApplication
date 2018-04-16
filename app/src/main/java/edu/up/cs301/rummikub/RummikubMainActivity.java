@@ -1,8 +1,6 @@
 package edu.up.cs301.rummikub;
 
 import java.util.ArrayList;
-
-import edu.up.cs301.counter.CounterComputerPlayer2;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
@@ -31,8 +29,8 @@ public class RummikubMainActivity extends GameMainActivity {
 	/**
 	 * Create the default configuration for this game:
 	 * - one human player vs. one computer player
-	 * - minimum of 1 player, maximum of 2
-	 * - one kind of computer player and one kind of human player available
+	 * - minimum of 1 player, maximum of 4
+	 * - two kinds of computer player and one kind of human player available
 	 * 
 	 * @return
 	 * 		the new configuration object, representing the default configuration
@@ -50,9 +48,15 @@ public class RummikubMainActivity extends GameMainActivity {
 			}});
 
 		// a computer player type (player type 1)
-		playerTypes.add(new GamePlayerType("Computer Player") {
+		playerTypes.add(new GamePlayerType("Very Dumb Computer Player") {
 			public GamePlayer createPlayer(String name) {
 				return new RummikubComputerPlayer(name);
+			}});
+
+		// a computer player type (player type 1)
+		playerTypes.add(new GamePlayerType("Smarter Computer Player") {
+			public GamePlayer createPlayer(String name) {
+				return new RummikubComputerPlayer1(name);
 			}});
 
 		// Create a game configuration class for Counter:

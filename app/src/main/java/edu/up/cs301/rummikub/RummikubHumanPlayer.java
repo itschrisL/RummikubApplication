@@ -342,6 +342,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
      * on current player's play status
      */
     private void updateDrawKnock() {
+
         if(state.hasCurrentPlayerPlayed()){
             if(state.getCurrentPlayer() == this.playerNum){
                 drawKnockButton.setText("Knock");
