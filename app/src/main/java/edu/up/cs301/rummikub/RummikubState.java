@@ -298,7 +298,6 @@ public class RummikubState extends GameState{
             nextTurn();
             return true;
         }
-
         return false;
     }
 
