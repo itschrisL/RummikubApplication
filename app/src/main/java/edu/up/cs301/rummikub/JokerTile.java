@@ -3,6 +3,7 @@ package edu.up.cs301.rummikub;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.io.Serializable;
 
@@ -21,6 +22,7 @@ public class JokerTile extends Tile implements Serializable {
 
     public int jokerVal;
     public int jokerCol;
+    public boolean assigned;
 
     private static final long serialVersionUID = 6737393762469851826L;
 
@@ -28,13 +30,13 @@ public class JokerTile extends Tile implements Serializable {
      * Copy Constructor for JokerTile
      * @param tileX
      * @param tileY
-     * @param value
      * @param color
      */
     public JokerTile(int tileX, int tileY, int val, int color){
-        super(tileX, tileY, 30, color);
-        this.jokerVal = 30;
-        this.jokerCol = color;
+        super(tileX, tileY, 0, color);
+        this.jokerVal = 0;
+        this.jokerCol = colorArray[3];
+        this.assigned = false;
     }
 
     /**
@@ -54,10 +56,9 @@ public class JokerTile extends Tile implements Serializable {
     }
 
     /**
-     * Draw JokerTileClass
+     * Draw JokerTile
      */
-    @Override
-    public void drawTile(Canvas c){
+    public void drawJokerTile(Canvas c){
         //fills and outlines tile color
         Paint tileColor = new Paint ();
         tileColor.setColor(TILECOLOR);
@@ -71,9 +72,29 @@ public class JokerTile extends Tile implements Serializable {
         valColor.setColor(this.getColor());
         valColor.setTextSize((float)0.72*WIDTH);
 
+        Paint jokerValColor = new Paint ();
+        jokerValColor.setColor(this.getColor());
+        jokerValColor.setTextSize((float)0.30*WIDTH);
+
         c.drawText("J", this.getX()+WIDTH/12,this.getY()+(HEIGHT*2)/3,valColor);
+
+        c.drawText("" + jokerVal, this.getX()+WIDTH/12,this.getY()+(HEIGHT*2)/3,valColor);
+        c.drawCircle(this.getX(), this.getY(), 20, jokerValColor);
     }
 
+    @Override
+    public String toString(){
+        String colorChar= "";
+        if(jokerCol == RED)        colorChar= "R";
+        else if(jokerCol == GREEN) colorChar= "G";
+        else if(jokerCol == BLUE)  colorChar= "U";
+        else if(jokerCol == BLACK) colorChar= "B";
+        else{
+            Log.i("tile",""+jokerCol);
+            return null;
+        }
 
+        return "J," + assigned + "," + this.jokerVal + "," + colorChar;
+    }
 
 }

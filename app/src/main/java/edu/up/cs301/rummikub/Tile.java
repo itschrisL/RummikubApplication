@@ -165,7 +165,7 @@ public class Tile implements Serializable {
 
         //for the numbers that consist of 2 chars (ex: 10,11,12,13)
         //moves the value printing more to the left
-        if(value == 30){
+        if(value == 0){  // Meaning the tile is a joker
             c.drawText("J", x + WIDTH /3, y + (HEIGHT * 2) / 3, valColor);
         }
         else if(value > 9) {

@@ -125,17 +125,76 @@ public class TileSet extends TileGroup implements Serializable {
         group.tiles.toArray(tileAr);
 
         ArrayList<Tile> tempArrayList = new ArrayList<Tile>();
+        int tileColor = 0;
 
+        for(Tile T : group.tiles){
+            if(T instanceof JokerTile){
+                ((JokerTile) T).jokerCol = 0;
+            }
+        }
         //bubble sort the list
         for(int j= tileAr.length -1 ;j>=0;j--){
             for (int i = 0; i < j; i++) {
-                if (tileAr[i].getValue() > tileAr[i + 1].getValue()) {
+                 if (tileAr[i].getValue() > tileAr[i + 1].getValue()) {
                     Tile temp = tileAr[i];
                     tileAr[i] = tileAr[i + 1];
                     tileAr[i + 1] = temp;
                 }
             }
         }
+        //walk array and make sure they are in natural order
+        //and all same color
+        tileColor = tileAr[0].getColor();
+        for(int i=1;i<tileAr.length;i++){
+            if(tileAr[i].getColor() != tileColor) return false;
+            if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
+        }
+
+        /*
+        // If Run contains joker, more calculations needed.
+        if(containsJoker(group)){
+            // Get the color for this Run
+            for(Tile T : group.tiles){
+                if(!(T instanceof JokerTile)){
+                    tileColor = T.getColor();
+                    break;
+                }
+            }
+            // If Joker is only tile in array of tiles then keep its value 30
+            // And return false for being not a valid set.
+            if(group.tiles.size() == 1 && group.tiles.get(0) instanceof JokerTile){
+                ((JokerTile) group.tiles.get(0)).jokerVal = 30;
+                return false;
+            }
+            // TODO For now the joker is always added to end of set, need to eventually be able to add to front
+            for(int t = 0; t < group.tiles.size(); t++){
+                if(group.tiles.get(t) instanceof JokerTile){
+                    ((JokerTile) group.tiles.get(t)).jokerVal = group.tiles.get(t+1).getValue();
+                    ((JokerTile) group.tiles.get(t)).jokerCol = tileColor;
+                }
+            }
+        }
+        else {
+            //bubble sort the list
+            for(int j= tileAr.length -1 ;j>=0;j--){
+                for (int i = 0; i < j; i++) {
+                    if (tileAr[i].getValue() > tileAr[i + 1].getValue()) {
+                        Tile temp = tileAr[i];
+                        tileAr[i] = tileAr[i + 1];
+                        tileAr[i + 1] = temp;
+                    }
+                }
+            }
+            //walk array and make sure they are in natural order
+            //and all same color
+            tileColor = tileAr[0].getColor();
+            for(int i=1;i<tileAr.length;i++){
+                if(tileAr[i].getColor() != tileColor && tileAr[i].getValue() != 30) return false;
+                if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
+            }
+        }
+
+
 
         if(containsJoker(group)){
             for(int t = 0; t < tileAr.length; t++){
@@ -148,7 +207,7 @@ public class TileSet extends TileGroup implements Serializable {
             }
         }
 
-        int tileColor= tileAr[0].getColor();
+
         //walk array and make sure they are in natural order
         //and all same color
         for(int i=1;i<tileAr.length;i++){
@@ -161,6 +220,7 @@ public class TileSet extends TileGroup implements Serializable {
                 if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
             }
         }
+        */
 
         return true;
     }
@@ -182,14 +242,14 @@ public class TileSet extends TileGroup implements Serializable {
         boolean seenBlue= false;
         int bookVal = 0;
         for (Tile t: group.tiles){
-            if(t.getValue() != 30){
+            if(!(t instanceof JokerTile)){
                 bookVal = t.getValue();
                 break;
             }
         }
         for(Tile t : group.tiles){
             // Check if tile is joker
-            if(t.getValue() != 30){
+            if(!(t instanceof JokerTile)){
                 if(t.getValue() != bookVal){
                     return false;
                 }
@@ -230,9 +290,9 @@ public class TileSet extends TileGroup implements Serializable {
      * @param group - given tile group
      * @return - true if it is and false if not
      */
-    private static boolean containsJoker(TileGroup group){
+    public static boolean containsJoker(TileGroup group){
         for(Tile t : group.tiles){
-            if(t.getValue() == 30){
+            if(t.getValue() == 0 || t instanceof JokerTile){
                 return true;
             }
         }
