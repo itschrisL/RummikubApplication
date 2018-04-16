@@ -79,7 +79,7 @@ public class RummikubLocalGame extends LocalGame {
     }
 
     @Override
-    protected boolean makeMove(GameAction action) {
+    public boolean makeMove(GameAction action) {
 
         synchronized (syncObject) {
             if (action instanceof RummikubPlayTileAction) {

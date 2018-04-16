@@ -17,6 +17,7 @@ ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManife
 		ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManifest.xml:1:11-69
 uses-sdk
 ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManifest.xml:6:5-8:41
+MERGED from [com.android.support:support-v4:23.0.0] C:\Users\snook\.android\build-cache\285e652fb92fd26284e45a88a83ae9a835e59fd3\output\AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
 		ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManifest.xml:8:9-38
 		INJECTED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManifest.xml
@@ -35,6 +36,7 @@ ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManife
 		ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManifest.xml:11:22-76
 application
 ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManifest.xml:13:5-34:19
+MERGED from [com.android.support:support-v4:23.0.0] C:\Users\snook\.android\build-cache\285e652fb92fd26284e45a88a83ae9a835e59fd3\output\AndroidManifest.xml:22:5-20
 	android:label
 		ADDED from C:\Users\snook\Desktop\RummikubApplication\app\src\main\AndroidManifest.xml:15:9-41
 	android:icon
