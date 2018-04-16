@@ -27,6 +27,8 @@ import edu.up.cs301.game.R;
 
 public class Hand extends View implements Serializable {
 
+    private static final long serialVersionUID = 4737393762469851826L;
+
     //background of player's tile rack
     Bitmap rackBackground;
 
@@ -49,7 +51,7 @@ public class Hand extends View implements Serializable {
     }
 
     /**
-     *initilize allows to draw; rack bitmap created only once
+     * initilize allows to draw; rack bitmap created only once
      */
     private void initilize() {
         this.setWillNotDraw(false);
@@ -63,77 +65,52 @@ public class Hand extends View implements Serializable {
     @Override
     /**
      * onDraw paints tiles, referencing Tile class.
-            */
+     */
     public void onDraw(Canvas c) {
-    //first paints the player's tile rack
-    drawRack(c);
+        //first paints the player's tile rack
+        drawRack(c);
 
-        if(tiles == null) return;
+        if (tiles == null) return;
 
-    //draw tiles on rack
-    drawTiles(c);
-}
+        //draw tiles on rack
+        drawTiles(c);
+    }
 
     /**
      * draws the tiles
+     *
      * @param c the canvas on which to draw
      */
-    private void drawTiles(Canvas c){
-        int wallPadding= 20; //space between the tile and rack border
-        int rowPadding= 30; //space between the rows of tiles
-        int tilePadding= 10; //space between each tile
-
-        boolean exceedsView= false; //whether all tiles in hand are visible
+    private void drawTiles(Canvas c) {
+        int wallPadding = 20; //space between the tile and rack border
+        int rowPadding = 30; //space between the rows of tiles
+        int tilePadding = 10; //space between each tile
 
         ArrayList<Tile> tileList = tiles.getTileGroup();
 
         //first tile drawn
-        int currX= wallPadding;
-        int currY= wallPadding;
+        int currX = wallPadding;
+        int currY = wallPadding;
+        int handWidth= getWidth()-100;
 
-        //ROW 1 of tiles
-        for (int i= 0; i<tiles.groupSize()/3; i++) {
-            tileList.get(i).setX(currX);
-            tileList.get(i).setY(currY);
-            currX= currX + Tile.WIDTH + tilePadding;
-        }
+            for (int i = 0; i < tiles.groupSize(); i++) {
+                //set tile's x and y
+                tileList.get(i).setX(currX);
+                tileList.get(i).setY(currY);
+                currX = currX + Tile.WIDTH + tilePadding;
 
-        //sets up next row of tiles to be drawn
-        currX= wallPadding;
-        currY += Tile.HEIGHT + rowPadding;
-
-        //ROW 2 of tiles
-        for (int i= tiles.groupSize()/3; i<2*tiles.groupSize()/3; i++) {
-            tileList.get(i).setX(currX);
-            tileList.get(i).setY(currY);
-            currX= currX + Tile.WIDTH + tilePadding;
-        }
-
-        //sets up next row of tiles to be drawn
-        currX= wallPadding;
-        currY += Tile.HEIGHT+rowPadding;
-
-        //row 3 of tiles
-        for (int i= 2*tiles.groupSize()/3; i<tiles.groupSize(); i++){
-            tileList.get(i).setX(currX);
-            tileList.get(i).setY(currY);
-            currX= currX + Tile.WIDTH + tilePadding;
-            exceedsView= true; //max num of tiles that can be viewed are shown
-        }
-
-        //TODO re-scale tiles
-/*        //want to scale tiles down in size
-        if (exceedsView){
-            //rescale every tile
-            for (int i= 0; i<tiles.groupSize(); i++) {
-                    tileList.get(i).
+                //changes x-coord
+                if (currX + wallPadding > handWidth) {
+                    currX = wallPadding;
+                    currY += Tile.HEIGHT + rowPadding;
+                }
             }
-        }*/
 
         //draws each tile according to its x,y coords
         for (Tile tile : tileList) {
             tile.drawTile(c);
         }
+
     }
 
     /**
@@ -153,11 +130,12 @@ public class Hand extends View implements Serializable {
          **/
         rackBackground =
                 Bitmap.createScaledBitmap
-                        (rackBackground,getWidth(),getHeight(),false);
-        c.drawBitmap(rackBackground,0,0,null);
+                        (rackBackground, getWidth(), getHeight(), false);
+        c.drawBitmap(rackBackground, 0, 0, null);
     }
 
     public void setTiles(TileGroup tiles) {
         this.tiles = tiles;
     }
+
 }

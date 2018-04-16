@@ -342,8 +342,8 @@ public class RummikubState extends GameState{
      */
     private void roundOver(){
         for( int i = 0; i < numPlayers; i++  ){
-            playerScores[currentPlayer] +=  playerHands[i].groupPointValues();
-            playerScores[i] -= playerHands[i].groupPointValues();
+            playerScores[currentPlayer] +=  playerHands[i].roundGroupPointValues();
+            playerScores[i] -= playerHands[i].roundGroupPointValues();
         }
 
         //checks to see if the game is completely over
@@ -447,14 +447,6 @@ public class RummikubState extends GameState{
         return true;
     }
 
-    public boolean isValidSet(int group){
-        if(group >= tableTileGroups.size() || group<0) return false;
-        tableTileGroups.get(group);
-
-
-        return true;
-    }
-
     /**
      * splits a tile group on table into
      * several single-tile tile groups on table
@@ -464,6 +456,8 @@ public class RummikubState extends GameState{
         TileGroup group = tableTileGroups.get(groupIndex);
         if(!isOnTable(group)) return false;
 
+        //find the index of the group on the table
+        int index= tableTileGroups.indexOf(group);
 
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
         //go thru each tile in the tile group
@@ -473,6 +467,9 @@ public class RummikubState extends GameState{
                 ((JokerTile) tile).assigned = false;
             }
             tableTileGroups.add(new TileGroup(tile));
+            //add each tile to the table at the correct index
+            tableTileGroups.add(index,new TileGroup(tile));
+            index++; //the index to add to has now shifted
         }
 
         //remove the group from the table
@@ -503,6 +500,13 @@ public class RummikubState extends GameState{
         ArrayList<TileGroup> validGroups=
                 new ArrayList<TileGroup>();
 
+        int validCount= 0;
+        for(TileGroup tg : tableTileGroups){
+            if(TileSet.isValidSet(tg)){
+                validCount++;
+            }
+        }
+
         // Iterate though TileGroups on table
 
         boolean isValidTable= true;
@@ -516,9 +520,12 @@ public class RummikubState extends GameState{
 
         //we found the valid groups, go make them into sets
         for(TileGroup group : validGroups){
+            //make the set we want to add
             TileSet tempSet = new TileSet(group);
-            tableTileGroups.add(tempSet);
-            tableTileGroups.remove(group);
+            //find where the old TileGroup version is
+            int index= tableTileGroups.indexOf(group);
+            //replace the old group version with the new set version
+            tableTileGroups.set(index,tempSet);
         }
 
         return isValidTable;
@@ -591,19 +598,6 @@ public class RummikubState extends GameState{
     }
 
     /**
-     *
-     * @param tiles
-     * @param playerIdx
-     */
-    public void isMeld(TileGroup tiles, int playerIdx){
-        int meldVal = tiles.groupPointValues();
-
-        if(meldVal >= 30){
-            playersMelded[playerIdx] = true;
-        }
-    }
-
-    /**
      * this state as a string
      * will be the variable name followed by a colon and newline
      * then the value of the variable
@@ -643,35 +637,6 @@ public class RummikubState extends GameState{
         return "numPlayers:\n"+
                 numPlayers+"\n";
     }
-
-    /**
-     *looks like:
-     *
-     * players[0]:
-     * Matt
-     * players[1]:
-     * Nux
-     *
-     * @return string representation of the array players
-     */
-    /*
-
-    private String getPlayersString(){
-        //playerString is the string of the entire players array
-        String playersString= "";
-        for(int i=0;i<numPlayers;i++){
-            //currPlayerString is each string in players
-            String currPlayerString=
-                    "players["+i+"]:\n";
-            currPlayerString+= players[i];
-            currPlayerString+= "\n";
-
-            playersString+= currPlayerString;
-        }
-
-        return playersString;
-    }
-    */
 
     /**
      *looks like:
