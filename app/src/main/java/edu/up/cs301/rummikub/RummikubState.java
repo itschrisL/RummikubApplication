@@ -447,25 +447,46 @@ public class RummikubState extends GameState{
      * splits a tile group on table into
      * several single-tile tile groups on table
      */
-    public boolean canSplit(int playerIdx, int groupIndex){
+    public boolean canSplit(int playerIdx, int groupIndex, int tileIndex){
 
         TileGroup group = tableTileGroups.get(groupIndex);
         if(!isOnTable(group)) return false;
 
-        //find the index of the group on the table
-        int index= tableTileGroups.indexOf(group);
-
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
+
+        //true if joker is in group
+        boolean containsJoker = false;
+
         //go thru each tile in the tile group
         for(Tile tile : tilesInGroup){
             //add each tile to the table
             if(tile instanceof JokerTile) {
                 ((JokerTile) tile).setAssigned(false);
+                containsJoker = true;
             }
+        }
 
-            //add each tile to the table at the correct index
-            tableTileGroups.add(index,new TileGroup(tile));
-            index++; //the index to add to has now shifted
+        //if there are 3 or less cards and the group contains a joker
+        //you cannot split the group
+        if( containsJoker == true && group.groupSize() <= 3){
+            return false;
+        }
+
+        TileGroup leftGroup = new TileGroup();
+        for( int i = 0; i < tileIndex; i++){
+            leftGroup.add(group.getTile(i));
+        }
+        tableTileGroups.add(leftGroup);
+
+        TileGroup midGroup = new TileGroup(group.getTile(tileIndex));
+        tableTileGroups.add(midGroup);
+
+        if( tileIndex != group.groupSize()) {
+            TileGroup rightGroup = new TileGroup();
+            for (int i = tileIndex + 1; i < group.groupSize(); i++) {
+                rightGroup.add(group.getTile(i));
+            }
+            tableTileGroups.add(rightGroup);
         }
 
         //remove the group from the table

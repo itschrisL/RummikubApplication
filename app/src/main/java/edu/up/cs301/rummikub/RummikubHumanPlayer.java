@@ -314,8 +314,10 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         if( state.getSelectedGroup() == null ) return null;
 
         int hitGroup = -1;
+        int hitTile = -1;
         for( int i = 0; i < tableGroup.size(); i++){
-            if(tableGroup.get(i).hitTile(x,y) != -1) {
+            hitTile = tableGroup.get(i).hitTile(x,y);
+            if( hitTile != -1) {
                 hitGroup = i;
                 break;
             }
@@ -324,7 +326,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         if(tableGroup.get(hitGroup).groupSize() < 2 ) return null;
         if( !(tableGroup.get(hitGroup) == state.getSelectedGroup())) return null;
 
-        return new RummikubSplitAction(this, hitGroup);
+        return new RummikubSplitAction(this, hitGroup, hitTile);
     }
 
     protected void updateDisplay(){
