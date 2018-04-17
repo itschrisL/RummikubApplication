@@ -444,40 +444,28 @@ public class RummikubState extends GameState{
 
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
 
-        //true if joker is in group
-        boolean containsJoker = false;
-
         //go thru each tile in the tile group
         for(Tile tile : tilesInGroup){
             //add each tile to the table
             if(tile instanceof JokerTile) {
                 ((JokerTile) tile).setAssigned(false);
-                containsJoker = true;
             }
         }
-
-        //if there are 3 or less cards and the group contains a joker
-        //you cannot split the group
-        //if( containsJoker == true && group.groupSize() <= 3){
-        //    return false;
-        //}
 
         TileGroup leftGroup = new TileGroup();
         for( int i = 0; i < tileIndex; i++){
             leftGroup.add(group.getTile(i));
         }
 
-
         TileGroup midGroup = new TileGroup(group.getTile(tileIndex));
 
+        TileGroup rightGroup = new TileGroup();
+        for (int i = tileIndex + 1; i < group.groupSize(); i++) {
+            rightGroup.add(group.getTile(i));
+        }
 
-
-            TileGroup rightGroup = new TileGroup();
-            for (int i = tileIndex + 1; i < group.groupSize(); i++) {
-                rightGroup.add(group.getTile(i));
-            }
-
-
+        //checks to see if any of the split groups contain a joker and
+        //are less than 3 tiles
         if( leftGroup.containsJoker(leftGroup) == true && leftGroup.groupSize() < 3 ){
             return false;
         }
@@ -487,9 +475,19 @@ public class RummikubState extends GameState{
         else if( rightGroup.containsJoker(rightGroup) == true && rightGroup.groupSize() < 3){
             return false;
         }
-        tableTileGroups.add(leftGroup);
+
+        //makes sure there are tiles in the left group before adding it
+        if( leftGroup.groupSize() != 0){
+            tableTileGroups.add(leftGroup);
+        }
+
+        //adds middle touched tile to the table as its own group
         tableTileGroups.add(midGroup);
-        tableTileGroups.add(rightGroup);
+
+        //makes sure there are tiles in the right group before adding it
+        if( rightGroup.groupSize() != 0){
+            tableTileGroups.add(rightGroup);
+        }
 
         //remove the group from the table
         tableTileGroups.remove(group);
