@@ -31,7 +31,7 @@ public class GameBoard extends View {
     private Bitmap background;
 
     private int columnPadding = Tile.WIDTH + 75; // Padding between each tile group
-    private int rowPadding = Tile.HEIGHT + 50; // Padding between Rows of tile groups
+    private int rowPadding = Tile.getHeight() + 50; // Padding between Rows of tile groups
     private int wallPadding = 50;  // Padding from
     private int cellingPadding = 50;
 
@@ -145,7 +145,7 @@ public class GameBoard extends View {
             if(currX + groupWidth > surfaceWidth - wallPadding){
                 //drop down to the next line
                 currX= wallPadding;
-                currY+= Tile.HEIGHT + topPadding;
+                currY+= Tile.getHeight() + topPadding;
             }
 
             ArrayList<Tile> tiles= group.getTileGroup();
@@ -214,7 +214,7 @@ public class GameBoard extends View {
         float left= group.getTile(0).getX();
         float top= group.getTile(0).getY();
         float right= left + group.groupSize()*Tile.WIDTH;
-        float bottom= top + Tile.HEIGHT;
+        float bottom= top + Tile.getHeight();
 
         c.drawRect(left,top,right,bottom,outline);
     }

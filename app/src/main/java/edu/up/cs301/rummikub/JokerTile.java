@@ -69,23 +69,23 @@ public class JokerTile extends Tile implements Serializable {
         tileColor.setColor(TILECOLOR);
         Paint tileOutline = new Paint ();
         tileOutline.setStyle (Paint.Style.STROKE);
-        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,this.getY()+HEIGHT,tileColor);
-        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,this.getY()+HEIGHT,tileOutline);
+        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,this.getY()+Tile.getHeight(),tileColor);
+        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,this.getY()+Tile.getHeight(),tileOutline);
 
 
         Paint valColor = new Paint ();
         valColor.setColor(this.getColor());
         valColor.setTextSize((float)0.72*WIDTH);
 
-        c.drawText("J", this.getX() + WIDTH /3, this.getY() + (HEIGHT * 2) / 3,valColor);
+        c.drawText("J", this.getX() + WIDTH /3, this.getY() + (Tile.getHeight() * 2) / 3,valColor);
 
         Paint jokerValColor = new Paint ();
         if(assigned){
             jokerValColor.setTextSize((float)0.3*WIDTH);
             jokerValColor.setColor(this.getJokerCol());
-            c.drawText("" + this.getJokerVal(), this.getX()+WIDTH/20,this.getY()+(HEIGHT - 15),
+            c.drawText("" + this.getJokerVal(), this.getX()+WIDTH/20,this.getY()+(Tile.getHeight() - 15),
                     jokerValColor);
-            c.drawCircle(this.getX()+WIDTH-20, this.getY()+HEIGHT-20, 10, jokerValColor);
+            c.drawCircle(this.getX()+WIDTH-20, this.getY()+Tile.getHeight()-20, 10, jokerValColor);
         }
         else {
             jokerValColor.setColor(this.getColor());
