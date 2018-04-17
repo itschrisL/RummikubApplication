@@ -468,26 +468,38 @@ public class RummikubState extends GameState{
 
         //if there are 3 or less cards and the group contains a joker
         //you cannot split the group
-        if( containsJoker == true && group.groupSize() <= 3){
-            return false;
-        }
+        //if( containsJoker == true && group.groupSize() <= 3){
+        //    return false;
+        //}
 
         TileGroup leftGroup = new TileGroup();
         for( int i = 0; i < tileIndex; i++){
             leftGroup.add(group.getTile(i));
         }
-        tableTileGroups.add(leftGroup);
+
 
         TileGroup midGroup = new TileGroup(group.getTile(tileIndex));
-        tableTileGroups.add(midGroup);
 
-        if( tileIndex != group.groupSize()) {
+
+
             TileGroup rightGroup = new TileGroup();
             for (int i = tileIndex + 1; i < group.groupSize(); i++) {
                 rightGroup.add(group.getTile(i));
             }
-            tableTileGroups.add(rightGroup);
+
+
+        if( leftGroup.containsJoker(leftGroup) == true && leftGroup.groupSize() < 3 ){
+            return false;
         }
+        else if( midGroup.containsJoker(midGroup) == true){
+            return false;
+        }
+        else if( rightGroup.containsJoker(rightGroup) == true && rightGroup.groupSize() < 3){
+            return false;
+        }
+        tableTileGroups.add(leftGroup);
+        tableTileGroups.add(midGroup);
+        tableTileGroups.add(rightGroup);
 
         //remove the group from the table
         tableTileGroups.remove(group);
