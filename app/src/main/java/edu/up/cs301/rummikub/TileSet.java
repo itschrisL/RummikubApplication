@@ -93,35 +93,6 @@ public class TileSet extends TileGroup implements Serializable {
     }
 
     /**
-     * sorts a run of tiles in numerical order
-     */
-    public void numericalOrder () {
-        //empty arraylist
-        ArrayList <Tile> temp= new ArrayList<Tile>();
-
-        if(tiles.size() != 1){
-            while (!tiles.isEmpty()) {
-                Tile currTile= tiles.get(0); //first tile in arrayList
-                if(currTile instanceof JokerTile){
-                    if(!(((JokerTile) currTile).assigned)){
-                        Tile tempTile = tiles.get(1);
-                        ((JokerTile) currTile).setJokerValues(tempTile.getValue()-1, tempTile.getColor());
-                    }
-                }
-                for (int i= 1; i< tiles.size(); i++) {
-                    if (tiles.get(i).getValue() < currTile.getValue()) {
-                        currTile= tiles.get(i);
-                    }
-                }
-                Log.i("Numerical Order","Sorting");
-                temp.add(currTile);
-                tiles.remove(currTile);
-            }
-        }
-        tiles= temp; //replaces with sorted tiles arrayList
-    }
-
-    /**
      * Determines whether the group passed in is a run or not
      *
      * @param group the group to check
