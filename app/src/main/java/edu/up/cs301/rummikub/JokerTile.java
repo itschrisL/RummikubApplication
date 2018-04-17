@@ -74,7 +74,7 @@ public class JokerTile extends Tile implements Serializable {
 
 
         Paint valColor = new Paint ();
-        valColor.setColor(this.getColor());
+        valColor.setColor(Tile.ORANGE);
         valColor.setTextSize((float)0.72*WIDTH);
 
         c.drawText("J", this.getX() + WIDTH /3, this.getY() + (HEIGHT * 2) / 3,valColor);
@@ -91,10 +91,6 @@ public class JokerTile extends Tile implements Serializable {
             jokerValColor.setColor(this.getColor());
             this.jokerVal = 0;
         }
-
-
-
-
 
     }
 
@@ -122,6 +118,8 @@ public class JokerTile extends Tile implements Serializable {
     public int getValue(){
         return this.jokerVal;
     }
+
+    public int getColor(){return this.jokerCol;}
 
     public int getJokerVal(){return this.jokerVal;}
 

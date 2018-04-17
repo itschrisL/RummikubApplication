@@ -166,6 +166,15 @@ public class GameBoard extends View {
         for(TileGroup group : tileGroups){
             ArrayList<Tile> tiles= group.getTileGroup();
 
+
+            //If Group is just a Joker, reset its values
+            if(tiles.size() == 1){
+                if(tiles.get(0) instanceof JokerTile){
+                    ((JokerTile) tiles.get(0)).setAssigned(false);
+                }
+            }
+
+
             //go through each tile in the group
             for(Tile tile : tiles){
                 tile.drawTile(c);

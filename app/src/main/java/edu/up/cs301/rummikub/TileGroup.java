@@ -236,6 +236,20 @@ public class TileGroup implements Serializable {
     }
 
     /**
+     * Checks if joker is in this TileGroup
+     * @param group - given tile group
+     * @return - true if it is and false if not
+     */
+    public static boolean containsJoker(TileGroup group){
+        for(Tile t : group.tiles){
+            if(t.getValue() == 0 || t instanceof JokerTile){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * returns this tile group as a string
      * it will be each tile followed by a comma
      * @return a string representation of this tile group

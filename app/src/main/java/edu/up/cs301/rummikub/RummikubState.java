@@ -35,7 +35,6 @@ public class RummikubState extends GameState{
 
     private int currentPlayer; //index of players[], indicates whose turn it is
     private boolean currentPlayerPlayed; //Boolean if Current player has made a move yet.
-    // TODO possible variables timer int
 
     private int round;
 
@@ -48,8 +47,6 @@ public class RummikubState extends GameState{
     //null if no tiles played
 
     private ArrayList<TileGroup> tableTileGroups; //tiles and sets on the table
-
-    // TODO add a previous tableTileGroup variable
 
 
     /**
@@ -99,7 +96,6 @@ public class RummikubState extends GameState{
         initDrawPile();
         dealHands();
     }
-
 
     /**
      * Called from copy constructor for gameState
@@ -214,14 +210,17 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
+        // TODO DELETE THIS BEFORE BETA!!!!
         ArrayList<Tile> testTiles = new ArrayList<Tile>();
         Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[0]);
         Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[0]);
         Tile tile3 = new Tile(-1, -1, 12, Tile.colorArray[0]);
+        Tile tile4 = new Tile(-1, -1, 8, Tile.colorArray[0]);
         Tile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
         playerHands[0].add(tile1);
         playerHands[0].add(tile2);
         playerHands[0].add(tile3);
+        playerHands[0].add(tile4);
         playerHands[0].add(jokerTile1);
 
     }
