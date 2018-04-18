@@ -13,6 +13,7 @@ package edu.up.cs301.rummikub;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -66,10 +67,7 @@ public class TileSet extends TileGroup implements Serializable {
             else {
                 this.add(new Tile(t));
             }
-            //this.add(t);
         }
-
-        if (isRun) numericalOrder();
     }
 
     /**
@@ -88,8 +86,7 @@ public class TileSet extends TileGroup implements Serializable {
      * @param group the group to check
      * @return whether group is a valid set
      */
-    public static boolean isValidSet(TileGroup group){
-        return (isRun(group) || isBook(group));
+    public static boolean isValidSet(TileGroup group){return (isRun(group) || isBook(group));
     }
 
     /**
@@ -122,16 +119,16 @@ public class TileSet extends TileGroup implements Serializable {
         for(int j = 0; j < group.tiles.size(); j++){
             if(tileAr[j] instanceof JokerTile){
                 if(j + 1 < tileAr.length){
-                    ((JokerTile)tileAr[j]).setJokerValues(tileAr[j+1].getValue()-1, tileColor);
+                    ((JokerTile)tileAr[j]).setJokerValues((tileAr[j+1].getValue()) - 1, tileColor);
                 }
                 else{
-                    ((JokerTile)tileAr[j]).setJokerValues(tileAr[j-1].getValue()+1, tileColor);
+                    ((JokerTile)tileAr[j]).setJokerValues((tileAr[j-1].getValue()) + 1, tileColor);
                 }
             }
         }
 
         // If joker is in set check if valid set
-        if(containsJoker(group)){
+        if(group.containsJoker()){
             Log.i("Run","Contains Joker");
             for(int i=0;i<tileAr.length-1;i++) {
                     if (tileAr[i].getColor() != tileColor) return false;
@@ -157,7 +154,8 @@ public class TileSet extends TileGroup implements Serializable {
                 if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
             }
         }
-        group.tiles = new ArrayList<Tile>(Arrays.asList(tileAr));
+        //group.tiles = new ArrayList<Tile>(Arrays.asList(tileAr));
+
         return true;
     }
 
@@ -240,23 +238,24 @@ public class TileSet extends TileGroup implements Serializable {
         return true;
     }
 
-    public void findJokerValues(TileGroup group){
+    public void findJokerValues(){
+        if(!(this.containsJoker())) return;
+
         // Assign tileColor
         int tileColor = 0;
-        for(Tile T : group.tiles){
+        for(Tile T : this.tiles){
             if(!(T instanceof JokerTile)){
                 tileColor = T.getColor();
             }
         }
-        Tile[] tileAr= new Tile[group.tiles.size()];
         // Assign values to jokers
-        for(int j = 0; j < group.tiles.size(); j++){
-            if(tileAr[j] instanceof JokerTile){
-                if(j + 1 < tileAr.length){
-                    ((JokerTile)tileAr[j]).setJokerValues(tileAr[j+1].getValue()-1, tileColor);
+        for(int j = 0; j < this.tiles.size(); j++){
+            if(this.tiles.get(j) instanceof JokerTile){
+                if(j + 1 < this.tiles.size()){
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j+1).getValue()-1, tileColor);
                 }
                 else{
-                    ((JokerTile)tileAr[j]).setJokerValues(tileAr[j-1].getValue()+1, tileColor);
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j-1).getValue()+1, tileColor);
                 }
             }
         }

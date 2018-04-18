@@ -473,13 +473,13 @@ public class RummikubState extends GameState{
 
         //checks to see if any of the split groups contain a joker and
         //are less than 3 tiles
-        if( leftGroup.containsJoker(leftGroup) == true && leftGroup.groupSize() < 3 ){
+        if( leftGroup.containsJoker() == true && leftGroup.groupSize() < 3 ){
             return false;
         }
-        else if( midGroup.containsJoker(midGroup) == true){
+        else if( midGroup.containsJoker() == true){
             return false;
         }
-        else if( rightGroup.containsJoker(rightGroup) == true && rightGroup.groupSize() < 3){
+        else if( rightGroup.containsJoker() == true && rightGroup.groupSize() < 3){
             return false;
         }
 
@@ -546,6 +546,8 @@ public class RummikubState extends GameState{
         for(TileGroup group : validGroups){
             //make the set we want to add
             TileSet tempSet = new TileSet(group);
+            // If joker is in set create it's values
+            tempSet.findJokerValues();
             //find where the old TileGroup version is
             int index= tableTileGroups.indexOf(group);
             //replace the old group version with the new set version
