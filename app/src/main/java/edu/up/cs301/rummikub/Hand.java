@@ -32,11 +32,14 @@ public class Hand extends View implements Serializable {
     //background of player's tile rack
     Bitmap rackBackground;
 
+    private boolean setTileHeight;
+
     //the tiles in the hand
     TileGroup tiles;
 
     public Hand(Context context) {
         super(context);
+
         initilize();
     }
 
@@ -55,7 +58,7 @@ public class Hand extends View implements Serializable {
      */
     private void initilize() {
         this.setWillNotDraw(false);
-
+        this.setTileHeight = false;
         rackBackground =
                 BitmapFactory.decodeResource
                         (getResources(), R.drawable.rack_background);
@@ -67,6 +70,11 @@ public class Hand extends View implements Serializable {
      * onDraw paints tiles, referencing Tile class.
      */
     public void onDraw(Canvas c) {
+        if( setTileHeight == false ){
+            int height = ((this.getHeight()-100)/3);
+            Tile.setHeight(height);
+            setTileHeight = true;
+        }
         //first paints the player's tile rack
         drawRack(c);
 
@@ -93,6 +101,8 @@ public class Hand extends View implements Serializable {
         int currY = wallPadding;
         int handWidth= getWidth()-100;
 
+
+
             for (int i = 0; i < tiles.groupSize(); i++) {
                 //set tile's x and y
                 tileList.get(i).setX(currX);
@@ -102,7 +112,7 @@ public class Hand extends View implements Serializable {
                 //changes x-coord
                 if (currX + wallPadding > handWidth) {
                     currX = wallPadding;
-                    currY += Tile.HEIGHT + rowPadding;
+                    currY += Tile.getHeight() + rowPadding;
                 }
             }
 

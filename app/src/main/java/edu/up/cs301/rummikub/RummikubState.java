@@ -97,6 +97,7 @@ public class RummikubState extends GameState{
         dealHands();
     }
 
+
     /**
      * Called from copy constructor for gameState
      * sets this RummikubState to a deep copy of copy
@@ -137,7 +138,7 @@ public class RummikubState extends GameState{
             //copies boolean[] whether player melded or not
             playersMelded = new boolean[numPlayers];
             for (int i = 0; i < numPlayers; i++) {
-                playersMelded[i] = playersMelded[i];
+                playersMelded[i] = copy.playersMelded[i];
             }
 
             //copies current player
@@ -210,17 +211,14 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-        // TODO DELETE THIS BEFORE BETA!!!!
         ArrayList<Tile> testTiles = new ArrayList<Tile>();
         Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[0]);
         Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[0]);
         Tile tile3 = new Tile(-1, -1, 12, Tile.colorArray[0]);
-        Tile tile4 = new Tile(-1, -1, 8, Tile.colorArray[0]);
         Tile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
         playerHands[0].add(tile1);
         playerHands[0].add(tile2);
         playerHands[0].add(tile3);
-        playerHands[0].add(tile4);
         playerHands[0].add(jokerTile1);
 
     }
@@ -453,38 +451,48 @@ public class RummikubState extends GameState{
 
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
 
-        //true if joker is in group
-        boolean containsJoker = false;
-
         //go thru each tile in the tile group
         for(Tile tile : tilesInGroup){
             //add each tile to the table
             if(tile instanceof JokerTile) {
                 ((JokerTile) tile).setAssigned(false);
-                containsJoker = true;
             }
-        }
-
-        //if there are 3 or less cards and the group contains a joker
-        //you cannot split the group
-        if( containsJoker == true && group.groupSize() <= 3){
-            return false;
         }
 
         TileGroup leftGroup = new TileGroup();
         for( int i = 0; i < tileIndex; i++){
             leftGroup.add(group.getTile(i));
         }
-        tableTileGroups.add(leftGroup);
 
         TileGroup midGroup = new TileGroup(group.getTile(tileIndex));
+
+        TileGroup rightGroup = new TileGroup();
+        for (int i = tileIndex + 1; i < group.groupSize(); i++) {
+            rightGroup.add(group.getTile(i));
+        }
+
+        //checks to see if any of the split groups contain a joker and
+        //are less than 3 tiles
+        if( leftGroup.containsJoker(leftGroup) == true && leftGroup.groupSize() < 3 ){
+            return false;
+        }
+        else if( midGroup.containsJoker(midGroup) == true){
+            return false;
+        }
+        else if( rightGroup.containsJoker(rightGroup) == true && rightGroup.groupSize() < 3){
+            return false;
+        }
+
+        //makes sure there are tiles in the left group before adding it
+        if( leftGroup.groupSize() != 0){
+            tableTileGroups.add(leftGroup);
+        }
+
+        //adds middle touched tile to the table as its own group
         tableTileGroups.add(midGroup);
 
-        if( tileIndex != group.groupSize()) {
-            TileGroup rightGroup = new TileGroup();
-            for (int i = tileIndex + 1; i < group.groupSize(); i++) {
-                rightGroup.add(group.getTile(i));
-            }
+        //makes sure there are tiles in the right group before adding it
+        if( rightGroup.groupSize() != 0){
             tableTileGroups.add(rightGroup);
         }
 

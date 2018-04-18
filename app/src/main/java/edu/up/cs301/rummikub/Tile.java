@@ -33,7 +33,7 @@ public class Tile implements Serializable {
 
     //sizing (width and height) of tile
     public static final int WIDTH = 110;
-    public static final int HEIGHT = 110;
+    private static int height;
 
 
     //4 tile colors
@@ -82,7 +82,7 @@ public class Tile implements Serializable {
         if(x < this.x) return false;
         if(x > this.x+WIDTH) return false;
         if(y < this.y) return false;
-        if(y > this.y+HEIGHT) return false;
+        if(y > this.y+this.height) return false;
 
         //if we got this far, x and y were not
         //outside any boundary
@@ -105,6 +105,7 @@ public class Tile implements Serializable {
     public int getY() {
         return y;
     }
+
 
     /**
      * Getter method to get Tile value
@@ -146,6 +147,9 @@ public class Tile implements Serializable {
         this.value = v;
     }
 
+    public static int getHeight() { return height; }
+
+    public static void setHeight(int index) { height = index; }
     /**
      * This method draws tiles using Canvas.
      */
@@ -155,8 +159,8 @@ public class Tile implements Serializable {
         tileColor.setColor(TILECOLOR);
         Paint tileOutline = new Paint ();
         tileOutline.setStyle (Paint.Style.STROKE);
-        c.drawRect(x,y,x+WIDTH,y+HEIGHT,tileColor);
-        c.drawRect(x,y,x+WIDTH,y+HEIGHT,tileOutline);
+        c.drawRect(x,y,x+WIDTH,y+height,tileColor);
+        c.drawRect(x,y,x+WIDTH,y+height,tileOutline);
 
 
         Paint valColor = new Paint ();
@@ -166,13 +170,13 @@ public class Tile implements Serializable {
         //for the numbers that consist of 2 chars (ex: 10,11,12,13)
         //moves the value printing more to the left
         if(value == 0){  // Meaning the tile is a joker
-            c.drawText("J", x + WIDTH /3, y + (HEIGHT * 2) / 3, valColor);
+            c.drawText("J", x + WIDTH /3, y + (height * 2) / 3, valColor);
         }
         else if(value > 9) {
-            c.drawText(""+value, x+WIDTH/12,y+(HEIGHT*2)/3,valColor);
+            c.drawText(""+value, x+WIDTH/12,y+(height*2)/3,valColor);
         }
         else {
-            c.drawText("" + value, x + WIDTH /3, y + (HEIGHT * 2) / 3, valColor);
+            c.drawText("" + value, x + WIDTH /3, y + (height * 2) / 3, valColor);
         }
     }
 
