@@ -3,6 +3,7 @@ package edu.up.cs301.rummikub;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.style.LineHeightSpan;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -162,23 +163,38 @@ public class Tile implements Serializable {
         c.drawRect(x,y,x+WIDTH,y+height,tileColor);
         c.drawRect(x,y,x+WIDTH,y+height,tileOutline);
 
-
+        float letterSize =(float).72*WIDTH;
         Paint valColor = new Paint ();
         valColor.setColor(color);
-        valColor.setTextSize((float)0.72*WIDTH);
+        valColor.setTextSize(letterSize);
+        valColor.setTextAlign(Paint.Align.CENTER);
+
+        Paint.FontMetrics fm = valColor.getFontMetrics();
+        float textHeight = fm.descent - fm.ascent;
+        int letterPadding = (((int)(height-letterSize)));
 
         //for the numbers that consist of 2 chars (ex: 10,11,12,13)
         //moves the value printing more to the left
+
         if(value == 0){  // Meaning the tile is a joker
-            c.drawText("J", x + WIDTH /3, y + (height * 2) / 3, valColor);
-        }
-        else if(value > 9) {
-            c.drawText(""+value, x+WIDTH/12,y+(height*2)/3,valColor);
-        }
+            c.drawText("J", x + WIDTH /2, y + height - letterPadding, valColor);
+
+                    }
         else {
-            c.drawText("" + value, x + WIDTH /3, y + (height * 2) / 3, valColor);
+            c.drawText("" + value, x + WIDTH /2, y + height - letterPadding, valColor);
         }
     }
+    /**
+     * in method above text size isn't the same at the height in pixels of the character
+     * Date: 4-18-18
+     * Problem: We needed the height of the text to put the character in the right place
+     * Solution: Found on stack overflow and example that shows a method fontmetrics
+     * took the lines and put them in our code
+     * Source:https://stackoverflow.com/questions/14277058/get-the-text-height-
+     * including-the-font-size-and-set-that-height
+     *
+     *
+     */
 
     /**
      * returns a string representation of this tile
