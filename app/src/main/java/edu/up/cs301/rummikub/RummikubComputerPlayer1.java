@@ -21,6 +21,9 @@ import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
+    //the number of points we are about to play
+    private int currentPlayPoints;
+
     /**
      * Constructor for objects of class CounterComputerPlayer1
      *
@@ -33,18 +36,25 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
     /**
      * changes the playActions queue to reflect the actions
      * this player wants to make this move
+     *
+     * @return the number of points we are going to play
      */
     @Override
-    protected void findMove(){
-        int[] indexesToPlay= findSetInHand();
+    protected int findMove() {
 
-        //if we found a set in our hand
-        if(indexesToPlay != null){
+        //we will break out of the loop when we don't find a set
+        while (true) {
+
+            int[] indexesToPlay = findSetInHand();
+
+            //if we didn't find a set in hand
+            if (indexesToPlay == null) {
+                //break out of the loop
+                break;
+            }
+
             //we want to play it, then knock
-            playActions.add(new RummikubPlayGroupAction(this,indexesToPlay));
-            playActions.add(new RummikubKnockAction(this));
-
-            return;
+            playActions.add(new RummikubPlayGroupAction(this, indexesToPlay));
         }
 
         //now check if there is a single tile to play
@@ -52,22 +62,20 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
         //if we found a tile to play and we've melded
 
-        if(playPair != null && state.hasMelded(playerNum)){
-            playActions.add(new RummikubPlayTileAction(this,playPair[0]));
+        if(playPair != null && state.hasMelded(playerNum)) {
+            playActions.add(new RummikubPlayTileAction(this, playPair[0]));
 
             //find the index on the table of the tile you just played
-            int newGroupIndex= state.getTableTileGroups().size();
+            int newGroupIndex = state.getTableTileGroups().size();
 
-            playActions.add(new RummikubConnectAction(this,playPair[1],newGroupIndex));
-            //then knock
-            playActions.add(new RummikubKnockAction(this));
-
-            return;
+            playActions.add(new RummikubConnectAction(this, playPair[1], newGroupIndex));
         }
 
+        //return the points, but also reset the val to 0
+        int temp= currentPlayPoints;
+        currentPlayPoints= 0;
 
-        //if we get this far we need to draw
-        playActions.add(new RummikubDrawAction(this));
+        return temp;
     }
 
     /**
@@ -87,7 +95,16 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
                     Tile t3= tiles.get(k);
 
                     TileGroup group= new TileGroup(t1,t2,t3);
-                    if(isValidSet(group)){
+                    if(TileSet.isValidSet(group)){
+                        //how much is this play worth
+                        currentPlayPoints+= t1.getValue();
+                        currentPlayPoints+= t2.getValue();
+                        currentPlayPoints+= t3.getValue();
+
+                        //we will no longer have these in our hand
+                        tiles.remove(k);
+                        tiles.remove(j);
+                        tiles.remove(i);
 
                         return new int[]{i,j,k};
                     }
@@ -97,26 +114,6 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
         //if we got this far, we didn't find a valid set
         return null;
-    }
-
-    /**
-     * finds out if the player could play this group
-     * takes into account whether the player has melded
-     * and if this is a sufficient meld
-     * @param group the group to check
-     * @return whether it is a valid play
-     */
-    private boolean isValidSet(TileGroup group){
-        //if the group is not a valid set
-        if(!TileSet.isValidSet(group)) return false;
-
-        //if we've melded, any valid set is good to go
-        if(state.hasMelded(playerNum)) return true;
-
-        //if we are here, we haven't melded, so we need at least 30
-        if(group.groupPointValues() < 30) return false;
-
-        return true;
     }
 
     /**

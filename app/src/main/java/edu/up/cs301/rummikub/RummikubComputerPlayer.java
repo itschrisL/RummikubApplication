@@ -60,24 +60,44 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         }
 
         if(state.isPlayerTurn(playerNum)){
-            //if we have not figured out our play, do so
-            if(playActions.isEmpty()){
-                findMove();
-            }
-            //then, we want to make our play,
-            //one action at a time
-            randomSleep();
-            game.sendAction(playActions.remove());
+            makePlay();
         }
+    }
+
+    /**
+     * sets up and makes the play that this player wants to do
+     */
+    private void makePlay(){
+        //if we have not figured out our play, do so
+        if(playActions.isEmpty()){
+            int score= findMove();
+
+            //if we must meld, but we arn't going to with this play
+            if(!state.hasMelded(playerNum) && score < 30){
+                //we must do nothing and draw
+                playActions.clear();
+                playActions.add(new RummikubDrawAction(this));
+            }
+            else{
+                //if we find a good play, knock
+                playActions.add(new RummikubKnockAction(this));
+            }
+
+        }
+        //then, we want to make our play,
+        //one action at a time
+        randomSleep();
+        game.sendAction(playActions.remove());
     }
 
     /**
      * updates the playActions queue to represetn the moves
      * this player wants to make
+     *
+     * @return the number of points we are going to play
      */
-    protected void findMove(){
-        //this player draws every time
-        playActions.add(new RummikubDrawAction(this));
+    protected int findMove(){
+        return 0;
     }
 
     private void randomSleep() {
