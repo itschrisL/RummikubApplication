@@ -61,11 +61,6 @@ public class RummikubLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
 
-        //if the draw pile is empty, the game is a tie
-        if(state.getDrawPile().groupSize() == 0){
-            return "Tie";
-        }
-
         //checks to see if its the last round of the game
         if( state.getRound() != 0) return null;
 
@@ -289,9 +284,16 @@ public class RummikubLocalGame extends LocalGame {
      */
     private boolean drawAction(RummikubDrawAction action){
         int playerId= getPlayerIdx(action.getPlayer());
+        boolean turnEnded = false;
+        try {
+            turnEnded = state.canDraw(playerId);
+        }
+        catch(RuntimeException rte){
+            for( int i = 0; i < state.getNumPlayers(); i++ ){
+                    sendUpdatedStateTo(players[i]);
+            }
 
-        boolean turnEnded= state.canDraw(playerId);
-
+        }
         //if the turn ended
         if(turnEnded){
             //we want to no longer be able to undo

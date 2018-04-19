@@ -3,6 +3,8 @@ package edu.up.cs301.rummikub;
 
 import android.util.Log;
 import java.util.ArrayList;
+
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -293,8 +295,17 @@ public class RummikubState extends GameState{
      * @return
      *  - false - if player has not made move and can't draw
      *  - true - if player has made move, end draw
+     *
+     *  @throws RuntimeException
+     *  if the draw was unsuccessful because the round ended
      */
     public boolean canDraw(int playerIdx){
+        if( drawPile.groupSize()== 0){
+            roundOver();
+
+            throw new RuntimeException("Reset Round");
+
+        }
         if(!(currentPlayerPlayed) && isValidTable() == true) {
             giveTileToPlayer(playerIdx);
             nextTurn();
@@ -322,7 +333,7 @@ public class RummikubState extends GameState{
         }
 
         //if the player played all their tiles
-        if(playerHands[currentPlayer].groupSize() == 0){
+        if(playerHands[currentPlayer].groupSize() == 0 || drawPile.groupSize() == 0){
             roundOver();
             return true;
         }
@@ -338,8 +349,13 @@ public class RummikubState extends GameState{
      */
     private void roundOver(){
         for( int i = 0; i < numPlayers; i++  ){
-            playerScores[currentPlayer] +=  playerHands[i].roundGroupPointValues();
-            playerScores[i] -= playerHands[i].roundGroupPointValues();
+            if( drawPile.groupSize() == 0 ){
+                playerScores[i] -= playerHands[i].roundGroupPointValues();
+            }
+            else{
+                playerScores[i] -= playerHands[i].roundGroupPointValues();
+                playerScores[currentPlayer] +=  playerHands[i].roundGroupPointValues();
+            }
         }
 
         //checks to see if the game is completely over
