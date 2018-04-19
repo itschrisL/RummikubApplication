@@ -103,10 +103,8 @@ public class TileSet extends TileGroup implements Serializable {
         Tile[] tileAr= new Tile[group.tiles.size()];
         group.tiles.toArray(tileAr);
 
-        ArrayList<Tile> tempArrayList = new ArrayList<Tile>();
+        // Variable to hold the color value of the run
         int tileColor = 0;
-        int jokerIndex;
-
         // Assign tileColor
         for(Tile T : group.tiles){
             if(!(T instanceof JokerTile)){
@@ -117,11 +115,15 @@ public class TileSet extends TileGroup implements Serializable {
         // Assign values to jokers
         for(int j = 0; j < group.tiles.size(); j++){
             if(tileAr[j] instanceof JokerTile){
+                //If there is a tile to the right of the joker
                 if(j + 1 < tileAr.length){
                     ((JokerTile)tileAr[j]).setJokerValues((tileAr[j+1].getValue()) - 1, tileColor);
+                    //((JokerTile)group.tiles.get(j)).setJokerValues(group.tiles.get(j+1).getValue() -1, tileColor);
                 }
+                // If joker is last in the array
                 else{
                     ((JokerTile)tileAr[j]).setJokerValues((tileAr[j-1].getValue()) + 1, tileColor);
+                    //((JokerTile)group.tiles.get(j)).setJokerValues(group.tiles.get(j-1).getValue() - 1, tileColor);
                 }
             }
         }
@@ -238,6 +240,9 @@ public class TileSet extends TileGroup implements Serializable {
         return true;
     }
 
+    /**
+     * Method to set Joker Values if there is one within the set.
+     */
     public void findJokerValues(){
         if(!(this.containsJoker())) return;
         if(!(this.isRun)) return;
@@ -261,6 +266,7 @@ public class TileSet extends TileGroup implements Serializable {
             }
         }
     }
+
     /**
      * this tile set as a string
      * it will be the tilegroup string

@@ -250,11 +250,14 @@ public class TileGroup implements Serializable {
         return false;
     }
 
+    /**
+     * Sorts a group of tiles by value
+     */
     public void numericalOrder () {
         //empty arraylist
         ArrayList <Tile> temp= new ArrayList<Tile>();
 
-        if(tiles.size() != 1){
+        if(tiles.size() > 1){
             while (!tiles.isEmpty()) {
                 Tile currTile= tiles.get(0); //first tile in arrayList
                 if(currTile instanceof JokerTile){

@@ -127,6 +127,7 @@ public class JokerTile extends Tile implements Serializable {
 
     public boolean getAssigned(){return this.assigned;}
 
+
     public void setAssigned(Boolean b){
         if(b){
             this.assigned = b;

@@ -80,43 +80,6 @@ public class GameBoard extends View {
         if(highlightInvalid) outlineInvalidGroups(c);
     }
 
-    /*public void drawGroups(Canvas c){
-        // Set instance variables
-        int columnCount = 0;
-        int rowCount = 0;
-        int surfaceWidth = c.getWidth();
-        int surfaceHeight = c.getHeight();
-
-        // Condition if tile group has nothing in it, just return.
-        if(tileGroups == null || tileGroups.size() == 0) return;
-
-        // Iterates through each group on board
-        for(TileGroup group : tileGroups){
-
-            // Calculate starting x location for group
-            int xNum = (wallPadding + (columnCount* columnPadding));
-
-            // If xNum is greater then surface width start a new row
-            if(xNum > surfaceWidth){
-                columnCount = 0;  // Reset column count
-                rowCount++; // add to row count
-                xNum = (wallPadding + (columnCount* columnPadding));
-            }
-
-            // Calculate starting y location for group
-            int yNum = cellingPadding + (rowPadding*rowCount);
-
-            // Iterates through each tile in group and draws them.
-            for(int t = 0; t < group.groupSize(); t++){
-                Tile tile = group.getTile(t);
-                tile.setX(xNum + (t*Tile.WIDTH));
-                tile.setY(yNum);
-                tile.drawTile(c);
-            }
-            columnCount++; // add to column count
-        }
-    }*/
-
     /**
      * alternative drawGroups method
      * this version gets around the problem of tileGroups overlapping

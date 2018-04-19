@@ -97,7 +97,6 @@ public class RummikubState extends GameState{
         dealHands();
     }
 
-
     /**
      * Called from copy constructor for gameState
      * sets this RummikubState to a deep copy of copy
@@ -211,7 +210,19 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-        playerHands[0].add(new JokerTile(0,0,0, Tile.ORANGE));
+        ArrayList<Tile> testTiles = new ArrayList<Tile>();
+        Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[1]);
+        Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[1]);
+        Tile tile3 = new Tile(-1, -1, 12, Tile.colorArray[1]);
+        Tile tile4 = new Tile(-1, -1, 9, Tile.colorArray[1]);
+        Tile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
+        playerHands[0].add(tile1);
+        playerHands[0].add(tile2);
+        playerHands[0].add(tile3);
+        playerHands[0].add(tile4);
+        playerHands[0].add(jokerTile1);
+        playerHands[0].add(jokerTile1);
+
     }
 
     //gets players name from players array
@@ -445,8 +456,10 @@ public class RummikubState extends GameState{
 
         canConnect(playerIdx,jokerGroup,tileGroup);
 
+        ((JokerTile)joker).assigned = false; // reset joker values
         groupWithJoker.remove(joker); //remove joker from jokerGroup
-        TileGroup singleJoker= new TileGroup(joker); //create new tileGroup
+        TileGroup singleJoker= new TileGroup(); //create new tileGroup
+        singleJoker.add(joker);
         tableTileGroups.add(singleJoker); //places joker tile as last tile
 
         return true;
@@ -467,7 +480,7 @@ public class RummikubState extends GameState{
         for(Tile tile : tilesInGroup){
             //add each tile to the table
             if(tile instanceof JokerTile) {
-                ((JokerTile) tile).setAssigned(false);
+                ((JokerTile) tile).assigned = false;
             }
         }
 
@@ -559,7 +572,7 @@ public class RummikubState extends GameState{
             //make the set we want to add
             TileSet tempSet = new TileSet(group);
             // If joker is in set create it's values
-            tempSet.findJokerValues();
+            //tempSet.findJokerValues();
             tempSet.numericalOrder();
             //find where the old TileGroup version is
             int index= tableTileGroups.indexOf(group);

@@ -224,6 +224,7 @@ public class RummikubLocalGame extends LocalGame {
                 state.canFreeJoker (playerId,action.
                         getGroupContainsJoker(),action.getGroupToSwap());
 
+
         //if the state did not change,
         // we don't want to save the state on the undo stack
         if(!stateChanged){

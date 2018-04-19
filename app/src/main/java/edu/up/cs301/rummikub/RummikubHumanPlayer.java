@@ -271,8 +271,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         //no group selected
         if (selectedTileGroup == null) return null;
 
-        //selected group does not contain joker
-        if (!selectedTileGroup.containsJoker()) return null;
+        //if(!(selectedTileGroup instanceof TileSet)) return null;
 
         //index of group selected on table
         int selectedGroupIndex= -1;
@@ -293,10 +292,14 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         for (int i= 0; i<tableGroup.size(); i++) {
             //if tableGroup was touched
             if (tableGroup.get(i).hitTile(x,y) != -1) {
+            //if(tableGroup.get(i) == selectedTileGroup){
                 touchedGroupIndex= i;
                 break;
             }
         }
+
+        //selected group does not contain joker
+        if ((!selectedTileGroup.containsJoker())) return null;
 
         //check that touched Group only has one tile
         if (tableGroup.get(touchedGroupIndex).groupSize()!=1) return null;
