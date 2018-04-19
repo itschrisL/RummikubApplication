@@ -127,7 +127,7 @@ public class JokerTile extends Tile implements Serializable {
 
     public boolean getAssigned(){return this.assigned;}
 
-
+    /**
     public void setAssigned(Boolean b){
         if(b){
             this.assigned = b;
@@ -137,6 +137,7 @@ public class JokerTile extends Tile implements Serializable {
             this.jokerCol = Tile.ORANGE;
         }
     }
+     */
 
     public void setJokerVal(int val){
         this.jokerVal = val;

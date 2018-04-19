@@ -300,7 +300,8 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         //selected group does not contain joker
         if ((!selectedTileGroup.containsJoker())) return null;
-
+        if(!(selectedTileGroup.groupSize() > 2)) return null;
+        if(touchedGroupIndex == -1) return null;
         //check that touched Group only has one tile
         if (tableGroup.get(touchedGroupIndex).groupSize()!=1) return null;
 

@@ -133,7 +133,7 @@ public class GameBoard extends View {
             //If Group is just a Joker, reset its values
             if(tiles.size() == 1){
                 if(tiles.get(0) instanceof JokerTile){
-                    ((JokerTile) tiles.get(0)).setAssigned(false);
+                    ((JokerTile) tiles.get(0)).assigned = false;
                 }
             }
 
