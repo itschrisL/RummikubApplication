@@ -256,7 +256,7 @@ public class TileGroup implements Serializable {
     public void numericalOrder () {
         //empty arraylist
         ArrayList <Tile> temp= new ArrayList<Tile>();
-
+        findJokerValues();
         if(tiles.size() > 1){
             while (!tiles.isEmpty()) {
                 Tile currTile= tiles.get(0); //first tile in arrayList
@@ -278,6 +278,33 @@ public class TileGroup implements Serializable {
         }
         tiles= temp; //replaces with sorted tiles arrayList
     }
+
+    /**
+     * Method to set Joker Values if there is one within the set.
+     */
+    public void findJokerValues(){
+        if(!(this.containsJoker())) return;
+
+        // Assign tileColor
+        int tileColor = 0;
+        for(Tile T : this.tiles){
+            if(!(T instanceof JokerTile)){
+                tileColor = T.getColor();
+            }
+        }
+        // Assign values to jokers
+        for(int j = 0; j < this.tiles.size(); j++){
+            if(this.tiles.get(j) instanceof JokerTile){
+                if(j + 1 < this.tiles.size()){
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j+1).getValue()-1, tileColor);
+                }
+                else{
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j-1).getValue()+1, tileColor);
+                }
+            }
+        }
+    }
+
     /**
      * returns this tile group as a string
      * it will be each tile followed by a comma

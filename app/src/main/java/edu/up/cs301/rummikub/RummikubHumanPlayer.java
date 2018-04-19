@@ -50,8 +50,6 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     private GameMainActivity myActivity;
     private RummikubState state;
 
-    //todo surfaceViews perhaps
-
     public RummikubHumanPlayer(String name){
         super(name);
     }
@@ -292,19 +290,25 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         for (int i= 0; i<tableGroup.size(); i++) {
             //if tableGroup was touched
             if (tableGroup.get(i).hitTile(x,y) != -1) {
-            //if(tableGroup.get(i) == selectedTileGroup){
                 touchedGroupIndex= i;
                 break;
             }
         }
 
         //selected group does not contain joker
-        if ((!selectedTileGroup.containsJoker())) return null;
-        if(!(selectedTileGroup.groupSize() > 2)) return null;
+        if(!(selectedTileGroup.containsJoker()))return null;
+
         if(touchedGroupIndex == -1) return null;
         //check that touched Group only has one tile
         if (tableGroup.get(touchedGroupIndex).groupSize()!=1) return null;
 
+        for(Tile t : selectedTileGroup.tiles){
+            if(t instanceof JokerTile){
+               if(!((JokerTile) t).assigned) {
+                   return null;
+               }
+            }
+        }
         return new
                 RummikubFreeJokerAction(this,selectedGroupIndex,touchedGroupIndex);
     }

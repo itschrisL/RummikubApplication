@@ -4,5 +4,6 @@
     <color name="green">#0F0</color>
     <color name="red">#fd9999</color>
     <color name="blue">#0000ff</color>
-    
+    <color name="RummikubPink">#fd9999</color>
+
 </resources>

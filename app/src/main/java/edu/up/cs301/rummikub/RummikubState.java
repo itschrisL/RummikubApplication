@@ -210,6 +210,7 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
+
         ArrayList<Tile> testTiles = new ArrayList<Tile>();
         Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[1]);
         Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[1]);
@@ -222,7 +223,6 @@ public class RummikubState extends GameState{
         playerHands[0].add(tile4);
         playerHands[0].add(jokerTile1);
         playerHands[0].add(jokerTile1);
-
     }
 
     //gets players name from players array

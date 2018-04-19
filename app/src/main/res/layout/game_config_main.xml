@@ -2,19 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:background="@color/RummikubPink"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/tabHost"
+        layout="@layout/game_config_tabhost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/game_config_tabhost" />
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/table_row_vert_pad" >
+        android:layout_marginBottom="@dimen/table_row_vert_pad">
 
         <Button
             android:id="@+id/saveConfigButton"
