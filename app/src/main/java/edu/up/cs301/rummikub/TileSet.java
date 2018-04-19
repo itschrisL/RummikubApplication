@@ -86,8 +86,7 @@ public class TileSet extends TileGroup implements Serializable {
      * @param group the group to check
      * @return whether group is a valid set
      */
-    public static boolean isValidSet(TileGroup group){return (isRun(group) || isBook(group));
-    }
+    public static boolean isValidSet(TileGroup group){return (isRun(group) || isBook(group));}
 
     /**
      * Determines whether the group passed in is a run or not
@@ -153,6 +152,7 @@ public class TileSet extends TileGroup implements Serializable {
                 if(tileAr[i].getColor() != tileColor) return false;
                 if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
             }
+
         }
         //group.tiles = new ArrayList<Tile>(Arrays.asList(tileAr));
 
@@ -240,6 +240,7 @@ public class TileSet extends TileGroup implements Serializable {
 
     public void findJokerValues(){
         if(!(this.containsJoker())) return;
+        if(!(this.isRun)) return;
 
         // Assign tileColor
         int tileColor = 0;

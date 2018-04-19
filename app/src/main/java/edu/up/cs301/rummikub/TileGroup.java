@@ -238,8 +238,18 @@ public class TileGroup implements Serializable {
     }
 
     /**
-     * sorts a group of tiles in numerical order
+     * Checks if joker is in this TileGroup
+     * @return - true if it is and false if not
      */
+    public boolean containsJoker(){
+        for(Tile t : this.tiles){
+            if(t.getValue() == 0 || t instanceof JokerTile){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void numericalOrder () {
         //empty arraylist
         ArrayList <Tile> temp= new ArrayList<Tile>();
@@ -265,7 +275,6 @@ public class TileGroup implements Serializable {
         }
         tiles= temp; //replaces with sorted tiles arrayList
     }
-
     /**
      * returns this tile group as a string
      * it will be each tile followed by a comma
@@ -287,19 +296,6 @@ public class TileGroup implements Serializable {
         groupString= groupString.substring(0,groupString.length()-1);
 
         return groupString;
-    }
-
-    /**
-     * Checks if joker is in this TileGroup
-     * @return - true if it is and false if not
-     */
-    public boolean containsJoker(){
-        for(Tile t : this.tiles){
-            if(t.getValue() == 0 || t instanceof JokerTile){
-                return true;
-            }
-        }
-        return false;
     }
 
 }
