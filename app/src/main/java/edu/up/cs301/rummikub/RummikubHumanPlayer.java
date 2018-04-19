@@ -14,6 +14,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.rummikub.action.RummikubConnectAction;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
+import edu.up.cs301.rummikub.action.RummikubFreeJokerAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
@@ -184,6 +185,12 @@ public class RummikubHumanPlayer extends GameHumanPlayer
                 return true;
             }
 
+            action= freeJokerAction (x,y,tableGroup);
+            if (action != null) {
+                game.sendAction(action);
+                return true;
+            }
+
             action= connectAction(x,y,tableGroup);
             if (action != null) {
                 game.sendAction(action);
@@ -248,6 +255,58 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     /**
+     * creates a freeJoker action
+     * @param x the x-coord of the touch event
+     * @param y the y-coord of the touch event
+     * @param tableGroup the TileGroups on the table
+     * @return an action to play a tile
+     *          null is no tile should be connected
+     */
+    private RummikubFreeJokerAction freeJokerAction
+            (float x, float y, ArrayList<TileGroup> tableGroup) {
+
+        //the group selected on table
+        TileGroup selectedTileGroup= state.getSelectedGroup();
+
+        //no group selected
+        if (selectedTileGroup == null) return null;
+
+        //selected group does not contain joker
+        if (!selectedTileGroup.containsJoker()) return null;
+
+        //index of group selected on table
+        int selectedGroupIndex= -1;
+
+        //find the selected group
+        for (int i= 0; i<tableGroup.size(); i++){
+            //found selectedGroup on table
+            if (tableGroup.get(i) == selectedTileGroup) {
+                selectedGroupIndex= i;
+                break;
+            }
+        }
+
+        //the index of tileGroup player touched on table
+        int touchedGroupIndex = -1;
+
+        //find index of tileGroup touched
+        for (int i= 0; i<tableGroup.size(); i++) {
+            //if tableGroup was touched
+            if (tableGroup.get(i).hitTile(x,y) != -1) {
+                touchedGroupIndex= i;
+                break;
+            }
+        }
+
+        //check that touched Group only has one tile
+        if (tableGroup.get(touchedGroupIndex).groupSize()!=1) return null;
+
+        return new
+                RummikubFreeJokerAction(this,selectedGroupIndex,touchedGroupIndex);
+    }
+
+
+    /**
      * creates a connect action
      * @param x the x-coord of the touch event
      * @param y the y-coord of the touch event
@@ -267,6 +326,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         //index of group selected on table
         int selectedGroupIndex= -1;
 
+        //find the selected group
         for (int i= 0; i<tableGroup.size(); i++){
             //found selectedGroup on table
             if (tableGroup.get(i) == selectedTileGroup) {
@@ -294,8 +354,9 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         //if we made an action
         if(touchedGroupIndex != -1){
-            return new
-                    RummikubConnectAction(this,selectedGroupIndex,touchedGroupIndex);
+            return new RummikubConnectAction
+                    (this,selectedGroupIndex,touchedGroupIndex);
+
         }
 
         return null;

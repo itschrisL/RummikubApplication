@@ -91,6 +91,9 @@ public class RummikubLocalGame extends LocalGame {
             if (action instanceof RummikubSelectTileGroupAction) {
                 return selectTileGroupAction((RummikubSelectTileGroupAction) action);
             }
+            if (action instanceof RummikubFreeJokerAction) {
+                return freeJokerAction ((RummikubFreeJokerAction) action);
+            }
             if (action instanceof RummikubConnectAction) {
                 return connectAction((RummikubConnectAction) action);
             }
@@ -126,14 +129,15 @@ public class RummikubLocalGame extends LocalGame {
     private boolean playTileAction(RummikubPlayTileAction action){
         int playerId= getPlayerIdx(action.getPlayer());
 
-        //since we are about to change the state, push a copy onto the undo stack
+        //since we are about to change the state, push a copy onto undo stack
         prevState.push(new RummikubState(state,-1));
 
         //attempt to change the state by playing a tile
         boolean stateChanged=
                 state.canPlayTile(playerId,action.getTileIndex());
 
-        //if the state did not change, we don't want to save the state on the undo stack
+        //if the state did not change,
+        //we don't want to save the state on the undo stack
         if(!stateChanged){
             prevState.pop();
         }
@@ -150,13 +154,14 @@ public class RummikubLocalGame extends LocalGame {
         // Set variables
         int playerId = getPlayerIdx(action.getPlayer());
 
-        //since we are about to change the state, push a copy onto the undo stack
+        //since we are about to change the state, push a copy onto undo stack
         prevState.push(new RummikubState(state,-1));
 
         //attempt to change the state by playing a tile
         boolean stateChanged = state.canPlayTileGroup(playerId, action.getTiles());
 
-        //if the state did not change, we don't want to save the state on the undo stack
+        //if the state did not change,
+        //we don't want to save the state on the undo stack
         if(!stateChanged){
             prevState.pop();
         }
@@ -172,14 +177,15 @@ public class RummikubLocalGame extends LocalGame {
     private boolean selectTileAction(RummikubSelectTileAction action){
         int playerId= getPlayerIdx(action.getPlayer());
 
-        //since we are about to change the state, push a copy onto the undo stack
+        //since we are about to change the state, push a copy onto undo stack
         prevState.push(new RummikubState(state,-1));
 
         //attempt to change the state by selecting a tile
         boolean stateChanged=
                 state.canSelectTile(playerId,action.getTile());
 
-        //if the state did not change, we don't want to save the state on the undo stack
+        //if the state did not change,
+        //we don't want to save the state on the undo stack
         if(!stateChanged){
             prevState.pop();
         }
@@ -207,17 +213,43 @@ public class RummikubLocalGame extends LocalGame {
      * @param action the action sent by a player
      * @return whether the action was performed
      */
+    private boolean freeJokerAction (RummikubFreeJokerAction action){
+        int playerId= getPlayerIdx(action.getPlayer());
+
+        //since we are about to change the state,push a copy onto undo stack
+        prevState.push(new RummikubState(state,-1));
+
+        //attempt to change the state by selecting a tile
+        boolean stateChanged=
+                state.canFreeJoker (playerId,action.
+                        getGroupContainsJoker(),action.getGroupToSwap());
+
+        //if the state did not change,
+        // we don't want to save the state on the undo stack
+        if(!stateChanged){
+            prevState.pop();
+        }
+
+        return stateChanged;
+    }
+
+    /**
+     * attempts to connect two tile groups
+     * @param action the action sent by a player
+     * @return whether the action was performed
+     */
     private boolean connectAction(RummikubConnectAction action){
         int playerId= getPlayerIdx(action.getPlayer());
 
-        //since we are about to change the state, push a copy onto the undo stack
+        //since we are about to change the state, push a copy onto undo stack
         prevState.push(new RummikubState(state,-1));
 
         //attempt to change the state by selecting a tile
         boolean stateChanged=
                 state.canConnect(playerId,action.getGroup1(),action.getGroup2());
 
-        //if the state did not change, we don't want to save the state on the undo stack
+        //if the state did not change,
+        //we don't want to save the state on the undo stack
         if(!stateChanged){
             prevState.pop();
         }
@@ -233,14 +265,15 @@ public class RummikubLocalGame extends LocalGame {
     private boolean splitAction(RummikubSplitAction action){
         int playerId= getPlayerIdx(action.getPlayer());
 
-        //since we are about to change the state, push a copy onto the undo stack
+        //since we are about to change the state, push a copy onto undo stack
         prevState.push(new RummikubState(state,-1));
 
         //attempt to change the state by selecting a tile
         boolean stateChanged=
                 state.canSplit(playerId,action.getGroup(), action.getTile());
 
-        //if the state did not change, we don't want to save the state on the undo stack
+        //if the state did not change,
+        //we don't want to save the state on the undo stack
         if(!stateChanged){
             prevState.pop();
         }
@@ -319,7 +352,7 @@ public class RummikubLocalGame extends LocalGame {
         //cannot pop an empty stack
         if(prevState.isEmpty()) return false;
 
-        //testing yeilded that index 0 contained the first pushed object
+        //testing yielded that index 0 contained the first pushed object
         //set the state to the state at the bottom of the stack
         state= prevState.get(0);
 

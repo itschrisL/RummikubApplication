@@ -211,16 +211,7 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-        ArrayList<Tile> testTiles = new ArrayList<Tile>();
-        Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[0]);
-        Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[0]);
-        Tile tile3 = new Tile(-1, -1, 12, Tile.colorArray[0]);
-        Tile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
-        playerHands[0].add(tile1);
-        playerHands[0].add(tile2);
-        playerHands[0].add(tile3);
-        playerHands[0].add(jokerTile1);
-
+        playerHands[0].add(new JokerTile(0,0,0, Tile.ORANGE));
     }
 
     //gets players name from players array
@@ -406,36 +397,57 @@ public class RummikubState extends GameState{
         TileGroup group1 = tableTileGroups.get(g1);
         TileGroup group2 = tableTileGroups.get(g2);
 
-
         if(!isOnTable(group1) || !isOnTable(group2)) return false;
 
         group1.merge(group2);
         tableTileGroups.remove(group2);
 
-        /*
-        if(TileSet.containsJoker(group1)){
-            for(int t = 0; t < group1.tiles.size(); t++){
-                if(group1.tiles.get(t) instanceof JokerTile){
-                    if(t + 1 < group1.tiles.size()){
-                        ((JokerTile) group1.tiles.get(t)).jokerVal
-                                = group1.tiles.get(t + 1).getValue();
-                        ((JokerTile) group1.tiles.get(t)).assigned = true;
-                    }
-                    else if(t - 1 >= 0){
-                        ((JokerTile) group1.tiles.get(t)).jokerVal
-                                = group1.tiles.get(t - 1).getValue();
-                        ((JokerTile) group1.tiles.get(t)).assigned = true;
-                    }
-                    else {
-                        ((JokerTile) group1.tiles.get(t)).assigned = false;
-                    }
-                }
-            }
-        }
-        */
-
         //deselect groups after connecting
         selectedGroup= null;
+
+        return true;
+    }
+
+    /**
+     *
+     * @param playerIdx
+     * @param jokerGroup
+     * @param tileGroup
+     * @return
+     */
+    public boolean canFreeJoker (int playerIdx, int jokerGroup, int tileGroup) {
+
+        TileGroup groupWithJoker = tableTileGroups.get(jokerGroup);
+        TileGroup groupWithTile = tableTileGroups.get(tileGroup);
+
+        //check to make sure joker is in jokerGroup
+        if (!groupWithJoker.containsJoker()) return false;
+        if (groupWithTile.groupSize() != 1) return false;
+
+
+        int jokerIndex= -1;
+        //find index of joker within its group
+        for (int i= 0; i< groupWithJoker.groupSize(); i++) {
+            if (groupWithJoker.getTile(i) instanceof JokerTile) {
+                jokerIndex= i;
+            }
+        }
+
+        Tile joker= groupWithJoker.getTile(jokerIndex);
+
+        //swap joker and tile
+        int jokerVal= joker.getValue();
+        int jokerCol= joker.getColor();
+        int tileVal= groupWithTile.getTile(0).getValue();
+        int tileCol= groupWithTile.getTile(0).getColor();
+
+        if (!(jokerVal == tileVal && jokerCol == tileCol)) return false;
+
+        canConnect(playerIdx,jokerGroup,tileGroup);
+
+        groupWithJoker.remove(joker); //remove joker from jokerGroup
+        TileGroup singleJoker= new TileGroup(joker); //create new tileGroup
+        tableTileGroups.add(singleJoker); //places joker tile as last tile
 
         return true;
     }
