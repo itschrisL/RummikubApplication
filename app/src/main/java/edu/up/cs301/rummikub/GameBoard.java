@@ -191,6 +191,20 @@ public class GameBoard extends View {
         c.drawRect(left,top,right,bottom,outline);
     }
 
+    private void outlineTile(Canvas c, Tile tile, int color){
+        Paint outline= new Paint();
+        outline.setColor(color);
+        outline.setStyle(Paint.Style.STROKE);
+        outline.setStrokeWidth(10);
+
+        float left= tile.getX();
+        float top= tile.getY();
+        float right= left + Tile.WIDTH;
+        float bottom= top + Tile.getHeight();
+
+        c.drawRect(left,top,right,bottom,outline);
+    }
+
     /**
      * paints the backgroud
      * @param c the canvas on which to draw
