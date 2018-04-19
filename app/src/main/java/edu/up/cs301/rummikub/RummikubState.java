@@ -211,18 +211,21 @@ public class RummikubState extends GameState{
             }
         }
 
+
         ArrayList<Tile> testTiles = new ArrayList<Tile>();
         Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[1]);
         Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[1]);
         Tile tile3 = new Tile(-1, -1, 12, Tile.colorArray[1]);
-        Tile tile4 = new Tile(-1, -1, 9, Tile.colorArray[1]);
+        Tile tile4 = new Tile(-1, -1, 8, Tile.colorArray[1]);
         Tile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
-        playerHands[0].add(tile1);
-        playerHands[0].add(tile2);
-        playerHands[0].add(tile3);
-        playerHands[0].add(tile4);
-        playerHands[0].add(jokerTile1);
-        playerHands[0].add(jokerTile1);
+        int pi = 1;
+        playerHands[pi].add(tile1);
+        playerHands[pi].add(tile2);
+        playerHands[pi].add(tile3);
+        playerHands[pi].add(tile4);
+        playerHands[pi].add(jokerTile1);
+        playerHands[pi].add(jokerTile1);
+
     }
 
     //gets players name from players array
@@ -456,8 +459,8 @@ public class RummikubState extends GameState{
 
         canConnect(playerIdx,jokerGroup,tileGroup);
 
-        ((JokerTile)joker).assigned = false; // reset joker values
         groupWithJoker.remove(joker); //remove joker from jokerGroup
+        ((JokerTile)joker).assigned = false; // reset joker values
         TileGroup singleJoker= new TileGroup(); //create new tileGroup
         singleJoker.add(joker);
         tableTileGroups.add(singleJoker); //places joker tile as last tile
@@ -476,13 +479,7 @@ public class RummikubState extends GameState{
 
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
 
-        //go thru each tile in the tile group
-        for(Tile tile : tilesInGroup){
-            //add each tile to the table
-            if(tile instanceof JokerTile) {
-                ((JokerTile) tile).assigned = false;
-            }
-        }
+
 
         TileGroup leftGroup = new TileGroup();
         for( int i = 0; i < tileIndex; i++){
@@ -519,6 +516,14 @@ public class RummikubState extends GameState{
         //makes sure there are tiles in the right group before adding it
         if( rightGroup.groupSize() != 0){
             tableTileGroups.add(rightGroup);
+        }
+
+        //go thru each tile in the tile group
+        for(Tile tile : tilesInGroup){
+            //add each tile to the table
+            if(tile instanceof JokerTile) {
+                ((JokerTile) tile).assigned = false;
+            }
         }
 
         //remove the group from the table

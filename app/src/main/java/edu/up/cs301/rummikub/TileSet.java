@@ -215,25 +215,30 @@ public class TileSet extends TileGroup implements Serializable {
                     seenBlue= true;
                 }
             }
-            else {
-                int color;
-                if(!seenBlack){
-                    color = Tile.BLACK;
+        }
+        if(group.containsJoker()){
+            for(Tile t : group.tiles){
+                if(t instanceof JokerTile) {
+                    int color;
+                    if (!seenBlack) {
+                        color = Tile.BLACK;
+                        seenBlack = true;
+                    } else if (!seenBlue) {
+                        color = Tile.BLUE;
+                        seenBlue = true;
+                    } else if (!seenGreen) {
+                        color = Tile.GREEN;
+                        seenGreen = true;
+                    } else if (!seenRed) {
+                        color = Tile.RED;
+                        seenRed = true;
+                    }
+                    // Return false if all colors are used in book.  Shouldn't happen however.
+                    else {
+                        return false;
+                    }
+                    ((JokerTile) t).setJokerValues(bookVal, color);
                 }
-                else if (!seenBlue){
-                    color = Tile.BLUE;
-                }
-                else if(!seenGreen){
-                    color = Tile.GREEN;
-                }
-                else if(!seenRed){
-                    color = Tile.RED;
-                }
-                // Return false if all colors are used in book.  Shouldn't happen however.
-                else {
-                    return false;
-                }
-                ((JokerTile) t).setJokerValues(bookVal, color);
             }
 
         }

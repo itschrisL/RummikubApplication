@@ -69,7 +69,7 @@ public class RummikubMainActivity extends GameMainActivity {
 
 		// Add the default players to the configuration
 		defaultConfig.addPlayer("Human", 0); // player 1: a human player
-		defaultConfig.addPlayer("Trump", 1); // player 2: a computer player
+		defaultConfig.addPlayer("Two Tiles", 1); // player 2: a computer player
 		
 		// Set the default remote-player setup:
 		// - player name: "Remote Player"
@@ -80,7 +80,6 @@ public class RummikubMainActivity extends GameMainActivity {
 		// return the configuration
 		return defaultConfig;
 	}//createDefaultConfig
-
 	/**
 	 * create a local game
 	 * 
