@@ -1,5 +1,7 @@
 package edu.up.cs301.rummikub;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -237,7 +239,6 @@ public class TileGroup implements Serializable {
 
     /**
      * Checks if joker is in this TileGroup
-     * @param group - given tile group
      * @return - true if it is and false if not
      */
     public boolean containsJoker(){
@@ -249,6 +250,31 @@ public class TileGroup implements Serializable {
         return false;
     }
 
+    public void numericalOrder () {
+        //empty arraylist
+        ArrayList <Tile> temp= new ArrayList<Tile>();
+
+        if(tiles.size() != 1){
+            while (!tiles.isEmpty()) {
+                Tile currTile= tiles.get(0); //first tile in arrayList
+                if(currTile instanceof JokerTile){
+                    if(!(((JokerTile) currTile).assigned)){
+                        Tile tempTile = tiles.get(1);
+                        ((JokerTile) currTile).setJokerValues(tempTile.getValue()-1, tempTile.getColor());
+                    }
+                }
+                for (int i= 1; i< tiles.size(); i++) {
+                    if (tiles.get(i).getValue() < currTile.getValue()) {
+                        currTile= tiles.get(i);
+                    }
+                }
+                Log.i("Numerical Order","Sorting");
+                temp.add(currTile);
+                tiles.remove(currTile);
+            }
+        }
+        tiles= temp; //replaces with sorted tiles arrayList
+    }
     /**
      * returns this tile group as a string
      * it will be each tile followed by a comma

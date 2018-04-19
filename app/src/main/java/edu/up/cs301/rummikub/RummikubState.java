@@ -548,6 +548,7 @@ public class RummikubState extends GameState{
             TileSet tempSet = new TileSet(group);
             // If joker is in set create it's values
             tempSet.findJokerValues();
+            tempSet.numericalOrder();
             //find where the old TileGroup version is
             int index= tableTileGroups.indexOf(group);
             //replace the old group version with the new set version
