@@ -213,7 +213,7 @@ public class RummikubState extends GameState{
             }
         }
 
-
+        /*
         ArrayList<Tile> testTiles = new ArrayList<Tile>();
         Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[1]);
         Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[1]);
@@ -227,6 +227,7 @@ public class RummikubState extends GameState{
         playerHands[pi].add(tile4);
         playerHands[pi].add(jokerTile1);
         playerHands[pi].add(jokerTile1);
+        */
 
     }
 
