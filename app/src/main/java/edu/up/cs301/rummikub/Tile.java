@@ -178,13 +178,8 @@ public class Tile implements Serializable {
         //for the numbers that consist of 2 chars (ex: 10,11,12,13)
         //moves the value printing more to the left
 
-        if(value == 0){  // Meaning the tile is a joker
-            c.drawText("J", x + WIDTH /2, y + height - letterPadding, valColor);
+        c.drawText("" + value, x + WIDTH /2, y + height - letterPadding, valColor);
 
-                    }
-        else {
-            c.drawText("" + value, x + WIDTH /2, y + height - letterPadding, valColor);
-        }
     }
     /**
      * in method above text size isn't the same at the height in pixels of the character
