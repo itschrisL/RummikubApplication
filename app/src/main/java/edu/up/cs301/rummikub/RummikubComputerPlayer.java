@@ -72,8 +72,13 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         if(playActions.isEmpty()){
             int score= findMove();
 
+            //if we weren't able to find a play
+            if(playActions.isEmpty()){
+                //we draw
+                playActions.add(new RummikubDrawAction(this));
+            }
             //if we must meld, but we arn't going to with this play
-            if(!state.hasMelded(playerNum) && score < 30){
+            else if(!state.hasMelded(playerNum) && score < 30){
                 //we must do nothing and draw
                 playActions.clear();
                 playActions.add(new RummikubDrawAction(this));

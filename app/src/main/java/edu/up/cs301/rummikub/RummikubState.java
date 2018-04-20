@@ -212,23 +212,6 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-
-        /*
-        ArrayList<Tile> testTiles = new ArrayList<Tile>();
-        Tile tile1 = new Tile(-1, -1, 10, Tile.colorArray[1]);
-        Tile tile2 = new Tile(-1, -1, 11, Tile.colorArray[1]);
-        Tile tile3 = new Tile(-1, -1, 12, Tile.colorArray[1]);
-        Tile tile4 = new Tile(-1, -1, 8, Tile.colorArray[1]);
-        Tile jokerTile1 = new JokerTile(-1, -1, 0, Tile.colorArray[4]);
-        int pi = 1;
-        playerHands[pi].add(tile1);
-        playerHands[pi].add(tile2);
-        playerHands[pi].add(tile3);
-        playerHands[pi].add(tile4);
-        playerHands[pi].add(jokerTile1);
-        playerHands[pi].add(jokerTile1);
-        */
-
     }
 
     //gets players name from players array

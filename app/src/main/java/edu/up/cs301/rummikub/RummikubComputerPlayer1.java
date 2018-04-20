@@ -94,7 +94,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
             if(isInGroupsToPlay(t1)) continue;
 
             for(int j= i+1; j<tiles.size(); j++){
-                Tile t2= tiles.get(i);
+                Tile t2= tiles.get(j);
                 //if we already want to play this tile
                 if(isInGroupsToPlay(t2)) continue;
 
@@ -110,8 +110,12 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
                         currentPlayPoints+= t2.getValue();
                         currentPlayPoints+= t3.getValue();
 
+                        tiles.remove(k);
+                        tiles.remove(j);
+                        tiles.remove(i);
+
                         //add it to the groups to play and return index
-                        groupsToPlay.add(group);
+
                         return new int[]{i,j,k};
                     }
                 }//k loop
@@ -156,6 +160,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
      */
     private boolean isInGroupsToPlay(Tile tile){
         if(groupsToPlay == null) return false;
+
         //go through each group
         for(TileGroup group : groupsToPlay){
             if(group.contains(tile)) return true;
