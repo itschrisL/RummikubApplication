@@ -24,6 +24,8 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
     //the number of points we are about to play
     private int currentPlayPoints;
 
+    private ArrayList<TileGroup> groupsToPlay;
+
     /**
      * Constructor for objects of class CounterComputerPlayer1
      *
@@ -41,6 +43,9 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
      */
     @Override
     protected int findMove() {
+
+        groupsToPlay= new ArrayList<TileGroup>();
+        currentPlayPoints= 0;
 
         //we will break out of the loop when we don't find a set
         while (true) {
@@ -71,11 +76,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
             playActions.add(new RummikubConnectAction(this, playPair[1], newGroupIndex));
         }
 
-        //return the points, but also reset the val to 0
-        int temp= currentPlayPoints;
-        currentPlayPoints= 0;
-
-        return temp;
+        return currentPlayPoints;
     }
 
     /**
@@ -88,11 +89,19 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
         //go the hand, looking at each combination of three tiles
         for(int i= 0; i<tiles.size(); i++){
+            Tile t1= tiles.get(i);
+            //if we already want to play this tile
+            if(isInGroupsToPlay(t1)) continue;
+
             for(int j= i+1; j<tiles.size(); j++){
+                Tile t2= tiles.get(i);
+                //if we already want to play this tile
+                if(isInGroupsToPlay(t2)) continue;
+
                 for(int k= j+1; k<tiles.size(); k++){
-                    Tile t1= tiles.get(i);
-                    Tile t2= tiles.get(j);
                     Tile t3= tiles.get(k);
+                    //if we already want to play this tile
+                    if(isInGroupsToPlay(t2)) continue;
 
                     TileGroup group= new TileGroup(t1,t2,t3);
                     if(TileSet.isValidSet(group)){
@@ -101,11 +110,8 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
                         currentPlayPoints+= t2.getValue();
                         currentPlayPoints+= t3.getValue();
 
-                        //we will no longer have these in our hand
-                        tiles.remove(k);
-                        tiles.remove(j);
-                        tiles.remove(i);
-
+                        //add it to the groups to play and return index
+                        groupsToPlay.add(group);
                         return new int[]{i,j,k};
                     }
                 }//k loop
@@ -141,5 +147,21 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
         //if we get all the way here, no valid play was found
         return null;
+    }
+
+    /**
+     *
+     * @param tile the tile to check
+     * @return whether the tile is in the groups to play
+     */
+    private boolean isInGroupsToPlay(Tile tile){
+        if(groupsToPlay == null) return false;
+        //go through each group
+        for(TileGroup group : groupsToPlay){
+            if(group.contains(tile)) return true;
+        }
+
+        //if got here, we didn't see the tile
+        return false;
     }
 }

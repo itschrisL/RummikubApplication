@@ -36,7 +36,6 @@ public class Tile implements Serializable {
     public static final int WIDTH = 110;
     private static int height;
 
-
     //4 tile colors
     public static final int BLUE = Color.argb(255,0,0,255);
     public static final int RED = Color.argb(255,255,0,0);
@@ -68,6 +67,9 @@ public class Tile implements Serializable {
         this.y = copyTile.getY();
         this.value =  copyTile.getValue();
         this.color = copyTile.getColor();
+
+        Paint paint= new Paint();
+        paint.setTextAlign(Paint.Align.CENTER);
     }
 
     /**
