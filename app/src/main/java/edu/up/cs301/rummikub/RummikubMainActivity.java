@@ -8,8 +8,40 @@ import edu.up.cs301.game.config.GameConfig;
 import edu.up.cs301.game.config.GamePlayerType;
 
 /**
- * this is the primary activity for Counter game
- * 
+ * this is the primary activity for Rummikub Application
+ *
+ * - Enhancements
+ * The joker tile would display the value and color of its assigned value in the
+ * tile set on the table.  This value would only show up if the group containing the joker is
+ * confirmed a valid set or book.  This is usually whenever the player ends their turn by pressing
+ * knock or draw.  The joker values would diaper whenever the joker isn't part of a
+ * proper set of run
+ *
+ * Known Bugs/Issues before Beta Testing
+ * - Joker Value would disappear - If a human player were to try and split a group of tiles on the
+ * table witch contained a joker the joker value would disappear when deselecting the tiles.
+ * This was a issue that was found during our Beta Testing in class.
+ * We discovered this bug before our testing session but discovered that the code to fix this issue
+ * wasn't added to the version before class.  This was due to either a merge error or human error.
+ * The Joker value was getting reset in the State before we would remove it form the current group.
+ * In the case of the joker, the group can't be split due to the Freeing the Joker Rule.
+ * Since the State thought that we would split the group it reset the joker tile prematurely.
+ * While people were testing for failure the encountered this error.  We believe that this bug may
+ * have been the cause to some of the network play bugs involving the joker tile not updating for
+ * everyone.  Since the Beta Testing we have addressed this issue and are testing it further to see
+ * if this indeed fixed the bug.
+ * - Joker Value would be wrong for books, - This was the same issue as above and was fixed.  The
+ * joker color value was being assigned before the other tiles in the group were checked.  This was
+ * fixed by assigning the joker values after the other tiles in the book are checked.  Then the
+ * joker color is set to one of the remaining unused colors in the book.
+ * - AI would get stuck - While testing our game before class we didn't encounter the issue of the
+ * the AI getting stuck during their turn.  We believe that we know the cause of the issue.  This
+ * only happened when the smart AI would decide on what move to make.  This might have been
+ * caused by an issue involving checking if a group containing a joker is valid.  In that case, the
+ * joker bugs above may have played a factor into this as well.
+ *
+ *
+ *
  * @author Andrew M. Nuxoll
  * @author Steven R. Vegdahl
  * @version July 2013
@@ -80,6 +112,7 @@ public class RummikubMainActivity extends GameMainActivity {
 		// return the configuration
 		return defaultConfig;
 	}//createDefaultConfig
+
 	/**
 	 * create a local game
 	 * 
