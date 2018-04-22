@@ -207,9 +207,19 @@ public class RummikubState extends GameState{
      * deals 14 tiles from drawpile to each player's hand
      */
     private void dealHands(){
+        playerHands[1].add(new Tile(0,0,7,Tile.BLACK));
+        playerHands[1].add(new Tile(0,0,7,Tile.GREEN));
+        playerHands[1].add(new Tile(0,0,7,Tile.RED));
+        playerHands[1].add(new Tile(0,0,7,Tile.BLUE));
+        playerHands[1].add(new Tile(0,0,5,Tile.GREEN));
+        playerHands[1].add(new Tile(0,0,4,Tile.GREEN));
+        playerHands[1].add(new Tile(0,0,3,Tile.GREEN));
+        playerHands[1].add(new Tile(0,0,2,Tile.GREEN));
+        playerHands[1].add(new Tile(0,0,2,Tile.BLUE));
+
         for(int i=0;i<14;i++){
             for(int j=0;j<numPlayers;j++){
-                playerHands[j].add(drawPile.draw());
+                if(j == 0) playerHands[j].add(drawPile.draw());
             }
         }
     }

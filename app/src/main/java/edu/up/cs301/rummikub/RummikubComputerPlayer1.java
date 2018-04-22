@@ -21,11 +21,6 @@ import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
-    //the number of points we are about to play
-    private int currentPlayPoints;
-
-    private ArrayList<TileGroup> groupsToPlay;
-
     /**
      * Constructor for objects of class CounterComputerPlayer1
      *
@@ -43,14 +38,15 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
      */
     @Override
     protected int findMove() {
+        //make a copy of the state
+        RummikubState stateCopy= new RummikubState(state,playerNum);
 
-        groupsToPlay= new ArrayList<TileGroup>();
-        currentPlayPoints= 0;
+        int currentPlayPoints= 0;
 
         //we will break out of the loop when we don't find a set
         while (true) {
 
-            int[] indexesToPlay = findSetInHand();
+            int[] indexesToPlay = findSetInHand(stateCopy);
 
             //if we didn't find a set in hand
             if (indexesToPlay == null) {
@@ -58,20 +54,59 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
                 break;
             }
 
-            //we want to play it, then knock
+            //how much is this play worth?
+
+            int groupScore= 0;
+
+            TileGroup hand= stateCopy.getPlayerHand(playerNum);
+            for(int i=0; i<indexesToPlay.length; i++){
+                Tile tile= hand.getTile(indexesToPlay[i]);
+                if(!(tile instanceof JokerTile)){
+                    groupScore+= tile.getValue();
+                }
+            }
+
+            //change our copy of the state
+            stateCopy.canPlayTileGroup(playerNum,indexesToPlay);
+
+            //add this score to the current score
+            currentPlayPoints+= groupScore;
+
+            //add this action to the play actions queue
             playActions.add(new RummikubPlayGroupAction(this, indexesToPlay));
         }
 
-        //now check if there is a single tile to play
-        int[] playPair= findTileToPlay();
+        //this loop will find single tiles to add to the table
+        //we will break when we can no longer find one
+        while(true) {
+            //now check if there is a single tile to play
+            int[] playPair = findTileToPlay(stateCopy);
 
-        //if we found a tile to play and we've melded
+            //if we found a tile to play and we've melded
 
-        if(playPair != null && state.hasMelded(playerNum)) {
+            if (playPair == null) {
+                break;
+            }
+
+            //get the score of this tile
+            int tileScore= 0;
+            Tile tile= stateCopy.getPlayerHand(playerNum).getTile(playPair[0]);
+            if(!(tile instanceof JokerTile)) tileScore= tile.getValue();
+
+            //make changes to our copy of the state
+            stateCopy.canPlayTile(playerNum,playPair[0]);
+
+            //find the index on the table of the tile we just played
+            //it is the last index on the table
+            int newGroupIndex = stateCopy.getTableTileGroups().size() - 1;
+
+            stateCopy.canConnect(playerNum,playPair[1],newGroupIndex);
+
+            //add the score that will result from this play
+            currentPlayPoints+= tileScore;
+
+            //now add the necessary actions to the action queue
             playActions.add(new RummikubPlayTileAction(this, playPair[0]));
-
-            //find the index on the table of the tile you just played
-            int newGroupIndex = state.getTableTileGroups().size();
 
             playActions.add(new RummikubConnectAction(this, playPair[1], newGroupIndex));
         }
@@ -81,41 +116,27 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
     /**
      * finds a set of playable tiles in this players hand
+     * @param state the state we are working with
      * @return the array of indexes of the group the player wants to play
      *          null if no set exists
      */
-    private int[] findSetInHand(){
+    private int[] findSetInHand(RummikubState state){
         ArrayList<Tile> tiles= state.getPlayerHand(playerNum).getTileGroup();
 
         //go the hand, looking at each combination of three tiles
         for(int i= 0; i<tiles.size(); i++){
             Tile t1= tiles.get(i);
-            //if we already want to play this tile
-            if(isInGroupsToPlay(t1)) continue;
 
             for(int j= i+1; j<tiles.size(); j++){
                 Tile t2= tiles.get(j);
-                //if we already want to play this tile
-                if(isInGroupsToPlay(t2)) continue;
 
                 for(int k= j+1; k<tiles.size(); k++){
                     Tile t3= tiles.get(k);
-                    //if we already want to play this tile
-                    if(isInGroupsToPlay(t2)) continue;
 
                     TileGroup group= new TileGroup(t1,t2,t3);
                     if(TileSet.isValidSet(group)){
-                        //how much is this play worth
-                        currentPlayPoints+= t1.getValue();
-                        currentPlayPoints+= t2.getValue();
-                        currentPlayPoints+= t3.getValue();
 
-                        tiles.remove(k);
-                        tiles.remove(j);
-                        tiles.remove(i);
-
-                        //add it to the groups to play and return index
-
+                        //return indexes
                         return new int[]{i,j,k};
                     }
                 }//k loop
@@ -128,12 +149,13 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
     /**
      * finds a tile that can be added to a group
+     * @param state the state we are working with
      * @return a 2-big array,
      *          the first index is the tile to play
      *          the second is the index of the group it can be added to
      *          null if no tile can be played
      */
-    private int[] findTileToPlay(){
+    private int[] findTileToPlay(RummikubState state){
         TileGroup hand= state.getPlayerHand(playerNum);
         ArrayList<TileGroup> groups= state.getTableTileGroups();
 
@@ -151,22 +173,5 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
         //if we get all the way here, no valid play was found
         return null;
-    }
-
-    /**
-     *
-     * @param tile the tile to check
-     * @return whether the tile is in the groups to play
-     */
-    private boolean isInGroupsToPlay(Tile tile){
-        if(groupsToPlay == null) return false;
-
-        //go through each group
-        for(TileGroup group : groupsToPlay){
-            if(group.contains(tile)) return true;
-        }
-
-        //if got here, we didn't see the tile
-        return false;
     }
 }
