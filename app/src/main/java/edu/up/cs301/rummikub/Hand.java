@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +40,10 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
 
     //the height to start the drawing, makes the hand scrollable
     private int startHeight;
+
+    private int wallPadding = 20; //space between the tile and rack border
+    private int rowPadding = 30; //space between the rows of tiles
+    private int tilePadding = 10; //space between each tile
 
     public Hand(Context context) {
         super(context);
@@ -96,9 +99,6 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
      * @param c the canvas on which to draw
      */
     private void drawTiles(Canvas c) {
-        int wallPadding = 20; //space between the tile and rack border
-        int rowPadding = 30; //space between the rows of tiles
-        int tilePadding = 10; //space between each tile
 
         ArrayList<Tile> tileList = tiles.getTileGroup();
 
@@ -109,18 +109,18 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
 
 
 
-            for (int i = 0; i < tiles.groupSize(); i++) {
-                //set tile's x and y
-                tileList.get(i).setX(currX);
-                tileList.get(i).setY(currY);
-                currX = currX + Tile.WIDTH + tilePadding;
+        for (int i = 0; i < tiles.groupSize(); i++) {
+            //set tile's x and y
+            tileList.get(i).setX(currX);
+            tileList.get(i).setY(currY);
+            currX = currX + Tile.WIDTH + tilePadding;
 
-                //changes x-coord
-                if (currX + wallPadding > handWidth) {
-                    currX = wallPadding;
-                    currY += Tile.getHeight() + rowPadding;
-                }
+            //changes x-coord
+            if (currX + wallPadding > handWidth) {
+                currX = wallPadding;
+                currY += Tile.getHeight() + rowPadding;
             }
+        }
 
         //draws each tile according to its x,y coords
         for (Tile tile : tileList) {
@@ -158,17 +158,35 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
     }
 
     /**
-     * get scroll button clicks
+     * get scroll button touches
      * @param view the button that was clicked
      */
     public boolean onTouch(View view, MotionEvent event) {
-        int viewId= view.getId();
-        if(viewId == R.id.ButtonScrollUp){
-            startHeight-= 10;
-        }
-        else if(viewId == R.id.ButtonScrollDown){
-            startHeight+= 10;
-        }
+
+        //we dont care about any other button
+        if(view.getId() != R.id.ButtonScroll) return false;
+
+        //if we don't have any tiles, dont worry about scrolls
+        if(tiles == null || tiles.groupSize() == 0) return false;
+
+        //find top and bottom heights of tiles
+        int top= tiles.getTile(0).getY();
+
+        Tile bottomTile= tiles.getTile(tiles.groupSize()-1);
+        int bottom= bottomTile.getY() + bottomTile.getHeight();
+
+        int maxScroll= 13;
+
+        //calculate scroll
+        float delta= 2*event.getY()*maxScroll/view.getHeight() - maxScroll;
+
+        //if we want to scroll down, but shouldn't
+        if(delta > 0 && top >= wallPadding) return false;
+        //if we want to scroll up, but shouldn't
+        if(delta < 0 && bottom < getHeight() - wallPadding) return false;
+
+        startHeight+= delta;
+
 
         //redraw the hand
         invalidate();

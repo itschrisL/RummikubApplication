@@ -32,18 +32,16 @@ public final class R {
         public static final int ic_launcher=0x7f020003;
         public static final int purple_delete_button=0x7f020004;
         public static final int rack_background=0x7f020005;
+        public static final int up_and_down_arrow=0x7f020006;
     }
     public static final class id {
         public static final int ButtonKnockDraw=0x7f0a0027;
         public static final int ButtonRevert=0x7f0a0024;
-        public static final int ButtonScrollDown=0x7f0a0029;
-        public static final int ButtonScrollUp=0x7f0a002a;
+        public static final int ButtonScroll=0x7f0a0026;
         public static final int ButtonUndo=0x7f0a0023;
         public static final int LayoutControls=0x7f0a001e;
         public static final int LayoutGameBoard=0x7f0a001c;
-        public static final int LayoutKnockScrollButtons=0x7f0a0026;
-        public static final int LayoutScoreBoard=0x7f0a002b;
-        public static final int LayoutScrollButtons=0x7f0a0028;
+        public static final int LayoutScoreBoard=0x7f0a0028;
         public static final int LayoutTileDisplay=0x7f0a001f;
         public static final int LayoutUndoButtons=0x7f0a0022;
         public static final int ViewGameBoard=0x7f0a001d;
@@ -56,7 +54,7 @@ public final class R {
         public static final int ipCodeLabel=0x7f0a000e;
         public static final int localGameTab=0x7f0a0008;
         public static final int localTabLayout=0x7f0a0009;
-        public static final int menu_settings=0x7f0a002e;
+        public static final int menu_settings=0x7f0a002b;
         public static final int minusButton=0x7f0a0003;
         public static final int playGameButton=0x7f0a0007;
         public static final int playerNameEditText=0x7f0a0014;
@@ -76,8 +74,8 @@ public final class R {
         public static final int tableHeadingRow=0x7f0a000f;
         public static final int textView1=0x7f0a000d;
         public static final int textView2=0x7f0a0013;
-        public static final int textViewScoreBoard=0x7f0a002d;
-        public static final int textViewScores=0x7f0a002c;
+        public static final int textViewScoreBoard=0x7f0a002a;
+        public static final int textViewScores=0x7f0a0029;
         public static final int textViewTileCount=0x7f0a0021;
         public static final int textViewTiles=0x7f0a0020;
         public static final int top_gui_layout=0x7f0a0000;

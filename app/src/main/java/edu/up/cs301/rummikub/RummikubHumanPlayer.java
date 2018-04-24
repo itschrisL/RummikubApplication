@@ -3,6 +3,7 @@ package edu.up.cs301.rummikub;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -81,14 +82,11 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         hand= (Hand) activity.findViewById(R.id.ViewHand);
         hand.setOnTouchListener(this);
 
-        Button scrollUpButton=
-                (Button) activity.findViewById(R.id.ButtonScrollUp);
-        Button scrollDownButton=
-                (Button) activity.findViewById(R.id.ButtonScrollDown);
+        ImageButton scrollButton=
+                (ImageButton) activity.findViewById(R.id.ButtonScroll);
 
-        //set the listener for the scroll buttons
-        scrollUpButton.setOnTouchListener(hand);
-        scrollDownButton.setOnTouchListener(hand);
+        //set the listener for the scroll button
+        scrollButton.setOnTouchListener(hand);
 
         //initializes text views
         this.playerScores =

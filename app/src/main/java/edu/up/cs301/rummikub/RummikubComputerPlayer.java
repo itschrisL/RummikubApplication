@@ -86,7 +86,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         }
         //then, we want to make our play,
         //one action at a time
-        randomSleep();
+        //randomSleep();
         game.sendAction(playActions.remove());
     }
 
