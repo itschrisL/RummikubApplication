@@ -1,18 +1,13 @@
 package edu.up.cs301.rummikub;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
-import edu.up.cs301.rummikub.action.RummikubConnectAction;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
-import edu.up.cs301.rummikub.action.RummikubPlayGroupAction;
-import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 /**
  * The computer player.

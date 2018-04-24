@@ -2,9 +2,9 @@ package edu.up.cs301.rummikub;
 
 
 import android.util.Log;
+
 import java.util.ArrayList;
 
-import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -160,9 +160,6 @@ public class RummikubState extends GameState{
                 this.selectedGroup = new TileGroup(copy.selectedGroup);
             }
 
-            //copies player's tiles played from hand
-            tilesFromHand = new TileGroup(copy.tilesFromHand);
-
             //copies tableTileGroups
             tableTileGroups = new ArrayList<TileGroup>();
             for (TileGroup group : copy.tableTileGroups) {
@@ -174,6 +171,23 @@ public class RummikubState extends GameState{
                 //otherwise, make a new copy
                 else {
                     this.tableTileGroups.add(new TileGroup(group));
+                }
+            }
+
+
+            //copy tilesFromHand
+            this.tilesFromHand= new TileGroup();
+            //go through each tile group on table
+            for(int i=0; i<copy.tableTileGroups.size();i++){
+                TileGroup group= copy.tableTileGroups.get(i);
+                //go through each tile on the table
+                for(int j=0; j<group.groupSize(); j++){
+                    //if this tile is in copy's tileFromHand
+                    if(copy.tilesFromHand.contains(group.getTile(j))){
+                        //add our tile to the group
+                        this.tilesFromHand.add(
+                                this.tableTileGroups.get(i).getTile(j));
+                    }
                 }
             }
         }
@@ -207,16 +221,6 @@ public class RummikubState extends GameState{
      * deals 14 tiles from drawpile to each player's hand
      */
     private void dealHands(){
-        playerHands[1].add(new Tile(0,0,7,Tile.BLACK));
-        playerHands[1].add(new Tile(0,0,7,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,7,Tile.RED));
-        playerHands[1].add(new Tile(0,0,7,Tile.BLUE));
-        playerHands[1].add(new Tile(0,0,5,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,4,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,3,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,2,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,2,Tile.BLUE));
-
         for(int i=0;i<14;i++){
             for(int j=0;j<numPlayers;j++){
                 if(j == 0) playerHands[j].add(drawPile.draw());
@@ -323,6 +327,7 @@ public class RummikubState extends GameState{
         else if (!playersMelded[playerIdx]) {
             //if player has not played 30 point meld
             if (tilesFromHand.groupPointValues() < 30) return false;
+
             playersMelded[playerIdx]= true;
         }
 
@@ -423,6 +428,12 @@ public class RummikubState extends GameState{
 
         if(!isOnTable(group1) || !isOnTable(group2)) return false;
 
+        //if player has not melded
+        if (!playersMelded[playerIdx]) {
+            //if either group is not completely from player's hand
+            if (! isFromHand(group1) || ! isFromHand(group2)) return false;
+        }
+
         group1.merge(group2);
         tableTileGroups.remove(group2);
 
@@ -487,9 +498,13 @@ public class RummikubState extends GameState{
         TileGroup group = tableTileGroups.get(groupIndex);
         if(!isOnTable(group)) return false;
 
+        //if player has not melded
+        if (!playersMelded[playerIdx]) {
+            //if group is not completely from player's hand
+            if (! isFromHand(group)) return false;
+        }
+
         ArrayList<Tile> tilesInGroup = group.getTileGroup();
-
-
 
         TileGroup leftGroup = new TileGroup();
         for( int i = 0; i < tileIndex; i++){
@@ -586,8 +601,7 @@ public class RummikubState extends GameState{
         for(TileGroup group : validGroups){
             //make the set we want to add
             TileSet tempSet = new TileSet(group);
-            // If joker is in set create it's values
-            //tempSet.findJokerValues();
+
             tempSet.numericalOrder();
             //find where the old TileGroup version is
             int index= tableTileGroups.indexOf(group);
@@ -613,11 +627,11 @@ public class RummikubState extends GameState{
             return false;
         }
 
-        Tile tile= hand.getTile(tileIndex);
+        Tile tile= hand.getTile(tileIndex); //tile from player's hand
 
         TileGroup tg = new TileGroup();
 
-        tg.add(tile);
+        tg.add(tile); //added to new tileGroup
         playerHands[playerIdx].remove(tile);
         tableTileGroups.add(tg);
 
@@ -661,6 +675,23 @@ public class RummikubState extends GameState{
         tableTileGroups.add(tg);
         currentPlayerPlayed = true;
 
+        return true;
+    }
+
+    /**
+     * Checks if specific group contains any tiles NOT from player's hand
+     *
+     * @param group the group checking
+     * @return whether every tile is from player's hand
+     */
+    private boolean isFromHand (TileGroup group ){
+        //checks each tile in group
+        for (int i= 0; i< group.groupSize(); i++) {
+            //if tile was NOT from player's hand
+            if (!tilesFromHand.contains(group.getTile(i))) {
+                 return false;
+            }
+        }
         return true;
     }
 

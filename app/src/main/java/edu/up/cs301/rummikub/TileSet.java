@@ -13,9 +13,7 @@ package edu.up.cs301.rummikub;
 import android.util.Log;
 
 import java.io.Serializable;
-import java.security.acl.Group;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * class TileSet
@@ -61,12 +59,7 @@ public class TileSet extends TileGroup implements Serializable {
         }
         this.tiles = new ArrayList<Tile>();
         for(Tile t : group.tiles){
-            if(t instanceof JokerTile){
-                this.add(new JokerTile((JokerTile)t));
-            }
-            else {
-                this.add(new Tile(t));
-            }
+            this.add(t);
         }
     }
 
