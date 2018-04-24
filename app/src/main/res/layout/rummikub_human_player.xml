@@ -90,13 +90,13 @@
             android:layout_weight="5"
             android:background="@drawable/rack_background" />
 
-        <ImageButton
+        <Button
             android:id="@+id/ButtonScroll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".25"
-            android:scaleType="fitXY"
-            android:src="@drawable/up_and_down_arrow" />
+            android:background="@drawable/scroll_arrows"
+            android:scrollbarAlwaysDrawVerticalTrack="false" />
 
         <Button
             android:id="@+id/ButtonKnockDraw"

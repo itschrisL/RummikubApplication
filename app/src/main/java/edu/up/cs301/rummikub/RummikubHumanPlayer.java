@@ -82,8 +82,8 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         hand= (Hand) activity.findViewById(R.id.ViewHand);
         hand.setOnTouchListener(this);
 
-        ImageButton scrollButton=
-                (ImageButton) activity.findViewById(R.id.ButtonScroll);
+        Button scrollButton=
+                (Button) activity.findViewById(R.id.ButtonScroll);
 
         //set the listener for the scroll button
         scrollButton.setOnTouchListener(hand);
