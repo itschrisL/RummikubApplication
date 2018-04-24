@@ -153,10 +153,13 @@ public class Tile implements Serializable {
     public static int getHeight() { return height; }
 
     public static void setHeight(int index) { height = index; }
+
     /**
      * This method draws tiles using Canvas.
+     * @param c the canvas on which to draw
      */
     public void drawTile(Canvas c) {
+
         //fills and outlines tile color
         Paint tileColor = new Paint ();
         tileColor.setColor(TILECOLOR);

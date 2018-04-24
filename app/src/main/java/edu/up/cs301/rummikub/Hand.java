@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.Serializable;
@@ -26,7 +27,7 @@ import edu.up.cs301.game.R;
  * @author Chris Lytle
  */
 
-public class Hand extends View implements Serializable {
+public class Hand extends View implements Serializable, View.OnTouchListener {
 
     private static final long serialVersionUID = 4737393762469851826L;
 
@@ -37,6 +38,9 @@ public class Hand extends View implements Serializable {
 
     //the tiles in the hand
     TileGroup tiles;
+
+    //the height to start the drawing, makes the hand scrollable
+    private int startHeight;
 
     public Hand(Context context) {
         super(context);
@@ -60,6 +64,7 @@ public class Hand extends View implements Serializable {
     private void initilize() {
         this.setWillNotDraw(false);
         this.setTileHeight = false;
+        this.startHeight= 0;
         rackBackground =
                 BitmapFactory.decodeResource
                         (getResources(), R.drawable.rack_background);
@@ -99,7 +104,7 @@ public class Hand extends View implements Serializable {
 
         //first tile drawn
         int currX = wallPadding;
-        int currY = wallPadding;
+        int currY = wallPadding + startHeight;
         int handWidth= getWidth()-100;
 
 
@@ -152,4 +157,21 @@ public class Hand extends View implements Serializable {
         this.tiles = tiles;
     }
 
+    /**
+     * get scroll button clicks
+     * @param view the button that was clicked
+     */
+    public boolean onTouch(View view, MotionEvent event) {
+        int viewId= view.getId();
+        if(viewId == R.id.ButtonScrollUp){
+            startHeight-= 10;
+        }
+        else if(viewId == R.id.ButtonScrollDown){
+            startHeight+= 10;
+        }
+
+        //redraw the hand
+        invalidate();
+        return true;
+    }
 }

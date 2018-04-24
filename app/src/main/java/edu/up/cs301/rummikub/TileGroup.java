@@ -306,6 +306,34 @@ public class TileGroup implements Serializable {
     }
 
     /**
+     * Method to find each color used in a book and return a boolean statement for it
+     * @return
+     */
+    public boolean[] findColorsInGroup(){
+        //Set up return variable.  Array of boolean statements represent if a color has been uses
+        //in a set.
+        boolean[] rtnBoolean = {false, false, false, false}; // BLUE, RED, BLACK, GREEN
+
+        for(Tile tile : this.tiles){
+            if(!(tile instanceof JokerTile)){
+                if(tile.getColor() == Tile.BLUE){
+                    rtnBoolean[0] = true;
+                }
+                if(tile.getColor() == Tile.RED){
+                    rtnBoolean[1] = true;
+                }
+                if(tile.getColor() == Tile.BLACK){
+                    rtnBoolean[2] = true;
+                }
+                if(tile.getColor() == Tile.GREEN){
+                    rtnBoolean[3] = true;
+                }
+            }
+        }
+        return rtnBoolean;
+    }
+
+    /**
      * returns this tile group as a string
      * it will be each tile followed by a comma
      * @return a string representation of this tile group

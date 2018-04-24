@@ -90,13 +90,44 @@
             android:layout_weight="5"
             android:background="@drawable/rack_background" />
 
-        <Button
-            android:id="@+id/ButtonKnockDraw"
+        <LinearLayout
+            android:id="@+id/LayoutKnockScrollButtons"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Draw"
-            android:textSize="24sp" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/ButtonKnockDraw"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:text="Draw"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:id="@+id/LayoutScrollButtons"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/ButtonScrollDown"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/arrow_down_float" />
+
+                <Button
+                    android:id="@+id/ButtonScrollUp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/arrow_up_float" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/LayoutScoreBoard"

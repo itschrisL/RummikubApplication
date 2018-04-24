@@ -17,6 +17,7 @@ import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubFreeJokerAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
+import edu.up.cs301.rummikub.action.RummikubReturnTileAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
 import edu.up.cs301.rummikub.action.RummikubSelectTileGroupAction;
 import edu.up.cs301.rummikub.action.RummikubSplitAction;
@@ -79,6 +80,15 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
         hand= (Hand) activity.findViewById(R.id.ViewHand);
         hand.setOnTouchListener(this);
+
+        Button scrollUpButton=
+                (Button) activity.findViewById(R.id.ButtonScrollUp);
+        Button scrollDownButton=
+                (Button) activity.findViewById(R.id.ButtonScrollDown);
+
+        //set the listener for the scroll buttons
+        scrollUpButton.setOnTouchListener(hand);
+        scrollDownButton.setOnTouchListener(hand);
 
         //initializes text views
         this.playerScores =
@@ -177,6 +187,12 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
             action = splitAction(x,y,tableGroup);
             if( action != null){
+                game.sendAction(action);
+                return true;
+            }
+
+            action = returnTileAction(x,y,tableGroup);
+            if(action != null) {
                 game.sendAction(action);
                 return true;
             }
@@ -394,6 +410,32 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         if( !(tableGroup.get(hitGroup) == state.getSelectedGroup())) return null;
 
         return new RummikubSplitAction(this, hitGroup, hitTile);
+    }
+
+    private RummikubReturnTileAction returnTileAction( float x, float y, ArrayList<TileGroup> tableGroup ){
+        //the group selected on table
+        TileGroup selectedTileGroup= state.getSelectedGroup();
+
+        //no group selected
+        if (selectedTileGroup == null) return null;
+
+        int hitGroup = -1;
+        int hitTile = -1;
+        for( int i = 0; i < tableGroup.size(); i++){
+            hitTile = tableGroup.get(i).hitTile(x,y);
+            if( hitTile != -1) {
+                hitGroup = i;
+                break;
+            }
+        }
+        if( hitGroup == -1 ) return null;
+        if(tableGroup.get(hitGroup).groupSize() > 1 ) return null;
+
+        if( selectedTileGroup == tableGroup.get(hitGroup)){
+            return new RummikubReturnTileAction(this, hitGroup);
+        }
+        return null;
+
     }
 
     protected void updateDisplay(){

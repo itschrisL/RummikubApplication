@@ -2,9 +2,9 @@ package edu.up.cs301.rummikub;
 
 
 import android.util.Log;
-
 import java.util.ArrayList;
 
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -223,7 +223,7 @@ public class RummikubState extends GameState{
     private void dealHands(){
         for(int i=0;i<14;i++){
             for(int j=0;j<numPlayers;j++){
-                if(j == 0) playerHands[j].add(drawPile.draw());
+                playerHands[j].add(drawPile.draw());
             }
         }
     }
@@ -327,7 +327,6 @@ public class RummikubState extends GameState{
         else if (!playersMelded[playerIdx]) {
             //if player has not played 30 point meld
             if (tilesFromHand.groupPointValues() < 30) return false;
-
             playersMelded[playerIdx]= true;
         }
 
@@ -443,6 +442,22 @@ public class RummikubState extends GameState{
         return true;
     }
 
+    public boolean canReturnTile(int playerIdx, int groupIndex){
+        if( groupIndex < 0 ) return false;
+
+        Tile tile = tableTileGroups.get(groupIndex).getTile(0);
+
+        //checks to see if the tile selected is in the tilefromhand list
+        if(tilesFromHand.contains(tile)){
+            playerHands[playerIdx].add(tile);
+            tableTileGroups.remove(groupIndex);
+        }
+
+        selectedGroup = null;
+
+        return true;
+    }
+
     /**
      *
      * @param playerIdx
@@ -476,7 +491,23 @@ public class RummikubState extends GameState{
         int tileVal= groupWithTile.getTile(0).getValue();
         int tileCol= groupWithTile.getTile(0).getColor();
 
-        if (!(jokerVal == tileVal && jokerCol == tileCol)) return false;
+        // If groupWithJoker is a book, go through and figure out what are the
+        // available colors for the joker
+        boolean[] colorBooleanList = new boolean[4];
+        boolean found = false; // Boolean to represent if available color matches tile color
+        if(TileSet.isBook(groupWithJoker)){
+            colorBooleanList = groupWithJoker.findColorsInGroup();
+            for(int i = 0; i < colorBooleanList.length; i++){
+                // If target tile isn't a color of the
+                if(!colorBooleanList[i]){
+                    if(tileCol == Tile.colorArray[i]){
+                        found = true;
+                    }
+                }
+            }
+            if(!found) return false;
+        }
+        else if (!(jokerVal == tileVal && jokerCol == tileCol)) return false;
 
         canConnect(playerIdx,jokerGroup,tileGroup);
 
@@ -601,7 +632,8 @@ public class RummikubState extends GameState{
         for(TileGroup group : validGroups){
             //make the set we want to add
             TileSet tempSet = new TileSet(group);
-
+            // If joker is in set create it's values
+            //tempSet.findJokerValues();
             tempSet.numericalOrder();
             //find where the old TileGroup version is
             int index= tableTileGroups.indexOf(group);

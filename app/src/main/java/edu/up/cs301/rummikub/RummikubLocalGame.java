@@ -1,5 +1,7 @@
 package edu.up.cs301.rummikub;
 
+import android.widget.Toast;
+
 import java.util.Stack;
 
 import edu.up.cs301.game.GamePlayer;
@@ -109,6 +111,9 @@ public class RummikubLocalGame extends LocalGame {
             }
             if(action instanceof RummikubPlayGroupAction){
                 return playTileGroupAction((RummikubPlayGroupAction)action);
+            }
+            if(action instanceof RummikubReturnTileAction){
+                return returnTileAction((RummikubReturnTileAction) action );
             }
         }
 
@@ -303,6 +308,26 @@ public class RummikubLocalGame extends LocalGame {
         return turnEnded;
     }
 
+    private boolean returnTileAction( RummikubReturnTileAction action){
+        int playerId = getPlayerIdx(action.getPlayer());
+
+        //since we are about to change the state, push a copy onto undo stack
+        prevState.push(new RummikubState(state,-1));
+
+        //attempt to change the state by selecting a tile
+        boolean stateChanged=
+                state.canReturnTile(playerId, action.getGroupIndex());
+
+        //if the state did not change,
+        //we don't want to save the state on the undo stack
+        if(!stateChanged){
+            prevState.pop();
+        }
+
+        return stateChanged;
+
+    }
+
     /**
      * attempts to end player's turn by knocking
      * @param action the action sent by player
@@ -310,7 +335,6 @@ public class RummikubLocalGame extends LocalGame {
      */
     private boolean knockAction(RummikubKnockAction action){
         int playerId= getPlayerIdx(action.getPlayer());
-
 
         boolean turnEnded= state.canKnock(playerId);
 
