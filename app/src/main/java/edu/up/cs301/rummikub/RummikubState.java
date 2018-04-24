@@ -474,7 +474,23 @@ public class RummikubState extends GameState{
         int tileVal= groupWithTile.getTile(0).getValue();
         int tileCol= groupWithTile.getTile(0).getColor();
 
-        if (!(jokerVal == tileVal && jokerCol == tileCol)) return false;
+        // If groupWithJoker is a book, go through and figure out what are the
+        // available colors for the joker
+        boolean[] colorBooleanList = new boolean[4];
+        boolean found = false; // Boolean to represent if available color matches tile color
+        if(TileSet.isBook(groupWithJoker)){
+            colorBooleanList = groupWithJoker.findColorsInGroup();
+            for(int i = 0; i < colorBooleanList.length; i++){
+                // If target tile isn't a color of the
+                if(!colorBooleanList[i]){
+                    if(tileCol == Tile.colorArray[i]){
+                        found = true;
+                    }
+                }
+            }
+            if(!found) return false;
+        }
+        else if (!(jokerVal == tileVal && jokerCol == tileCol)) return false;
 
         canConnect(playerIdx,jokerGroup,tileGroup);
 

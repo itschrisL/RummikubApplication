@@ -94,7 +94,7 @@ public class TileSet extends TileGroup implements Serializable {
      * @param group the group to check
      * @return whether it is a run
      */
-    private static boolean isRun(TileGroup group){
+    public static boolean isRun(TileGroup group){
         if(group == null) return false;
         if(group.tiles.size() < 3 || group.tiles.size() > 13){ return false;}
 
@@ -167,7 +167,7 @@ public class TileSet extends TileGroup implements Serializable {
      * @param group the group to check
      * @return whether it is a book
      */
-    private static boolean isBook(TileGroup group){
+    public static boolean isBook(TileGroup group){
         if(group == null) return false;
         if(group.tiles.size() < 3 || group.tiles.size() > 4) return false;
 

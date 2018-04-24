@@ -2,49 +2,49 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/daylinkuboyama/.android/build-cache/a1dd962a61f5076fea74ded8cb2ac492c9838760/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
-        <dex dex="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/pre-dexed/debug/classes_b7e1347088a755e83edfbe97bd903445dd116ec3.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/daylinkuboyama/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
-        <dex dex="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.0_7a3208f27705da862de6a79a489df417fd448666.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/daylinkuboyama/.android/build-cache/a1dd962a61f5076fea74ded8cb2ac492c9838760/output/jars/libs/internal_impl-23.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0_cbbe5b5137d861d1af4c0c705d2bb12c8be8a5d0.jar" />
-    </item>
-    <item
         is-multidex="true"
-        jar="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="C:\Users\lytlech19\.android\build-cache\b7b972441674d8719e42acb519eb437aa31b9fd6\output\jars\libs\internal_impl-23.0.0.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="30c34d70ca2ecd6e5fbf3e86c7c161bc162fbc7a">
-        <dex dex="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_11c6b8981e210c69e6d434e2f2a8f8c0d9c1faba/classes.dex" />
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="C:\Users\lytlech19\StudioProjects\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.0.0_d9e667e107a2e83950626c995e196f7b3dd7a631\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="C:\AndroidSDK\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="C:\Users\lytlech19\StudioProjects\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.0.0_8bdc514113f7707ba1eeeb2f05b177d7e544c022\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\lytlech19\StudioProjects\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d33e5845864be819113055095481c30c9fa88070">
+        <dex dex="C:\Users\lytlech19\StudioProjects\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_6a1ef6cb0ceceb667c8ba4cb1464c0ab0f1ebbb3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\lytlech19\.android\build-cache\b7b972441674d8719e42acb519eb437aa31b9fd6\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="C:\Users\lytlech19\StudioProjects\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_62cc27c3269dd669245216f220c45284d46cd93d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\lytlech19\StudioProjects\RummikubApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_ed34885efa5040a10be224138507b11bd536dc27/classes.dex" />
+        <dex dex="C:\Users\lytlech19\StudioProjects\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_011c3ccc0ef601fc0e6d75508a2ecbdcb59a1a0f\classes.dex" />
     </item>
 
 </items>
