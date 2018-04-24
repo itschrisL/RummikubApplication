@@ -2,6 +2,8 @@ package edu.up.cs301.rummikub;
 
 
 import android.util.Log;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.game.R;
@@ -207,19 +209,10 @@ public class RummikubState extends GameState{
      * deals 14 tiles from drawpile to each player's hand
      */
     private void dealHands(){
-        playerHands[1].add(new Tile(0,0,7,Tile.BLACK));
-        playerHands[1].add(new Tile(0,0,7,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,7,Tile.RED));
-        playerHands[1].add(new Tile(0,0,7,Tile.BLUE));
-        playerHands[1].add(new Tile(0,0,5,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,4,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,3,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,2,Tile.GREEN));
-        playerHands[1].add(new Tile(0,0,2,Tile.BLUE));
 
         for(int i=0;i<14;i++){
             for(int j=0;j<numPlayers;j++){
-                if(j == 0) playerHands[j].add(drawPile.draw());
+                playerHands[j].add(drawPile.draw());
             }
         }
     }
@@ -428,6 +421,22 @@ public class RummikubState extends GameState{
 
         //deselect groups after connecting
         selectedGroup= null;
+
+        return true;
+    }
+
+    public boolean canReturnTile(int playerIdx, int groupIndex){
+        if( groupIndex < 0 ) return false;
+
+        Tile tile = tableTileGroups.get(groupIndex).getTile(0);
+
+        //checks to see if the tile selected is in the tilefromhand list
+        if(tilesFromHand.contains(tile)){
+            playerHands[playerIdx].add(tile);
+            tableTileGroups.remove(groupIndex);
+        }
+
+        selectedGroup = null;
 
         return true;
     }
