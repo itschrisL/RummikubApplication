@@ -1,5 +1,7 @@
 package edu.up.cs301.rummikub;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.rummikub.action.RummikubConnectAction;
@@ -43,9 +45,11 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
         int currentPlayPoints= 0;
 
+        boolean hasMelded = stateCopy.hasMelded(playerNum);
+
         //we will break out of the loop when we don't find a set
         while (true) {
-
+            Log.i("Smart CP", "First Loop");
             int[] indexesToPlay = findSetInHand(stateCopy);
 
             //if we didn't find a set in hand
@@ -82,12 +86,18 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
         //this loop will find single tiles to add to the table
         //we will break when we can no longer find one
         while(true) {
+            Log.i("Smart CP", "Second Loop");
             //now check if there is a single tile to play
             int[] playPair = findTileToPlay(stateCopy);
 
             //if we found a tile to play and we've melded
 
             if (playPair == null) {
+                break;
+            }
+
+            // If player hasn't melded then they can't add single tiles to the board
+            if(state.hasMelded(playerNum)){
                 break;
             }
 
@@ -161,6 +171,9 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
     private int[] findTileToPlay(RummikubState state){
         TileGroup hand= state.getPlayerHand(playerNum);
         ArrayList<TileGroup> groups= state.getTableTileGroups();
+        if(state.hasMelded(playerNum)) {
+            return null;
+        }
 
         //go through each tile in our hand
         for(int tileIndex=0; tileIndex<hand.groupSize(); tileIndex++){
