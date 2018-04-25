@@ -4,6 +4,7 @@ package edu.up.cs301.rummikub;
 import android.util.Log;
 import java.util.ArrayList;
 
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -226,26 +227,6 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-
-        int p = 0;
-        Tile tile1 = new Tile(-1,-1,10,Tile.BLACK);
-        Tile tile2 = new Tile(-1,-1,11,Tile.BLACK);
-        Tile tile3 = new Tile(-1,-1,12,Tile.BLACK);
-        Tile tile4 = new Tile(-1,-1,5,Tile.BLUE);
-        Tile tile5 = new Tile(-1,-1,5,Tile.GREEN);
-        Tile tile6 = new Tile(-1,-1,5,Tile.RED);
-
-        JokerTile jokerTile1 = new JokerTile(-1,-1,0,Tile.BLACK);
-        JokerTile jokerTile2 = new JokerTile(-1,-1,0,Tile.BLACK);
-
-        playerHands[p].add(tile1);
-        playerHands[p].add(tile2);
-        playerHands[p].add(tile3);
-        playerHands[p].add(tile4);
-        playerHands[p].add(tile5);
-        playerHands[p].add(tile6);
-        playerHands[p].add(jokerTile1);
-        playerHands[p].add(jokerTile2);
     }
 
     //gets players name from players array
@@ -320,7 +301,6 @@ public class RummikubState extends GameState{
     public boolean canDraw(int playerIdx){
         if( drawPile.groupSize()== 0){
             roundOver();
-
             throw new RuntimeException("Reset Round");
 
         }
@@ -351,9 +331,8 @@ public class RummikubState extends GameState{
         }
 
         //if the player played all their tiles
-        if(playerHands[currentPlayer].groupSize() == 0 || drawPile.groupSize() == 0){
-            roundOver();
-            return true;
+        if(playerHands[currentPlayer].groupSize() == 0){
+            throw new RuntimeException("Reset Round");
         }
 
         nextTurn();
@@ -365,7 +344,7 @@ public class RummikubState extends GameState{
      * checks to see if it was the final round of the game
      * if so it sets the winner
      */
-    private void roundOver(){
+    public void roundOver(){
         for( int i = 0; i < numPlayers; i++  ){
             if( drawPile.groupSize() == 0 ){
                 playerScores[i] -= playerHands[i].roundGroupPointValues();

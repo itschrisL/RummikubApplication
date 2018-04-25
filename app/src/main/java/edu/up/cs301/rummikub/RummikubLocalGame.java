@@ -1,5 +1,6 @@
 package edu.up.cs301.rummikub;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import java.util.Stack;
@@ -302,7 +303,8 @@ public class RummikubLocalGame extends LocalGame {
         }
         catch(RuntimeException rte){
             for( int i = 0; i < state.getNumPlayers(); i++ ){
-                    sendUpdatedStateTo(players[i]);
+                players[i].sendInfo(new EndRoundInfo());
+                sendUpdatedStateTo(players[i]);
             }
 
         }
@@ -311,7 +313,6 @@ public class RummikubLocalGame extends LocalGame {
             //we want to no longer be able to undo
             prevState.clear();
         }
-
         return turnEnded;
     }
 
@@ -346,15 +347,16 @@ public class RummikubLocalGame extends LocalGame {
         boolean turnEnded= state.canKnock(playerId);
 
         try {
-            turnEnded = state.canDraw(playerId);
+            turnEnded = state.canKnock(playerId);
         }
         catch(RuntimeException rte){
             for( int i = 0; i < state.getNumPlayers(); i++ ){
+                players[i].sendInfo(new EndRoundInfo());
                 sendUpdatedStateTo(players[i]);
+                state.roundOver();
             }
 
         }
-
         //if the turn ended
         if(turnEnded){
             //we want to no longer be able to undo
