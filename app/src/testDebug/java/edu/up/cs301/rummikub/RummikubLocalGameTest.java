@@ -5,6 +5,8 @@ import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubSplitAction;
 import edu.up.cs301.rummikub.action.*;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 /**

@@ -338,6 +338,16 @@ public class RummikubLocalGame extends LocalGame {
 
         boolean turnEnded= state.canKnock(playerId);
 
+        try {
+            turnEnded = state.canDraw(playerId);
+        }
+        catch(RuntimeException rte){
+            for( int i = 0; i < state.getNumPlayers(); i++ ){
+                sendUpdatedStateTo(players[i]);
+            }
+
+        }
+
         //if the turn ended
         if(turnEnded){
             //we want to no longer be able to undo

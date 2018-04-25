@@ -1,61 +1,76 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:1:1-36:12
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:1:1-36:12
 	package
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:2:5-32
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:2:5-32
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:4:5-30
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:4:5-30
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
 	android:versionCode
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:3:5-28
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:3:5-28
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:1:11-69
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:1:11-69
 uses-sdk
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:6:5-8:41
-MERGED from [com.android.support:support-v4:23.0.0] C:\Users\Harrison\.android\build-cache\f5222110350877c98ec148489e2cbe8d7963f3df\output\AndroidManifest.xml:20:5-43
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:6:5-8:41
+MERGED from [com.android.support:appcompat-v7:27.0.0] C:\Users\lytle\.android\build-cache\5ba2d85967f6d442ad762995257fdc8ab40ac496\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.0.0] C:\Users\lytle\.android\build-cache\e9eb8fe31d1b21106134e6ae4f9ab94559192037\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.0.0] C:\Users\lytle\.android\build-cache\c4cc6562371631e7d70082f78cf4686bd8c5ac58\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.0.0] C:\Users\lytle\.android\build-cache\63e93503a12db0ed6240a015d0b1d37829fc34de\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.0.0] C:\Users\lytle\.android\build-cache\00c947fea6f4bcff27749f19231d81c50643d356\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.0.0] C:\Users\lytle\.android\build-cache\bcf65507d35de7a2193d90d7ad909f0bf31bfa71\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.0.0] C:\Users\lytle\.android\build-cache\c0250ff2001496ed6699d627e5604b6e3bf0f2bc\output\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lytle\.android\build-cache\c854b7b306d538263fbbaee5461e1f75b7e3ccab\output\AndroidManifest.xml:20:5-22:41
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lytle\.android\build-cache\02cbf3825f5d37fb32915de5f36cf5bfd5b7c27c\output\AndroidManifest.xml:5:5-7:41
 	android:targetSdkVersion
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:8:9-38
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:8:9-38
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:7:9-35
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:7:9-35
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:10:5-67
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:10:5-67
 	android:name
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:10:22-64
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:10:22-64
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:11:5-79
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:11:5-79
 	android:name
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:11:22-76
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:11:22-76
 application
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:13:5-34:19
-MERGED from [com.android.support:support-v4:23.0.0] C:\Users\Harrison\.android\build-cache\f5222110350877c98ec148489e2cbe8d7963f3df\output\AndroidManifest.xml:22:5-20
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:13:5-34:19
+MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lytle\.android\build-cache\c854b7b306d538263fbbaee5461e1f75b7e3ccab\output\AndroidManifest.xml:24:5-28:19
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lytle\.android\build-cache\02cbf3825f5d37fb32915de5f36cf5bfd5b7c27c\output\AndroidManifest.xml:9:5-20
 	android:label
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:15:9-41
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:15:9-41
 	android:icon
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:14:9-38
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:14:9-38
 	android:theme
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:16:9-40
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:16:9-40
 activity#edu.up.cs301.rummikub.RummikubMainActivity
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:26:9-32:20
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:26:9-32:20
 	android:configChanges
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:27:13-83
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:27:13-83
 	android:name
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:26:19-76
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:26:19-76
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:28:13-31:29
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:28:13-31:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:29:17-69
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:29:17-69
 	android:name
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:29:25-66
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:29:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:30:17-77
+ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:30:17-77
 	android:name
-		ADDED from C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\src\main\AndroidManifest.xml:30:27-74
+		ADDED from C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\src\main\AndroidManifest.xml:30:27-74
+meta-data#android.arch.lifecycle.VERSION
+ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lytle\.android\build-cache\c854b7b306d538263fbbaee5461e1f75b7e3ccab\output\AndroidManifest.xml:25:9-27:47
+	android:value
+		ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lytle\.android\build-cache\c854b7b306d538263fbbaee5461e1f75b7e3ccab\output\AndroidManifest.xml:27:13-44
+	android:name
+		ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lytle\.android\build-cache\c854b7b306d538263fbbaee5461e1f75b7e3ccab\output\AndroidManifest.xml:26:13-58

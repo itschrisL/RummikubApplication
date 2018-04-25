@@ -110,6 +110,9 @@ public class TileSet extends TileGroup implements Serializable {
             if(tileAr[j] instanceof JokerTile){
                 //If there is a tile to the right of the joker
                 if(j + 1 < tileAr.length){
+                    if(tileAr[j + 1] instanceof JokerTile){
+
+                    }
                     ((JokerTile)tileAr[j]).setJokerValues((tileAr[j+1].getValue()) - 1, tileColor);
                     //((JokerTile)group.tiles.get(j)).setJokerValues(group.tiles.get(j+1).getValue() -1, tileColor);
                 }
@@ -256,10 +259,31 @@ public class TileSet extends TileGroup implements Serializable {
         for(int j = 0; j < this.tiles.size(); j++){
             if(this.tiles.get(j) instanceof JokerTile){
                 if(j + 1 < this.tiles.size()){
-                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j+1).getValue()-1, tileColor);
+                    // Case if two jokers are next to each other
+                    /*
+                    if(this.tiles.get(j+1) instanceof JokerTile){
+                        // If there is a tile to the left to check
+                        if(j - 1 >= 0){
+                            ((JokerTile)this.tiles.get(j)).setJokerValues(
+                                    this.tiles.get(j-1).getValue()+1, tileColor);
+                        }
+                        else {
+                            ((JokerTile)this.tiles.get(j)).setJokerValues(
+                                    this.tiles.get(j+1).getValue()-1, tileColor);
+                        }
+                    }
+
+                    else {
+                        ((JokerTile)this.tiles.get(j)).setJokerValues(
+                                this.tiles.get(j+1).getValue()-1, tileColor);
+                    }
+                    */
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(
+                            this.tiles.get(j+1).getValue()-1, tileColor);
                 }
                 else{
-                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j-1).getValue()+1, tileColor);
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(
+                            this.tiles.get(j-1).getValue()+1, tileColor);
                 }
             }
         }
