@@ -1,9 +1,11 @@
 package edu.up.cs301.rummikub;
 
+import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -111,6 +113,9 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         // ignore the message if it's not a RummikubState message
         if (!(info instanceof RummikubState)) return;
 
+        if( info instanceof EndRoundInfo){
+            MessageBox.popUpMessage("Round Over", myActivity);
+        }
         // update our state; then update the display
         this.state = (RummikubState) info;
 

@@ -4,6 +4,7 @@ package edu.up.cs301.rummikub;
 import android.util.Log;
 import java.util.ArrayList;
 
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -300,7 +301,6 @@ public class RummikubState extends GameState{
     public boolean canDraw(int playerIdx){
         if( drawPile.groupSize()== 0){
             roundOver();
-
             throw new RuntimeException("Reset Round");
 
         }
@@ -331,9 +331,8 @@ public class RummikubState extends GameState{
         }
 
         //if the player played all their tiles
-        if(playerHands[currentPlayer].groupSize() == 0 || drawPile.groupSize() == 0){
-            roundOver();
-            return true;
+        if(playerHands[currentPlayer].groupSize() == 0){
+            throw new RuntimeException("Reset Round");
         }
 
         nextTurn();
@@ -345,7 +344,7 @@ public class RummikubState extends GameState{
      * checks to see if it was the final round of the game
      * if so it sets the winner
      */
-    private void roundOver(){
+    public void roundOver(){
         for( int i = 0; i < numPlayers; i++  ){
             if( drawPile.groupSize() == 0 ){
                 playerScores[i] -= playerHands[i].roundGroupPointValues();
