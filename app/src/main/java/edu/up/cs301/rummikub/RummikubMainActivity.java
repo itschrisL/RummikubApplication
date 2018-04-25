@@ -85,10 +85,16 @@ public class RummikubMainActivity extends GameMainActivity {
 				return new RummikubComputerPlayer(name);
 			}});
 
-		// a computer player type (player type 1)
+		// a computer player type (player type 2)
 		playerTypes.add(new GamePlayerType("Smarter Computer Player") {
 			public GamePlayer createPlayer(String name) {
 				return new RummikubComputerPlayer1(name);
+			}});
+
+		// a computer player type (player type 3)
+		playerTypes.add(new GamePlayerType("Smart Computer Player") {
+			public GamePlayer createPlayer(String name) {
+				return new RummikubComputerPlayer2(name);
 			}});
 
 		// Create a game configuration class for Counter:

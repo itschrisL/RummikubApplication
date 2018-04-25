@@ -91,7 +91,7 @@ public class RummikubState extends GameState{
 
         for( int i = 0; i < numPlayers; i++){
             playerHands[i] = new TileGroup();
-            playersMelded[i] = false;
+            playersMelded[i] = true;
             this.playerHands[i] = new TileGroup();
         }
 
@@ -221,6 +221,7 @@ public class RummikubState extends GameState{
      * deals 14 tiles from drawpile to each player's hand
      */
     private void dealHands(){
+
         for(int i=0;i<14;i++){
             for(int j=0;j<numPlayers;j++){
                 playerHands[j].add(drawPile.draw());
@@ -591,6 +592,39 @@ public class RummikubState extends GameState{
     }
 
     /**
+     * pulls the designated tile out of the designated group
+     * and adds it to the back of the table
+     * @param playerIdx the player making the action
+     * @param groupIndex the group to split
+     * @param tileIndex the tile to pull out
+     * @return whether the split happened
+     */
+    public boolean canSimpleSplit(int playerIdx, int groupIndex, int tileIndex){
+        //out of bounds index
+        if(!(0 <= groupIndex && groupIndex < tableTileGroups.size())){
+            return false;
+        }
+
+        TileGroup group= tableTileGroups.get(groupIndex);
+        //out of bounds tile index
+        if(!(0 <= tileIndex && tileIndex < group.groupSize())){
+            return false;
+        }
+
+        //can't simple split a joker group
+        if(group.containsJoker()){
+            return false;
+        }
+
+        Tile splitTile= group.getTile(tileIndex);
+
+        group.remove(splitTile);
+
+        tableTileGroups.add(new TileGroup(splitTile));
+        return true;
+    }
+
+    /**
      * Method to check if given TileGroup is on the current table
      * Calls .contains(group) from the class TileGroup
      * @param group
@@ -716,7 +750,7 @@ public class RummikubState extends GameState{
      * @param group the group checking
      * @return whether every tile is from player's hand
      */
-    private boolean isFromHand (TileGroup group ){
+    public boolean isFromHand (TileGroup group ){
         //checks each tile in group
         for (int i= 0; i< group.groupSize(); i++) {
             //if tile was NOT from player's hand

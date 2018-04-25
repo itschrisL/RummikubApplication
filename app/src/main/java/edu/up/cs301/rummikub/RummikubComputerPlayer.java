@@ -6,8 +6,10 @@ import java.util.Random;
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
+import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
+import edu.up.cs301.rummikub.action.RummikubRevertAction;
 
 /**
  * The computer player.
@@ -54,6 +56,16 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
             return;
         }
 
+        //failsafe
+        //if we ever try an illegal move,
+        //somthing went wrong
+        if(info instanceof IllegalMoveInfo){
+            //so we must revert and draw
+            playActions.clear();
+            playActions.add(new RummikubRevertAction(this));
+            playActions.add(new RummikubDrawAction(this));
+        }
+
         if(state.isPlayerTurn(playerNum)){
             makePlay();
         }
@@ -86,7 +98,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         }
         //then, we want to make our play,
         //one action at a time
-        //randomSleep();
+        randomSleep();
         game.sendAction(playActions.remove());
     }
 
@@ -103,6 +115,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
     private void randomSleep() {
         Random random = new Random();
         // Randomly chooses a sleeping time between 1 and 4 seconds
-        sleep(random.nextInt(3000)+1000);
+        sleep(700);
+        // /sleep(random.nextInt(3000)+1000);
     }
 }

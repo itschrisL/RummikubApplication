@@ -76,6 +76,9 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
             playActions.add(new RummikubPlayGroupAction(this, indexesToPlay));
         }
 
+        //if we havn't melded, we are done
+        if(!this.state.hasMelded(playerNum)) return currentPlayPoints;
+
         //this loop will find single tiles to add to the table
         //we will break when we can no longer find one
         while(true) {

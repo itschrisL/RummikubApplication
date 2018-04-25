@@ -2,22 +2,49 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Harrison\.android\build-cache\f5222110350877c98ec148489e2cbe8d7963f3df\output\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="c5c4a94043e8e508a3b27a437787b45f917f1a62">
-        <dex dex="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_11c6b8981e210c69e6d434e2f2a8f8c0d9c1faba/classes.dex" />
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\pre-dexed\debug\classes_938e3b31bbe43c045a828d7fdaab4490623d65bf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Harrison\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.0_9088514d036501b5feffbcc63b81092e83954c1b.jar" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="67d317a1a1d31e5b4e03ee01b8cfa86cd4ff8906">
+        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_f20acb0fdf41d9ea0e215e9dad32a4a7114a4c3b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/daylinkuboyama/Desktop/RummikubApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_ed34885efa5040a10be224138507b11bd536dc27/classes.dex" />
+        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_edf0d8360e4a3c5e48470678ab4d345aff65e86a\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Harrison\.android\build-cache\f5222110350877c98ec148489e2cbe8d7963f3df\output\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="C:\Users\Harrison\Documents\2nd_year\Sem_2\CS\Android\RummikubApplication\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.0_b3b46080f5f76810d8388bd5781aea59633535f6.jar" />
     </item>
 
 </items>
