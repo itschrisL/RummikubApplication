@@ -3,111 +3,30 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\eda06714fedaa9254908f3999eafbfceaff4606e\output\jars\classes.jar"
+        jar="C:\Users\lytle\.android\build-cache\02cbf3825f5d37fb32915de5f36cf5bfd5b7c27c\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="27.0.3"
-        sha1="7103318ab8a16fe56a325b7554b088f4d49e4700">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_994e5f7a54ae8bb4c9122f8509f7d12c7a46e4cd\classes.dex" />
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5b702773d1221901cd9ee03b635d147a2978a778\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\8248a3b31844b1e5115954f881aec3414b702f71\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="9e3177fae918dbe4e58eccf197cfb56bfaf59803">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6d46ca47957bae29798ece23265bef3f7cf0af20\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\118452f936234f981ee54276b99a301ae8df7632\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="cf7abe2a43ffb1d475e94d0877ef3abb95fff56e">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_757701d31806f34916ed09a8f1e13772763efe80\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\35f852e962fe451c2e49f3def86cf73f9bced7bf\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="b62fdc4cfef174c1e456014195c83fa7de7dc041">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_0c6fbb71fda07c3a5b03361851063c2656e3131b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="c0a36bc5ba8c1ded22a3713bb67a0dc12eab4499">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_34d8bd2c6eb1ebefcb95934733afba23a236ea4f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="27.0.3"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_c0990f2c47290728b0c163c9ce12a8d485c744bf\classes.dex" />
+        <dex dex="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_8e712b3d7635313b1889dcb599562dd361503522\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\075b2a7b49f867e5a05022ab5f73b088efc211e4\output\jars\classes.jar"
+        jar="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="27.0.3"
-        sha1="0e97fa8abc1a1a90087ce8b093d11f1a8e0f1214">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c07180505999e05008af1c06372359b159ae29fe\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\.gradle\caches\modules-2\files-2.1\com.android.support\support-annotations\27.0.0\a7782471b2a0de8fec071b8094a8aaf61c46ab70\support-annotations-27.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="a7782471b2a0de8fec071b8094a8aaf61c46ab70">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-27.0.0_bef235bdbc0e0ebb894a4b6cca37fe1a66ea4c07\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\9b3423b29df13130c61e3cea0574f00abd83da62\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="e616b95568c5f38322799069485eb73f68ffec0a">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_17c7e7a137939f58e83580ee4ceb0bab1cd08896\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\.gradle\caches\modules-2\files-2.1\android.arch.lifecycle\common\1.0.0\e414a4cb28434e25c4f6aa71426eb20cf4874ae9\common-1.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="e414a4cb28434e25c4f6aa71426eb20cf4874ae9">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\common-1.0.0_6496c7a44f69babdd21137017686007feb91c7cf\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\bee473dfef6f61f8e1718e839ab0f9205d1661f8\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="62e71cc187cfcb1ba382b05c5f39f5d903973656">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_74099cc213e21c7f6b338ebe89bc23d9fca67da7\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\snook\.android\build-cache\08ddedf534f12a8c8805696a7deebffca1827930\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="27.0.3"
-        sha1="89172db744f643c670ee7f9620b39ed460bc23fb">
-        <dex dex="C:\Users\snook\Desktop\RummikubApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_36b195d1181c2fddebb6858f57d215b169d780c7\classes.dex" />
+        sha1="6f9f8b9d734af32c225865199bfd7e35a5ed25b5">
+        <dex dex="C:\Users\lytle\OneDrive - University of Portland\Classes\ObjectTry2\RummikubApplication\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_822a312e8df3cfd44bb9e5385c04a3f18ad07d53\classes.dex" />
     </item>
 
 </items>
