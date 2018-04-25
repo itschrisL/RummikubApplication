@@ -91,7 +91,7 @@ public class RummikubState extends GameState{
 
         for( int i = 0; i < numPlayers; i++){
             playerHands[i] = new TileGroup();
-            playersMelded[i] = true;
+            playersMelded[i] = false;
             this.playerHands[i] = new TileGroup();
         }
 
