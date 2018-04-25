@@ -113,12 +113,23 @@ public class TileSet extends TileGroup implements Serializable {
                     if(tileAr[j + 1] instanceof JokerTile){
 
                     }
-                    ((JokerTile)tileAr[j]).setJokerValues((tileAr[j+1].getValue()) - 1, tileColor);
+                    // Make sure next
+                    if(tileAr[j+1].getValue() - 1 > 0){
+                        ((JokerTile)tileAr[j]).setJokerValues((tileAr[j+1].getValue()) - 1, tileColor);
+                    }
+                    else {
+                        return false;
+                    }
                     //((JokerTile)group.tiles.get(j)).setJokerValues(group.tiles.get(j+1).getValue() -1, tileColor);
                 }
                 // If joker is last in the array
                 else{
-                    ((JokerTile)tileAr[j]).setJokerValues((tileAr[j-1].getValue()) + 1, tileColor);
+                    if(tileAr[j-1].getValue() + 1 <= 13){
+                        ((JokerTile)tileAr[j]).setJokerValues((tileAr[j-1].getValue()) + 1, tileColor);
+                    }
+                    else {
+                        return false;
+                    }
                     //((JokerTile)group.tiles.get(j)).setJokerValues(group.tiles.get(j-1).getValue() - 1, tileColor);
                 }
             }
@@ -259,31 +270,17 @@ public class TileSet extends TileGroup implements Serializable {
         for(int j = 0; j < this.tiles.size(); j++){
             if(this.tiles.get(j) instanceof JokerTile){
                 if(j + 1 < this.tiles.size()){
-                    // Case if two jokers are next to each other
-                    /*
-                    if(this.tiles.get(j+1) instanceof JokerTile){
-                        // If there is a tile to the left to check
-                        if(j - 1 >= 0){
-                            ((JokerTile)this.tiles.get(j)).setJokerValues(
-                                    this.tiles.get(j-1).getValue()+1, tileColor);
-                        }
-                        else {
-                            ((JokerTile)this.tiles.get(j)).setJokerValues(
-                                    this.tiles.get(j+1).getValue()-1, tileColor);
-                        }
-                    }
-
-                    else {
+                    if(this.tiles.get(j+1).getValue()-1 > 0){
                         ((JokerTile)this.tiles.get(j)).setJokerValues(
                                 this.tiles.get(j+1).getValue()-1, tileColor);
                     }
-                    */
-                    ((JokerTile)this.tiles.get(j)).setJokerValues(
-                            this.tiles.get(j+1).getValue()-1, tileColor);
+
                 }
                 else{
-                    ((JokerTile)this.tiles.get(j)).setJokerValues(
-                            this.tiles.get(j-1).getValue()+1, tileColor);
+                    if(this.tiles.get(j-1).getValue()+1 < 0){
+                        ((JokerTile)this.tiles.get(j)).setJokerValues(
+                                this.tiles.get(j-1).getValue()+1, tileColor);
+                    }
                 }
             }
         }

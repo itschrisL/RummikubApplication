@@ -96,11 +96,6 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
                 break;
             }
 
-            // If player hasn't melded then they can't add single tiles to the board
-            if(state.hasMelded(playerNum)){
-                break;
-            }
-
             //get the score of this tile
             int tileScore= 0;
             Tile tile= stateCopy.getPlayerHand(playerNum).getTile(playPair[0]);

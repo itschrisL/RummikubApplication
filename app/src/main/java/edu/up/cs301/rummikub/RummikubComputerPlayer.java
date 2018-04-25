@@ -10,6 +10,7 @@ import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
+import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 /**
  * The computer player.
