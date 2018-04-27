@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * class Tile
+ *
  * Saves value and color of tile.
  * This class draws Tiles; includes all basic framework.
  * Tile's x and y coordinates on screen.

@@ -1,17 +1,17 @@
 package edu.up.cs301.rummikub;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
 import java.io.Serializable;
 
-import edu.up.cs301.game.infoMsg.BindGameInfo;
-import edu.up.cs301.rummikub.Tile;
-
 /**
- * Created on 4/12/2018.
+ * Class JokerTile
+ *
+ * Extends Tile class
+ * Joker has same functionality as a regular tile but is able to have its
+ * value and color changed according to the run or book jokerTile is a part of
  *
  * @author Daylin Kuboyama
  * @author Harry Thoma
@@ -28,10 +28,11 @@ public class JokerTile extends Tile implements Serializable {
     private static final long serialVersionUID = 6737393762469851826L;
 
     /**
-     * Copy Constructor for JokerTile
-     * @param tileX
-     * @param tileY
-     * @param color
+     * Constructor for JokerTile
+     *
+     * @param tileX x-coord
+     * @param tileY y-coord
+     * @param color of JokerTile //todo initial color= orange?
      */
     public JokerTile(int tileX, int tileY, int val, int color){
         super(tileX, tileY, 0, color);
@@ -42,7 +43,8 @@ public class JokerTile extends Tile implements Serializable {
 
     /**
      * Copy Constructor for JokerTile Class
-     * @param copy
+     *
+     * @param copy the JokerTile to copy
      */
     public JokerTile(JokerTile copy){
         super(copy.getX(), copy.getY(), copy.getValue(), copy.getColor());

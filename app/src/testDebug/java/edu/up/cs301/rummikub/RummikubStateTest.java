@@ -147,8 +147,8 @@ public class RummikubStateTest {
                 (state.getSelectedGroup(),state.getTableTileGroups().get(0));
 
         //shows that the other group on the table isnt selected
-        assertFalse
-                ((state.getSelectedGroup() == state.getTableTileGroups().get(1)));
+        assertFalse((state.getSelectedGroup() ==
+                state.getTableTileGroups().get(1)));
 
         //deselects a group
         state.canSelectGroup(0,-1);
@@ -216,7 +216,7 @@ public class RummikubStateTest {
 
         tableGroups.clear();
 
-        //todo
+        //todo does not work
 
         //adds a tile to the table
         tableGroups.add(new TileGroup(new Tile(0,0,9,Tile.BLACK)));
@@ -236,7 +236,12 @@ public class RummikubStateTest {
 
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
-        TileGroup jokerGroup= new TileGroup(new JokerTile (0,0,9,Tile.BLACK),
+        //trying to free joker as first tile in group
+        JokerTile joker= new JokerTile(0,0,0,Tile.ORANGE);
+        joker.setJokerVal(9);
+        joker.setJokerCol(Tile.BLACK);
+
+        TileGroup jokerGroup= new TileGroup( joker,
                                             new Tile (0,0,10, Tile.BLACK),
                                             new Tile (0,0,11,Tile.BLACK));
         TileGroup tileGroup= new TileGroup(new Tile (0,0,9,Tile.BLACK));
@@ -247,13 +252,69 @@ public class RummikubStateTest {
         int jokerGroupIdx= tableGroups.indexOf(jokerGroup);
         int tileGroupIdx= tableGroups.indexOf(tileGroup);
 
+        //can free joker when joker is first tile in tileGroup
+        assertTrue(state.canFreeJoker(0,jokerGroupIdx,tileGroupIdx ));
+
+        //tests for freeing middle joker
+        joker.setJokerVal(10);
+        joker.setJokerCol(Tile.BLACK);
+
+        jokerGroup= new TileGroup(new Tile (0,0,9, Tile.BLACK),
+                                joker, new Tile (0,0,11,Tile.BLACK));
+        tileGroup= new TileGroup(new Tile (0,0,10,Tile.BLACK));
+
+        tableGroups.add(jokerGroup);
+        tableGroups.add(tileGroup);
+
+        jokerGroupIdx= tableGroups.indexOf(jokerGroup);
+        tileGroupIdx= tableGroups.indexOf(tileGroup);
+
+        //can free joker when joker is middle tile in tileGroup
+        assertTrue(state.canFreeJoker(0,jokerGroupIdx,tileGroupIdx ));
+
+        //tests for freeing joker at end of group
+        joker.setJokerVal(11);
+        joker.setJokerCol(Tile.BLACK);
+
+        jokerGroup= new TileGroup(new Tile (0,0,9, Tile.BLACK),
+                                    new Tile (0,0,10,Tile.BLACK), joker);
+        tileGroup= new TileGroup(new Tile (0,0,11,Tile.BLACK));
+
+        tableGroups.add(jokerGroup);
+        tableGroups.add(tileGroup);
+
+        jokerGroupIdx= tableGroups.indexOf(jokerGroup);
+        tileGroupIdx= tableGroups.indexOf(tileGroup);
+
+        //can free joker when joker is end tile in tileGroup
+        assertTrue(state.canFreeJoker(0,jokerGroupIdx,tileGroupIdx ));
+
+        //tests for freeing joker when 2 jokers are in group
+        joker.setJokerVal(8);
+        joker.setJokerCol(Tile.BLACK);
+        //second Joker
+        JokerTile joker2= new JokerTile(0,0,0,Tile.ORANGE);
+        joker2.setJokerVal(10);
+        joker2.setJokerCol(Tile.BLACK);
+
+        jokerGroup= new TileGroup(joker,new Tile (0,0,9,Tile.BLACK),
+                                    joker2, new Tile (0,0,11,Tile.BLACK));
+        tileGroup= new TileGroup(new Tile (0,0,8,Tile.BLACK));
+
+        tableGroups.add(jokerGroup);
+        tableGroups.add(tileGroup);
+
+        jokerGroupIdx= tableGroups.indexOf(jokerGroup);
+        tileGroupIdx= tableGroups.indexOf(tileGroup);
+
+        //recognizes which joker to free when 2 jokers are in a group
         assertTrue(state.canFreeJoker(0,jokerGroupIdx,tileGroupIdx ));
 
     }
 
     @Test
     public void canSplit() throws Exception {
-        //todo
+        //todo - CHRIS
     }
 
     @Test
@@ -285,7 +346,9 @@ public class RummikubStateTest {
         tableGroups.clear();
 
         //adds a valid run group to the table
-        tableGroups.add(new TileGroup(new Tile(0,0,11,Tile.BLACK), new Tile(0,0,12,Tile.BLACK),new Tile(0,0,13,Tile.BLACK)));
+        tableGroups.add(new TileGroup
+                (new Tile(0,0,11,Tile.BLACK), new Tile(0,0,12,Tile.BLACK),
+                        new Tile(0,0,13,Tile.BLACK)));
 
         //shows that the board is valid with a run on the board
         assertTrue(state.isValidTable());
@@ -293,11 +356,13 @@ public class RummikubStateTest {
         tableGroups.clear();
 
         //because we mocked the class the tiles don't have colors so we can't
-        // check to see if it is a valid book
+        //check to see if it is a valid book
         //all the colors are red
 
         //adds a valid book to the board
-        tableGroups.add(new TileGroup(new Tile(0,0,10,Tile.BLUE), new Tile(0,0,10,Tile.BLACK),new Tile(0,0,10,Tile.RED)));
+        tableGroups.add(new TileGroup
+                (new Tile(0,0,10,Tile.BLUE), new Tile(0,0,10,Tile.BLACK),
+                        new Tile(0,0,10,Tile.RED)));
         //for some reason adding a book to the table isn't a valid
         //assertTrue(state.isValidTable());
 
@@ -320,7 +385,8 @@ public class RummikubStateTest {
         assertTrue(state.canPlayTile(1,0));
 
         //plays a tile index that is bigger than the players hand
-        assertFalse(state.canPlayTile(0,(state.getPlayerHand(0).groupSize())+10));
+        assertFalse
+                (state.canPlayTile(0,(state.getPlayerHand(0).groupSize())+10));
 
         //an invalid tile index(-2)
         assertFalse(state.canPlayTile(1,-2));
@@ -357,7 +423,8 @@ public class RummikubStateTest {
         RummikubState state= game.state;
 
         //this tile is not from the players hand
-        state.getTableTileGroups().add(new TileGroup(new Tile(0,0,7,Tile.BLACK)));
+        state.getTableTileGroups().add(new TileGroup
+                (new Tile(0,0,7,Tile.BLACK)));
         assertFalse(state.isFromHand(state.getTableTileGroups().get(0)));
 
         //plays a tile from the players hand
