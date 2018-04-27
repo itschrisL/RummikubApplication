@@ -109,7 +109,19 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
+
+
+
     public void receiveInfo(GameInfo info) {
+        /**
+         * External Citation
+         * Date: 4/26/18
+         * Problem: wanted to create a pop up message to show that the
+         * round has ended
+         * Source: https://stackoverflow.com/questions/3500197/how-to-display-toast-in-android
+         * Solution: Looked over the question and solutions and then wrote the line of
+         * code below. Didn't copy the line exactly
+         */
         if( info instanceof EndRoundInfo){
             Toast.makeText(myActivity,
                     "Round Over", Toast.LENGTH_SHORT).show();
