@@ -1,23 +1,13 @@
 package edu.up.cs301.rummikub;
 
+import android.widget.Toast;
+
 import java.util.Stack;
 
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
-import edu.up.cs301.rummikub.action.RummikubComputerSplitAction;
-import edu.up.cs301.rummikub.action.RummikubConnectAction;
-import edu.up.cs301.rummikub.action.RummikubDrawAction;
-import edu.up.cs301.rummikub.action.RummikubFreeJokerAction;
-import edu.up.cs301.rummikub.action.RummikubKnockAction;
-import edu.up.cs301.rummikub.action.RummikubPlayGroupAction;
-import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
-import edu.up.cs301.rummikub.action.RummikubReturnTileAction;
-import edu.up.cs301.rummikub.action.RummikubRevertAction;
-import edu.up.cs301.rummikub.action.RummikubSelectTileAction;
-import edu.up.cs301.rummikub.action.RummikubSelectTileGroupAction;
-import edu.up.cs301.rummikub.action.RummikubSplitAction;
-import edu.up.cs301.rummikub.action.RummikubUndoAction;
+import edu.up.cs301.rummikub.action.*;
 
 /**
  *class Rummikub LocalGame
@@ -306,13 +296,14 @@ public class RummikubLocalGame extends LocalGame {
      */
     private boolean drawAction(RummikubDrawAction action){
         int playerId= getPlayerIdx(action.getPlayer());
-        boolean turnEnded = false;
+        boolean turnEnded = true;
         try {
             turnEnded = state.canDraw(playerId);
         }
         catch(RuntimeException rte){
             for( int i = 0; i < state.getNumPlayers(); i++ ){
-                    sendUpdatedStateTo(players[i]);
+                players[i].sendInfo(new EndRoundInfo());
+                sendUpdatedStateTo(players[i]);
             }
 
         }
@@ -353,10 +344,15 @@ public class RummikubLocalGame extends LocalGame {
     private boolean knockAction(RummikubKnockAction action){
         int playerId= getPlayerIdx(action.getPlayer());
 
-        boolean turnEnded= state.canKnock(playerId);
+        boolean turnEnded= true;
+        try {
+            turnEnded = state.canKnock(playerId);
+        }
+        catch(RuntimeException rte) {
+            for (int i = 0; i < state.getNumPlayers(); i++) {
+                players[i].sendInfo(new EndRoundInfo());
+                sendUpdatedStateTo(players[i]);
 
-        for( int i = 0; i < state.getNumPlayers(); i++ ){
-            sendUpdatedStateTo(players[i]);
         }
 
         //if the turn ended

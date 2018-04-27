@@ -1,9 +1,11 @@
 package edu.up.cs301.rummikub;
 
+import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -108,12 +110,15 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public void receiveInfo(GameInfo info) {
-        // ignore the message if it's not a RummikubState message
-        if (!(info instanceof RummikubState)) return;
-
-        // update our state; then update the display
-        this.state = (RummikubState) info;
-
+        if( info instanceof EndRoundInfo){
+            Toast.makeText(myActivity,
+                    "Round Over", Toast.LENGTH_SHORT).show();
+        }
+        // update our state if its a instance of rummikubstate;
+        // then update the display
+        if( info instanceof RummikubState) {
+            this.state = (RummikubState) info;
+        }
 
         //after anything new happens, we don't want to see invalid groups
         table.outlineInvalidGroups(false);

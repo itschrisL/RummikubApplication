@@ -10,6 +10,7 @@ import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
+import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 /**
  * The computer player.
@@ -115,7 +116,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
     private void randomSleep() {
         Random random = new Random();
         // Randomly chooses a sleeping time between 1 and 4 seconds
-        sleep(700);
+        sleep(100);
         // /sleep(random.nextInt(3000)+1000);
     }
 }
