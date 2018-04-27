@@ -177,6 +177,7 @@ public class RummikubStateTest {
 
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
+
         //adds a black 10, black 11, and black 13 to the table
         tableGroups.add(new TileGroup(new Tile(0,0,11,Tile.BLACK)));
         tableGroups.add(new TileGroup(new Tile(0,0,12,Tile.BLACK)));
