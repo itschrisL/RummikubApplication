@@ -972,6 +972,8 @@ public class RummikubState extends GameState{
 
     public boolean hasMelded(int playerIdx){ return playersMelded[playerIdx]; }
 
+    public boolean[] getPlayersMelded() {return playersMelded;}
+
     public int getRound(){return round;}
 
 }
