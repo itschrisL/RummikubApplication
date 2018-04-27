@@ -226,26 +226,6 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-
-        int p = 0;
-        Tile tile1 = new Tile(-1,-1,10,Tile.BLACK);
-        Tile tile2 = new Tile(-1,-1,11,Tile.BLACK);
-        Tile tile3 = new Tile(-1,-1,12,Tile.BLACK);
-        Tile tile4 = new Tile(-1,-1,5,Tile.BLUE);
-        Tile tile5 = new Tile(-1,-1,5,Tile.GREEN);
-        Tile tile6 = new Tile(-1,-1,5,Tile.RED);
-
-        JokerTile jokerTile1 = new JokerTile(-1,-1,0,Tile.BLACK);
-        JokerTile jokerTile2 = new JokerTile(-1,-1,0,Tile.BLACK);
-
-        playerHands[p].add(tile1);
-        playerHands[p].add(tile2);
-        playerHands[p].add(tile3);
-        playerHands[p].add(tile4);
-        playerHands[p].add(tile5);
-        playerHands[p].add(tile6);
-        playerHands[p].add(jokerTile1);
-        playerHands[p].add(jokerTile2);
     }
 
     //gets players name from players array
@@ -383,17 +363,6 @@ public class RummikubState extends GameState{
         }
         round--;
         newRound();
-    }
-
-    /**
-     * Player can select the menu to display a popup
-     * Returns false until menu popup function TODO update once menu setup
-     *
-     * @param playerIdx
-     * @return
-     */
-    public boolean canShowMenu(int playerIdx){
-        return false;
     }
 
     /**
