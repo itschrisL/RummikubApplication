@@ -44,7 +44,7 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
             return pointsPlayed;
         }
 
-        //if not, run the smart algoritm
+        //if not, run the smart algorithm
         pointsPlayed= 0;
 
         attempts= new LinkedList<RummikubState>();
@@ -75,7 +75,9 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
      *          null if the table is unfixable
      */
     private LinkedList<GameAction> fixTable(RummikubState state){
-
+        if(attempts.size() > 5000){
+            return null;
+        }
         if(weveBeenHereBefore(state)){
             return null;
         }
@@ -86,7 +88,6 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
         if(state.isValidTable()) return actions;
 
         ArrayList<TileGroup> table= state.getTableTileGroups();
-        TileGroup hand= state.getPlayerHand(playerNum);
 
         //look for invalid groups
         for(int i=0;i<table.size();i++){
@@ -118,11 +119,12 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
      *          null if the table is unfixable
      */
     private LinkedList<GameAction> fixByPlaying(RummikubState state, int groupIndex){
-        LinkedList<GameAction> actions= new LinkedList<GameAction>();
 
+        //make an arraylist of tile groups with just the hand
         ArrayList<TileGroup> hand= new ArrayList<TileGroup>(1);
         hand.add(state.getPlayerHand(playerNum));
 
+        //get the group we are working on
         TileGroup group= state.getTableTileGroups().get(groupIndex);
 
         int[] help= {0,-1};
@@ -133,30 +135,36 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
             //starting after the last time we did this
             help= helpfulTile(hand,group,help[0],help[1]+1);
 
+            //there is no helpful tile in the hand
             if(help == null) break;
 
+            //the index that the tile were will play will be at
             int newIndex= state.getTableTileGroups().size();
 
+            //get the score of the tile
             Tile tileToPlay= hand.get(0).getTile(help[1]);
             int tileScore= 0;
             if(!(tileToPlay instanceof JokerTile)){
-                tileToPlay.getValue();
+                tileScore= tileToPlay.getValue();
             }
 
-            state.canPlayTile(playerNum,help[1]);
-            actions.add(new RummikubPlayTileAction(this,help[1]));
-
-            state.canConnect(playerNum,groupIndex,newIndex);
-            actions.add(new RummikubConnectAction(this,groupIndex,newIndex));
+            RummikubState stateCopy= new RummikubState(state,playerNum);
+            stateCopy.canPlayTile(playerNum,help[1]);
+            stateCopy.canConnect(playerNum,groupIndex,newIndex);
 
             //now go fix the table
-            LinkedList<GameAction> furtherActions=
-                    fixTable(new RummikubState(state,playerNum));
+            LinkedList<GameAction> actions=
+                    fixTable(new RummikubState(stateCopy,playerNum));
 
             //we fixed the table!!
-            if(furtherActions != null){
+            if(actions != null){
                 pointsPlayed+= tileScore;
-                return mergeQueue(actions,furtherActions);
+                //add the actions to play this tile,
+                //in reverse order because we are pushing them on
+                actions.addFirst(new RummikubConnectAction(this,groupIndex,newIndex));
+                actions.addFirst(new RummikubPlayTileAction(this,help[1]));
+
+                return actions;
             }
         }
 
@@ -172,7 +180,6 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
      *          null if the table is unfixable
      */
     private LinkedList<GameAction> fixBySplitting(RummikubState state, int groupIndex){
-        LinkedList<GameAction> actions= new LinkedList<GameAction>();
 
         ArrayList<TileGroup> table= state.getTableTileGroups();
         TileGroup group= table.get(groupIndex);
@@ -193,21 +200,30 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
                     continue;
                 }
             }
+            //we also don't want to mess with joker groups
+            if(table.get(help[0]).containsJoker()){
+                continue;
+            }
 
             int newIndex= table.size();
-            state.canSimpleSplit(playerNum,help[0],help[1]);
-            actions.add(new RummikubComputerSplitAction(this,help[0],help[1]));
 
-            state.canConnect(playerNum,groupIndex,newIndex);
-            actions.add(new RummikubConnectAction(this,groupIndex,newIndex));
+            RummikubState stateCopy= new RummikubState(state,playerNum);
+
+            stateCopy.canSimpleSplit(playerNum,help[0],help[1]);
+            stateCopy.canConnect(playerNum,groupIndex,newIndex);
 
             //now go fix the table
-            LinkedList<GameAction> furtherActions=
-                    fixTable(new RummikubState(state,playerNum));
+            LinkedList<GameAction> actions=
+                    fixTable(new RummikubState(stateCopy,playerNum));
 
             //we fixed the table!!
-            if(furtherActions != null){
-                return mergeQueue(actions,furtherActions);
+            if(actions != null){
+                //add the actions we must take,
+                //in reverse order because we are pushing to the front
+                actions.addFirst(new RummikubConnectAction(this,groupIndex,newIndex));
+                actions.addFirst(new RummikubComputerSplitAction(this,help[0],help[1]));
+
+                return actions;
             }
         }
 
@@ -232,17 +248,23 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
     private int[] helpfulTile(ArrayList<TileGroup> groups, TileGroup badGroup,
                                 int groupStart, int tileStart){
 
+        //starting at the given start point, go through each group
         for(int i=groupStart;i<groups.size();i++){
             TileGroup group= groups.get(i);
-            if(group.containsJoker()) continue;
+
+            //starting at the given start point, go throug heach tile
             for(int j=tileStart;j<group.groupSize();j++){
                 Tile tile= group.getTile(j);
 
                 //could this tile be helpful?
                 boolean tileCouldHelp= false;
+                //if it's just one tile, we want to know if the
+                //current tile helps it get closer to a set
                 if(badGroup.groupSize() == 1){
                     tileCouldHelp= hopeForSet(tile,badGroup.getTile(0));
                 }
+                //if it's two or more, we want to see if we
+                //could make a set with the current tile
                 else{
                     tileCouldHelp= badGroup.canAddForSet(tile);
                 }
@@ -261,10 +283,15 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
      *
      * @param t1
      * @param t2
-     * @return whehter t1 and t2 are missing just one tile
+     * @return whether t1 and t2 are missing just one tile
      *          in order to be a set
      */
     private boolean hopeForSet(Tile t1, Tile t2){
+        //if either are jokers, the is hope
+        if(t1 instanceof JokerTile || t2 instanceof JokerTile){
+            return true;
+        }
+
         int valDiff= Math.abs(t1.getValue()-t2.getValue());
         boolean sameColor= t1.getColor() == t2.getColor();
 

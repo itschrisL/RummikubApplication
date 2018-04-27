@@ -91,9 +91,29 @@ public class RummikubState extends GameState{
 
         for( int i = 0; i < numPlayers; i++){
             playerHands[i] = new TileGroup();
-            playersMelded[i] = false;
+            playersMelded[i] = true;
             this.playerHands[i] = new TileGroup();
         }
+
+        tableTileGroups.add( new TileGroup(
+                new Tile(0,0,1,Tile.GREEN),
+                new Tile(0,0,2,Tile.GREEN),
+                new Tile(0,0,3,Tile.GREEN)));
+
+        tableTileGroups.add( new TileGroup(
+                new Tile(0,0,9,Tile.BLACK),
+                new Tile(0,0,10,Tile.BLACK),
+                new Tile(0,0,11,Tile.BLACK)));
+
+        tableTileGroups.add( new TileGroup(
+                new Tile(0,0,10,Tile.BLUE),
+                new Tile(0,0,10,Tile.RED),
+                new Tile(0,0,10,Tile.BLACK)));
+
+        tableTileGroups.add( new TileGroup(
+                new Tile(0,0,5,Tile.GREEN),
+                new Tile(0,0,6,Tile.GREEN),
+                new Tile(0,0,7,Tile.GREEN)));
 
         initDrawPile();
         dealHands();
@@ -126,7 +146,8 @@ public class RummikubState extends GameState{
                 else {
                     //make a "hidden" copy
                     this.playerHands[i] =
-                            new HiddenTileGroup(copy.playerHands[i]);
+                            new TileGroup(copy.playerHands[i]);
+                            //new HiddenTileGroup(copy.playerHands[i]);
                 }
             }
 

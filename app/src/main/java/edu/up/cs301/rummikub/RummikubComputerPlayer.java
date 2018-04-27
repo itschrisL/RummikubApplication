@@ -7,6 +7,7 @@ import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
+import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubKnockAction;
 import edu.up.cs301.rummikub.action.RummikubRevertAction;
@@ -57,6 +58,9 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
             return;
         }
 
+        if(info instanceof NotYourTurnInfo){
+            int i=0;
+        }
         //failsafe
         //if we ever try an illegal move,
         //somthing went wrong
@@ -78,29 +82,35 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
     private void makePlay(){
         //if we have not figured out our play, do so
         if(playActions.isEmpty()){
-            int score= findMove();
+            //this critical section adds actions to the playActions queue
+            synchronized (playActions) {
+                int score = findMove();
 
-            //if we weren't able to find a play
-            if(playActions.isEmpty()){
-                //we draw
-                playActions.add(new RummikubDrawAction(this));
+                //if we weren't able to find a play
+                if (playActions.isEmpty()) {
+                    //we draw
+                    playActions.add(new RummikubDrawAction(this));
+                }
+                //if we must meld, but we arn't going to with this play
+                else if (!state.hasMelded(playerNum) && score < 30) {
+                    //we must do nothing and draw
+                    playActions.clear();
+                    playActions.add(new RummikubDrawAction(this));
+                } else {
+                    //if we find a good play, knock
+                    playActions.add(new RummikubKnockAction(this));
+                }
             }
-            //if we must meld, but we arn't going to with this play
-            else if(!state.hasMelded(playerNum) && score < 30){
-                //we must do nothing and draw
-                playActions.clear();
-                playActions.add(new RummikubDrawAction(this));
-            }
-            else{
-                //if we find a good play, knock
-                playActions.add(new RummikubKnockAction(this));
-            }
-
         }
         //then, we want to make our play,
         //one action at a time
         randomSleep();
-        game.sendAction(playActions.remove());
+
+        //this critical section removes and sends actions
+        //from the playActions queue
+        synchronized (playActions) {
+            game.sendAction(playActions.remove());
+        }
     }
 
     /**
@@ -116,7 +126,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
     private void randomSleep() {
         Random random = new Random();
         // Randomly chooses a sleeping time between 1 and 4 seconds
-        sleep(100);
-        // /sleep(random.nextInt(3000)+1000);
+        sleep(700);
+        //sleep(random.nextInt(3000)+1000);
     }
 }

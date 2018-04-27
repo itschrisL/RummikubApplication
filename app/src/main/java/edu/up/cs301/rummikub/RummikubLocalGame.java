@@ -5,19 +5,7 @@ import java.util.Stack;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
-import edu.up.cs301.rummikub.action.RummikubComputerSplitAction;
-import edu.up.cs301.rummikub.action.RummikubConnectAction;
-import edu.up.cs301.rummikub.action.RummikubDrawAction;
-import edu.up.cs301.rummikub.action.RummikubFreeJokerAction;
-import edu.up.cs301.rummikub.action.RummikubKnockAction;
-import edu.up.cs301.rummikub.action.RummikubPlayGroupAction;
-import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
-import edu.up.cs301.rummikub.action.RummikubReturnTileAction;
-import edu.up.cs301.rummikub.action.RummikubRevertAction;
-import edu.up.cs301.rummikub.action.RummikubSelectTileAction;
-import edu.up.cs301.rummikub.action.RummikubSelectTileGroupAction;
-import edu.up.cs301.rummikub.action.RummikubSplitAction;
-import edu.up.cs301.rummikub.action.RummikubUndoAction;
+import edu.up.cs301.rummikub.action.*;
 
 /**
  *class Rummikub LocalGame
