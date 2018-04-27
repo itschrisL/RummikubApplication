@@ -52,7 +52,6 @@ public class RummikubLocalGame extends LocalGame {
 
     @Override
     protected boolean canMove(int playerIdx) {
-
         return state.isPlayerTurn(playerIdx);
     }
 
@@ -75,42 +74,46 @@ public class RummikubLocalGame extends LocalGame {
     public boolean makeMove(GameAction action) {
 
         synchronized (syncObject) {
-            if (action instanceof RummikubPlayTileAction) {
-                return playTileAction((RummikubPlayTileAction) action);
+            int temp = getPlayerIdx(action.getPlayer());
+            if(state.isPlayerTurn(temp)){
+                if (action instanceof RummikubPlayTileAction) {
+                    return playTileAction((RummikubPlayTileAction) action);
+                }
+                if (action instanceof RummikubSelectTileAction) {
+                    return selectTileAction((RummikubSelectTileAction) action);
+                }
+                if (action instanceof RummikubSelectTileGroupAction) {
+                    return selectTileGroupAction((RummikubSelectTileGroupAction) action);
+                }
+                if (action instanceof RummikubFreeJokerAction) {
+                    return freeJokerAction ((RummikubFreeJokerAction) action);
+                }
+                if (action instanceof RummikubConnectAction) {
+                    return connectAction((RummikubConnectAction) action);
+                }
+                if (action instanceof RummikubSplitAction) {
+                    return splitAction((RummikubSplitAction) action);
+                }
+                if (action instanceof RummikubDrawAction) {
+                    return drawAction((RummikubDrawAction) action);
+                }
+                if (action instanceof RummikubKnockAction) {
+                    return knockAction((RummikubKnockAction) action);
+                }
+                if (action instanceof RummikubUndoAction) {
+                    return undoAction((RummikubUndoAction) action);
+                }
+                if (action instanceof RummikubRevertAction) {
+                    return revertAction((RummikubRevertAction) action);
+                }
+                if(action instanceof RummikubPlayGroupAction){
+                    return playTileGroupAction((RummikubPlayGroupAction)action);
+                }
+                if(action instanceof RummikubReturnTileAction){
+                    return returnTileAction((RummikubReturnTileAction) action );
+                }
             }
-            if (action instanceof RummikubSelectTileAction) {
-                return selectTileAction((RummikubSelectTileAction) action);
-            }
-            if (action instanceof RummikubSelectTileGroupAction) {
-                return selectTileGroupAction((RummikubSelectTileGroupAction) action);
-            }
-            if (action instanceof RummikubFreeJokerAction) {
-                return freeJokerAction ((RummikubFreeJokerAction) action);
-            }
-            if (action instanceof RummikubConnectAction) {
-                return connectAction((RummikubConnectAction) action);
-            }
-            if (action instanceof RummikubSplitAction) {
-                return splitAction((RummikubSplitAction) action);
-            }
-            if (action instanceof RummikubDrawAction) {
-                return drawAction((RummikubDrawAction) action);
-            }
-            if (action instanceof RummikubKnockAction) {
-                return knockAction((RummikubKnockAction) action);
-            }
-            if (action instanceof RummikubUndoAction) {
-                return undoAction((RummikubUndoAction) action);
-            }
-            if (action instanceof RummikubRevertAction) {
-                return revertAction((RummikubRevertAction) action);
-            }
-            if(action instanceof RummikubPlayGroupAction){
-                return playTileGroupAction((RummikubPlayGroupAction)action);
-            }
-            if(action instanceof RummikubReturnTileAction){
-                return returnTileAction((RummikubReturnTileAction) action );
-            }
+
         }
 
         //if we got this far, noting happened

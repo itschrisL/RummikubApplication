@@ -1,5 +1,7 @@
 package edu.up.cs301.rummikub;
 
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.Random;
 
