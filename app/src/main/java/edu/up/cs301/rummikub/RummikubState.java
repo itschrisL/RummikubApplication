@@ -227,6 +227,23 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
+
+        Tile tile1 = new Tile(-1,-1,10,Tile.BLUE);
+        Tile tile2 = new Tile(-1,-1,10,Tile.GREEN);
+        Tile tile3 = new Tile(-1,-1,10,Tile.RED);
+        JokerTile tile4 = new JokerTile(-1,-1,10,Tile.ORANGE);
+        JokerTile tile5 = new JokerTile(-1,-1,10,Tile.ORANGE);
+
+        Tile[] addTiles = {tile1, tile2, tile3, tile4, tile5};
+        for(int x = 0; x < addTiles.length; x++){
+            playerHands[0].add(addTiles[x]);
+        }
+
+        /*
+        for(int y = 0; y < numPlayers; y++){
+            playerHands[y].numericalOrder();
+        }
+        */
     }
 
     //gets players name from players array
@@ -266,6 +283,7 @@ public class RummikubState extends GameState{
         currentPlayerPlayed = false;
         selectedGroup = null;
         tilesFromHand = new TileGroup();
+        Log.i("next turn", "Player's Turn : " + currentPlayer);
     }
 
     /**
@@ -306,7 +324,9 @@ public class RummikubState extends GameState{
         }
         if(!(currentPlayerPlayed) && isValidTable() == true) {
             giveTileToPlayer(playerIdx);
+            //playerHands[playerIdx].numericalOrder();
             nextTurn();
+
             return true;
         }
         return false;
@@ -337,6 +357,7 @@ public class RummikubState extends GameState{
 
         }
 
+        //playerHands[currentPlayer].numericalOrder(); TODO ADD LATER
         nextTurn();
         return true;
     }
@@ -432,6 +453,12 @@ public class RummikubState extends GameState{
         return true;
     }
 
+    /**
+     *
+     * @param playerIdx
+     * @param groupIndex
+     * @return
+     */
     public boolean canReturnTile(int playerIdx, int groupIndex){
         if( groupIndex < 0 ) return false;
 
@@ -472,10 +499,12 @@ public class RummikubState extends GameState{
 
 
         int jokerIndex= -1;
+        ArrayList<JokerTile> jokersInSet = new ArrayList<JokerTile>();
         //find index of joker within its group
         for (int i= 0; i< groupWithJoker.groupSize(); i++) {
             if (groupWithJoker.getTile(i) instanceof JokerTile) {
                 jokerIndex= i;
+                jokersInSet.add((JokerTile)groupWithJoker.getTile(i));
             }
         }
 
@@ -503,6 +532,20 @@ public class RummikubState extends GameState{
             }
             if(!found) return false;
         }
+        // If there is more then one joker in this run
+        else if(jokersInSet.size() > 1) {
+            boolean match = false; // Boolean for if tile matches joker
+            for(JokerTile tile : jokersInSet){
+                // Check if any jokers match the target tile
+                if(tile.getJokerVal() == tileVal && tile.getColor() == tileCol){
+                    match = true;
+                }
+            }
+            // If no match found return false.
+            if(!match){
+                return false;
+            }
+        }
         else if (!(jokerVal == tileVal && jokerCol == tileCol)) return false;
 
         //canConnect(playerIdx,jokerGroup,tileGroup);
@@ -511,7 +554,7 @@ public class RummikubState extends GameState{
         tableTileGroups.remove(tileGroup);
 
         groupWithJoker.remove(joker); //remove joker from jokerGroup
-        ((JokerTile)joker).assigned = false; // reset joker values
+        ((JokerTile)joker).setJokerAssigned(false); // reset joker values
         TileGroup singleJoker= new TileGroup(); //create new tileGroup
         singleJoker.add(joker);
         tableTileGroups.add(singleJoker); //places joker tile as last tile
@@ -577,7 +620,7 @@ public class RummikubState extends GameState{
         for(Tile tile : tilesInGroup){
             //add each tile to the table
             if(tile instanceof JokerTile) {
-                ((JokerTile) tile).assigned = false;
+                ((JokerTile) tile).setJokerAssigned(false);
             }
         }
 
@@ -971,6 +1014,8 @@ public class RummikubState extends GameState{
     }
 
     public boolean hasMelded(int playerIdx){ return playersMelded[playerIdx]; }
+
+    public boolean[] getPlayersMelded() {return playersMelded;}
 
     public int getRound(){return round;}
 

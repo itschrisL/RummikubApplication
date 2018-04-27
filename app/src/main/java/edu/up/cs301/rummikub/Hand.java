@@ -125,7 +125,7 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
         //draws each tile according to its x,y coords
         for (Tile tile : tileList) {
             if(tile instanceof JokerTile){
-                ((JokerTile) tile).assigned = false;
+                ((JokerTile) tile).setJokerAssigned(false);
             }
             tile.drawTile(c);
         }

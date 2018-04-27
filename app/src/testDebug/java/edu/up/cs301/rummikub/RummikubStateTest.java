@@ -11,7 +11,14 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * Created by daylinkuboyama on 4/26/18.
+ * RummikubStateTest
+ *
+ * J-unit tests for RummikubState.
+ *
+ * @author Riley Snook
+ * @author Daylin Kuboyama
+ * @author Chris Lytle
+ * @author Harry Thoma
  */
 public class RummikubStateTest {
 
@@ -74,9 +81,10 @@ public class RummikubStateTest {
         //checks to make sure player cannot knock with invalid play
         //invalid play: B11, B12, B12
         assertFalse(state.canKnock(0));
+        //still player 1's turn
+        assertTrue(state.isPlayerTurn(0));
 
         tableGroups.clear();
-        assert state.isPlayerTurn(0);
 
 
         state.getPlayerHand(0).add(new Tile(0,0,10,Tile.BLACK));
@@ -124,17 +132,23 @@ public class RummikubStateTest {
         game.start(players);
         RummikubState state= game.state;
 
-        state.getTableTileGroups().add(new TileGroup(new Tile(0,0,6,Tile.GREEN),new Tile(0,0,9,Tile.BLUE)));
-        state.getTableTileGroups().add(new TileGroup(new Tile(0,0,9,Tile.GREEN),new Tile(0,0,12,Tile.BLUE)));
+        state.getTableTileGroups().add
+                (new TileGroup(new Tile(0,0,6,Tile.GREEN),
+                        new Tile(0,0,9,Tile.BLUE)));
+        state.getTableTileGroups().add
+                (new TileGroup(new Tile(0,0,9,Tile.GREEN),
+                        new Tile(0,0,12,Tile.BLUE)));
 
         //shows that a group was selected
         assertTrue(state.canSelectGroup(0,0));
 
         //shows that the right group was selected
-        assertEquals(state.getSelectedGroup(),state.getTableTileGroups().get(0));
+        assertEquals
+                (state.getSelectedGroup(),state.getTableTileGroups().get(0));
 
         //shows that the other group on the table isnt selected
-        assertFalse((state.getSelectedGroup() == state.getTableTileGroups().get(1)));
+        assertFalse
+                ((state.getSelectedGroup() == state.getTableTileGroups().get(1)));
 
         //deselects a group
         state.canSelectGroup(0,-1);
