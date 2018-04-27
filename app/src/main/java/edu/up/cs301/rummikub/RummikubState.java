@@ -2,9 +2,9 @@ package edu.up.cs301.rummikub;
 
 
 import android.util.Log;
+
 import java.util.ArrayList;
 
-import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
