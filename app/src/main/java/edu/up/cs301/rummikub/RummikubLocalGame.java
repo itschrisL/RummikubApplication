@@ -297,14 +297,14 @@ public class RummikubLocalGame extends LocalGame {
      */
     private boolean drawAction(RummikubDrawAction action){
         int playerId= getPlayerIdx(action.getPlayer());
-        boolean turnEnded = false;
+        boolean turnEnded = true;
         try {
             turnEnded = state.canDraw(playerId);
         }
         catch(RuntimeException rte){
             for( int i = 0; i < state.getNumPlayers(); i++ ){
                 players[i].sendInfo(new EndRoundInfo());
-                sendUpdatedStateTo(players[i]);
+                //sendUpdatedStateTo(players[i]);
             }
 
         }
@@ -346,10 +346,9 @@ public class RummikubLocalGame extends LocalGame {
 
         boolean turnEnded= state.canKnock(playerId);
 
-        for( int i = 0; i < state.getNumPlayers(); i++ ){
-            sendUpdatedStateTo(players[i]);
+        for( int i = 0; i < state.getNumPlayers(); i++ ) {
+            //sendUpdatedStateTo(players[i]);
         }
-
 
         //if the turn ended
         if(turnEnded){

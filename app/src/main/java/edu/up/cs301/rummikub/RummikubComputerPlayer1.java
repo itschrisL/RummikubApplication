@@ -81,7 +81,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
         }
 
         //if we havn't melded, we are done
-        if(!this.state.hasMelded(playerNum)) return currentPlayPoints;
+        if(!hasMelded) return currentPlayPoints;
 
         //this loop will find single tiles to add to the table
         //we will break when we can no longer find one
@@ -141,7 +141,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
                 for(int k= j+1; k<tiles.size(); k++){
                     Tile t3= tiles.get(k);
 
-                    TileGroup group= new TileGroup(t1,t2,t3);
+                    TileGroup group= new TileGroup(t3,t2,t1);
                     if(TileSet.isValidSet(group)){
 
                         //return indexes
@@ -166,9 +166,6 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
     private int[] findTileToPlay(RummikubState state){
         TileGroup hand= state.getPlayerHand(playerNum);
         ArrayList<TileGroup> groups= state.getTableTileGroups();
-        if(state.hasMelded(playerNum)) {
-            return null;
-        }
 
         //go through each tile in our hand
         for(int tileIndex=0; tileIndex<hand.groupSize(); tileIndex++){
