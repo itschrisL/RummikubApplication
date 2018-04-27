@@ -15,21 +15,6 @@ import static junit.framework.Assert.assertTrue;
  */
 public class RummikubStateTest {
 
-    /**
-     * creates localGame and gameState with 2 players
-     */
-    public void gameSetup () {
-        RummikubLocalGame game= new RummikubLocalGame();
-
-        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
-                new RummikubComputerPlayer("Thalo")};
-
-        game.start(players);
-
-
-    }
-
-
     @Test
     public void testIsPlayerTurn() throws Exception {
         RummikubLocalGame game= new RummikubLocalGame();
@@ -154,8 +139,6 @@ public class RummikubStateTest {
         //shows that a group is no longer selected
         assertEquals(state.getSelectedGroup(),null);
 
-
-
     }
 
     @Test
@@ -216,6 +199,8 @@ public class RummikubStateTest {
 
         tableGroups.clear();
 
+        //todo
+
         //adds a tile to the table
         tableGroups.add(new TileGroup(new Tile(0,0,9,Tile.BLACK)));
         assertFalse(state.canReturnTile(0,0));
@@ -224,6 +209,7 @@ public class RummikubStateTest {
 
     @Test
     public void canFreeJoker() throws Exception {
+        //todo
         RummikubLocalGame game= new RummikubLocalGame();
 
         GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
@@ -251,16 +237,17 @@ public class RummikubStateTest {
 
     @Test
     public void canSplit() throws Exception {
-
+        //todo
     }
 
     @Test
     public void canSimpleSplit() throws Exception {
-
+        //todo
     }
 
     @Test
     public void isValidTable() throws Exception {
+        //todo
         RummikubLocalGame game= new RummikubLocalGame();
 
         GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
@@ -281,8 +268,6 @@ public class RummikubStateTest {
         assertFalse(state.isValidTable());
 
         tableGroups.clear();
-
-
 
         //adds a valid run group to the table
         tableGroups.add(new TileGroup(new Tile(0,0,11,Tile.BLACK), new Tile(0,0,12,Tile.BLACK),new Tile(0,0,13,Tile.BLACK)));
@@ -320,11 +305,12 @@ public class RummikubStateTest {
 
         //an invalid tile index(-2)
         assertFalse(state.canPlayTile(1,-2));
-
     }
 
     @Test
     public void canPlayTileGroup() throws Exception {
+        //todo help
+
         RummikubLocalGame game= new RummikubLocalGame();
 
         GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
@@ -364,7 +350,7 @@ public class RummikubStateTest {
         state.canConnect(0,0,1);
         assertFalse(state.isFromHand(state.getTableTileGroups().get(0)));
 
-
+        //todo
     }
 
     @Test
@@ -385,11 +371,6 @@ public class RummikubStateTest {
 
         //shows if the player has played
         assertTrue(state.hasCurrentPlayerPlayed());
-
-    }
-
-    @Test
-    public void hasMelded() throws Exception {
 
     }
 

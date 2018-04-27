@@ -20,6 +20,8 @@ import static junit.framework.Assert.assertTrue;
  */
 
 /**
+ * External Citation
+ *
  * Date: 4-15-18
  * Problem: Mocked error when making unit tests
  * Solution: We used code from this website and put it into the
@@ -63,7 +65,5 @@ public class RummikubLocalGameTest {
 
     }
 
-    public void undo() throws Exception {
 
-    }
 }

@@ -3,7 +3,6 @@ package edu.up.cs301.rummikub;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.style.LineHeightSpan;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -185,6 +184,8 @@ public class Tile implements Serializable {
 
     }
     /**
+     * External Citation
+     *
      * in method above text size isn't the same at the height in pixels of the character
      * Date: 4-18-18
      * Problem: We needed the height of the text to put the character in the right place
@@ -192,7 +193,6 @@ public class Tile implements Serializable {
      * took the lines and put them in our code
      * Source:https://stackoverflow.com/questions/14277058/get-the-text-height-
      * including-the-font-size-and-set-that-height
-     *
      *
      */
 
