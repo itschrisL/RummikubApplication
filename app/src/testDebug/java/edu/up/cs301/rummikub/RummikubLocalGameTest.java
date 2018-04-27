@@ -62,7 +62,7 @@ public class RummikubLocalGameTest {
 
         String state2= game.state.toString();
 
-        //just make sure we actually changed the state
+        //just to make sure we actually changed the state
         assertFalse( state1.equals(state2));
 
         //now we've made a play, we should be able to undo
