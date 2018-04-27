@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.up.cs301.game.GamePlayer;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -110,11 +111,50 @@ public class RummikubStateTest {
 
     @Test
     public void canSelectTile() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
 
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        //player selects a card that is in their hand
+        assertTrue(state.canSelectTile(0,state.getPlayerHand(0).getTile(4)));
+
+        //player cant select a card in the other players hand
+        assertFalse(state.canSelectTile(0,state.getPlayerHand(1).getTile(9)));
     }
 
     @Test
     public void canSelectGroup() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
+
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        state.getTableTileGroups().add(new TileGroup(new Tile(0,0,6,Tile.GREEN),new Tile(0,0,9,Tile.BLUE)));
+        state.getTableTileGroups().add(new TileGroup(new Tile(0,0,9,Tile.GREEN),new Tile(0,0,12,Tile.BLUE)));
+
+        //shows that a group was selected
+        assertTrue(state.canSelectGroup(0,0));
+
+        //shows that the right group was selected
+        assertEquals(state.getSelectedGroup(),state.getTableTileGroups().get(0));
+
+        //shows that the other group on the table isnt selected
+        assertFalse((state.getSelectedGroup() == state.getTableTileGroups().get(1)));
+
+        //deselects a group
+        state.canSelectGroup(0,-1);
+
+        //shows that a group is no longer selected
+        assertEquals(state.getSelectedGroup(),null);
+
+
 
     }
 
@@ -179,6 +219,7 @@ public class RummikubStateTest {
         //adds a tile to the table
         tableGroups.add(new TileGroup(new Tile(0,0,9,Tile.BLACK)));
         assertFalse(state.canReturnTile(0,0));
+
     }
 
     @Test
@@ -249,7 +290,7 @@ public class RummikubStateTest {
         //shows that the board is valid with a run on the board
         assertTrue(state.isValidTable());
 
-        //tableGroups.clear();
+        tableGroups.clear();
 
         //adds a valid book to the board
         tableGroups.add(new TileGroup(new Tile(0,0,10,Tile.BLUE), new Tile(0,0,10,Tile.BLACK),new Tile(0,0,10,Tile.RED)));
@@ -260,21 +301,90 @@ public class RummikubStateTest {
 
     @Test
     public void canPlayTile() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
+
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        //plays the first tile in the players hand, player 1
+        assertTrue(state.canPlayTile(0,0));
+
+        //plays the first tile in player 2 hand
+        assertTrue(state.canPlayTile(1,0));
+
+        //plays a tile index that is bigger than the players hand
+        assertFalse(state.canPlayTile(0,(state.getPlayerHand(0).groupSize())+10));
+
+        //an invalid tile index(-2)
+        assertFalse(state.canPlayTile(1,-2));
 
     }
 
     @Test
     public void canPlayTileGroup() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
 
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        TileGroup testGroup = new TileGroup(new Tile(0,0,3,Tile.BLACK),
+                new Tile(0,0,7,Tile.GREEN));
+        int[] tiles = {0,1};
+        assertTrue(state.canPlayTileGroup(0, tiles));
+
+        int[] tiles2 = {0,1,6,4,3,2,5,3};
+        assertTrue(state.canPlayTileGroup(0, tiles2));
     }
 
     @Test
     public void isFromHand() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
+
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        //this tile is not from the players hand
+        state.getTableTileGroups().add(new TileGroup(new Tile(0,0,7,Tile.BLACK)));
+        assertFalse(state.isFromHand(state.getTableTileGroups().get(0)));
+
+        //plays a tile from the players hand
+        state.canPlayTile(0,0);
+        assertTrue(state.isFromHand(state.getTableTileGroups().get(1)));
+
+        //one tile from hand is connected with a tile that was on the board
+        state.canConnect(0,0,1);
+        assertFalse(state.isFromHand(state.getTableTileGroups().get(0)));
+
 
     }
 
     @Test
     public void hasCurrentPlayerPlayed() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
+
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        //this is false because the player hasnt played
+        assertFalse(state.hasCurrentPlayerPlayed());
+
+        //player 0 plays a card from there hand
+        state.canPlayTile(0,5);
+
+        //shows if the player has played
+        assertTrue(state.hasCurrentPlayerPlayed());
 
     }
 

@@ -63,5 +63,7 @@ public class RummikubLocalGameTest {
 
     }
 
+    public void undo() throws Exception {
 
+    }
 }
