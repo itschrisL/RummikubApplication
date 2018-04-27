@@ -13,6 +13,8 @@ import static junit.framework.Assert.assertTrue;
 /**
  * RummikubLocalGameTest
  *
+ * J-unit tests for RummikubLocalGame
+ *
  * @author Riley Snook
  * @author Harry Thoma
  * @author Chris Lytle

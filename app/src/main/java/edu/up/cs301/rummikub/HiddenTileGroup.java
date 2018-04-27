@@ -15,22 +15,24 @@ import java.io.Serializable;
  */
 
 public class HiddenTileGroup extends TileGroup implements Serializable {
+
     //the size of the hidden tile group
     int groupSize;
+    //todo what is this?
     int handScore;
 
     private static final long serialVersionUID = 5737393762469851826L;
+
     /**
-     * constructor for a hidden tile group
-     *
-     * takes a group which we will copy only some aspects of
+     * constructor for a hidden tile group takes
+     * a group which we will copy only some aspects of
      *
      * @param group the group to hide
      *              if the param group is null, create a hidden
      *              representation of an empty group
      */
     public HiddenTileGroup(TileGroup group){
-        //if there are some null's
+        //if there are some nulls
         if(group == null || group.tiles == null){
             groupSize= 0;
         }
@@ -40,14 +42,6 @@ public class HiddenTileGroup extends TileGroup implements Serializable {
         handScore = groupPointValues();
         //in any case, set tiles to null
         this.tiles= null; //tiles is an inherited field
-    }
-
-    /**
-     * @return the size of the hidden group
-     */
-    @Override
-    public int groupSize(){
-        return groupSize;
     }
 
     /**
@@ -63,7 +57,14 @@ public class HiddenTileGroup extends TileGroup implements Serializable {
     }
 
     /**
-     *
+     * @return the size of the hidden group
+     */
+    @Override
+    public int groupSize(){
+        return groupSize;
+    }
+
+    /**
      * @return a string representation of this hidden group
      */
     @Override

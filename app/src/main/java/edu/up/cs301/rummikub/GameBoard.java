@@ -17,7 +17,7 @@ import edu.up.cs301.game.R;
  *
  * This class produces the green felt background that acts as the playing
  * table; draws the current state of playing table.
- *This class extends View in order to draw the board.
+ * extends View in order to draw the board.
  *
  * @author Harry Thoma
  * @author Daylin Kuboyama
@@ -30,14 +30,17 @@ public class GameBoard extends View {
     //green felt background of playing table
     private Bitmap background;
 
-    private int columnPadding = Tile.WIDTH + 75; // Padding between each tile group
-    private int rowPadding = Tile.getHeight() + 50; // Padding between Rows of tile groups
-    private int wallPadding = 50;  // Padding from
-    private int cellingPadding = 50;
+    // Padding between each tile group
+    private int columnPadding = Tile.WIDTH + 75;
+
+    // Padding between Rows of tile groups
+    private int rowPadding = Tile.getHeight() + 50;
+    private int wallPadding = 50;
 
     //the tile groups currently on the table
     private ArrayList<TileGroup> tileGroups = null;
 
+    //tileGroup selected on table
     private TileGroup selectedGroup = null;
 
     //whether invalid groups should be highlighted
@@ -59,13 +62,14 @@ public class GameBoard extends View {
     }
 
     /**
-     *initilize allows to draw; green felt table bitmap created only once
+     *initialize allows to draw; green felt table bitmap created only once
      */
     private void initialize() {
         this.setWillNotDraw(false);
 
         background =
-                BitmapFactory.decodeResource(getResources(), R.drawable.gameboard_background);
+                BitmapFactory.decodeResource(getResources(),
+                        R.drawable.gameboard_background);
     }
 
     /**
@@ -137,7 +141,6 @@ public class GameBoard extends View {
                 }
             }
 
-
             //go through each tile in the group
             for(Tile tile : tiles){
                 tile.drawTile(c);
@@ -206,7 +209,8 @@ public class GameBoard extends View {
     }
 
     /**
-     * paints the backgroud
+     * paints the background
+     *
      * @param c the canvas on which to draw
      */
     private void drawBackground(Canvas c){
@@ -221,7 +225,8 @@ public class GameBoard extends View {
          *      to the size we want it to be
          */
         background =
-                Bitmap.createScaledBitmap(background,getWidth(),getHeight(),false);
+                Bitmap.createScaledBitmap
+                        (background,getWidth(),getHeight(),false);
         c.drawBitmap(background,0,0,null);
     }
 
@@ -233,6 +238,7 @@ public class GameBoard extends View {
         this.selectedGroup= group;
     }
 
+    //todo rename to setOutlineInvalidGroups ?
     public void outlineInvalidGroups(boolean outline){
         this.highlightInvalid= outline;
     }
