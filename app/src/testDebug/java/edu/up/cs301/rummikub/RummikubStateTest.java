@@ -61,42 +61,48 @@ public class RummikubStateTest {
 
         assertTrue(state.isPlayerTurn(0));
 
-
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
-        TileGroup tg1= new TileGroup(new Tile(0,0,11,Tile.BLACK));
-        TileGroup tg2= new TileGroup(new Tile(0,0,12,Tile.BLACK));
-        TileGroup tg3= new TileGroup(new Tile(0,0,12,Tile.BLACK));
 
-        tableGroups.add(tg1);
-        tableGroups.add(tg2);
-        tableGroups.add(tg3);
+        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
 
-        int tg1Idx= tableGroups.indexOf(tg1);
-        int tg2Idx= tableGroups.indexOf(tg2);
-        int tg3Idx= tableGroups.indexOf(tg3);
+        //can play tile index 0 cause its there
+        assertTrue(state.canPlayTile(0,14));
+        state.canPlayTile(0,14);
+        state.canPlayTile(0,14);
 
-        tg1.merge(tg2);
-        tableGroups.remove(tg2);
-        tg1.merge(tg3);
+        //can't play tile at index 99 cause there isnt a tile there
+        assertFalse(state.canPlayTile(0,99));
+
+        //connects the first two tiles that are solo groups
+        assertTrue(state.canConnect(0,0,1));
+
+        //connects prev connected group and last single tile
+        assertTrue(state.canConnect(0,0,1));
 
         //checks to make sure player cannot knock with invalid play
         //invalid play: B11, B12, B12
         assertFalse(state.canKnock(0));
 
-        tableGroups.clear();
-        TileGroup tg1Good= new TileGroup(new Tile(0,0,11,Tile.BLACK));
-        TileGroup tg2Good= new TileGroup(new Tile(0,0,12,Tile.BLACK));
-        TileGroup tg4= new TileGroup(new Tile(0,0,13,Tile.BLACK));
+        state.getTableTileGroups().clear();
+        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(0,0,13,Tile.BLACK));
 
-        tableGroups.add(tg1Good);
-        tableGroups.add(tg2Good);
-        tableGroups.add(tg4);
 
-        tg1Good.merge(tg2Good);
-        tableGroups.remove(tg2Good);
-        tg1Good.merge(tg4);
+        state.canPlayTile(0,14);
+        state.canPlayTile(0,14);
+        state.canPlayTile(0,14);
 
+        state.canConnect(0,0,1);
+        state.canConnect(0,0,1);
+
+        //shows that you can knock a valid table
         assertTrue(state.canKnock(0));
+
+
+        assertFalse(state.canKnock(1));
     }
 
     @Test
@@ -116,7 +122,31 @@ public class RummikubStateTest {
 
     @Test
     public void canReturnTile() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
 
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+
+        ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
+
+        //add tiles to hand, its index is 14
+        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
+
+        //plays the tile above to the table
+        state.canPlayTile(0,14);
+
+        //shows that you can return that tile to the players hand
+        assertTrue(state.canReturnTile(0,0));
+
+        tableGroups.clear();
+
+        //adds a tile to the table
+        tableGroups.add(new TileGroup(new Tile(0,0,9,Tile.BLACK)));
+        assertFalse(state.canReturnTile(0,0));
     }
 
     @Test
@@ -136,6 +166,41 @@ public class RummikubStateTest {
 
     @Test
     public void isValidTable() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
+
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+
+        ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
+
+        //adds a black 10, black 11, and black 13 to the table
+        tableGroups.add(new TileGroup(new Tile(0,0,11,Tile.BLACK)));
+        tableGroups.add(new TileGroup(new Tile(0,0,12,Tile.BLACK)));
+
+        //shows that having those three separate solo tile groups
+        //on the board isn't a valid table
+        assertFalse(state.isValidTable());
+
+        tableGroups.clear();
+
+
+
+        //adds a valid run group to the table
+        tableGroups.add(new TileGroup(new Tile(0,0,11,Tile.BLACK), new Tile(0,0,12,Tile.BLACK),new Tile(0,0,13,Tile.BLACK)));
+
+        //shows that the board is valid with a run on the board
+        assertTrue(state.isValidTable());
+
+        //tableGroups.clear();
+
+        //adds a valid book to the board
+        tableGroups.add(new TileGroup(new Tile(0,0,10,Tile.BLUE), new Tile(0,0,10,Tile.BLACK),new Tile(0,0,10,Tile.RED)));
+
+        assertTrue(state.isValidTable());
 
     }
 
