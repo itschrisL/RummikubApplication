@@ -226,7 +226,6 @@ public class RummikubStateTest {
 
     @Test
     public void canFreeJoker() throws Exception {
-        //todo
         RummikubLocalGame game= new RummikubLocalGame();
 
         GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
@@ -264,7 +263,6 @@ public class RummikubStateTest {
 
     @Test
     public void isValidTable() throws Exception {
-        //todo
         RummikubLocalGame game= new RummikubLocalGame();
 
         GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
@@ -294,7 +292,7 @@ public class RummikubStateTest {
 
         tableGroups.clear();
 
-        //becuase we mocked the class the tiles don't have colors so we can't
+        //because we mocked the class the tiles don't have colors so we can't
         // check to see if it is a valid book
         //all the colors are red
 
@@ -330,8 +328,6 @@ public class RummikubStateTest {
 
     @Test
     public void canPlayTileGroup() throws Exception {
-        //todo help
-
         RummikubLocalGame game= new RummikubLocalGame();
 
         GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
@@ -345,8 +341,9 @@ public class RummikubStateTest {
         int[] tiles = {0,1};
         assertTrue(state.canPlayTileGroup(0, tiles));
 
-        int[] tiles2 = {0,1,6,4,3,2,5,3};
-        assertTrue(state.canPlayTileGroup(0, tiles2));
+        int[] tiles2 = {0,1,80};
+        //plays a tile that isn't in the hand, should return false
+        assertFalse(state.canPlayTileGroup(0, tiles2));
     }
 
     @Test
@@ -370,8 +367,6 @@ public class RummikubStateTest {
         //one tile from hand is connected with a tile that was on the board
         state.canConnect(0,0,1);
         assertFalse(state.isFromHand(state.getTableTileGroups().get(0)));
-
-        //todo
     }
 
     @Test
@@ -392,7 +387,5 @@ public class RummikubStateTest {
 
         //shows if the player has played
         assertTrue(state.hasCurrentPlayerPlayed());
-
     }
-
 }
