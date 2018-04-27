@@ -2,9 +2,9 @@ package edu.up.cs301.rummikub;
 
 
 import android.util.Log;
+
 import java.util.ArrayList;
 
-import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameState;
 
 /**
@@ -353,7 +353,9 @@ public class RummikubState extends GameState{
 
         //if the player played all their tiles
         if(playerHands[currentPlayer].groupSize() == 0){
+            roundOver();
             throw new RuntimeException("Reset Round");
+
         }
 
         nextTurn();
@@ -383,17 +385,6 @@ public class RummikubState extends GameState{
         }
         round--;
         newRound();
-    }
-
-    /**
-     * Player can select the menu to display a popup
-     * Returns false until menu popup function TODO update once menu setup
-     *
-     * @param playerIdx
-     * @return
-     */
-    public boolean canShowMenu(int playerIdx){
-        return false;
     }
 
     /**
