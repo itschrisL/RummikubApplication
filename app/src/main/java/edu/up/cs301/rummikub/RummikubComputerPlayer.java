@@ -31,6 +31,16 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
     protected LinkedList<GameAction> playActions= new LinkedList<GameAction>();
 
     /**
+     * External Citation
+     * Date: 4/12/2018
+     * Problem: wanted queue for actions
+     * Source: java.util.LinkedList documentation
+     * Solution: use java.util.LinkedList
+     *          with add and remove methods making
+     *          the list function as a queue
+     */
+
+    /**
      * Constructor for objects of class CounterComputerPlayer1
      *
      * @param name

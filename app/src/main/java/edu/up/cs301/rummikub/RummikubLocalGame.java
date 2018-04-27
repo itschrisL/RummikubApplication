@@ -22,13 +22,17 @@ public class RummikubLocalGame extends LocalGame {
 
     RummikubState state;
 
-    Stack<RummikubState> prevState= new Stack<RummikubState>();
+    private Stack<RummikubState> prevState= new Stack<RummikubState>();
 
     private Object syncObject = new Object();
 
-    public RummikubLocalGame(){
-
-    }
+    /**
+     * External Citation
+     * Date: 3/28/2018
+     * Problem: wanted stack for previous states
+     * Source: java.util.Stack documentation
+     * Solution: use java.util.Stack
+     */
 
     @Override
     public void start(GamePlayer[] players){
@@ -37,12 +41,6 @@ public class RummikubLocalGame extends LocalGame {
 
     }
 
-    /**
-     * External Citation
-     * Problem: wanted stack for previous states
-     * Source: java.util.Stack documentation
-     * Solution: use java.util.Stack
-     */
 
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
