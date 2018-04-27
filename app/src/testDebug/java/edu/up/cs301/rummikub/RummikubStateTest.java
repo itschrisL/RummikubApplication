@@ -45,12 +45,24 @@ public class RummikubStateTest {
 
     @Test
     public void canDraw() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
 
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        assert state.isPlayerTurn(0);
+
+        assertTrue(state.canDraw(0));
+        assertFalse(state.canKnock(1));
 
     }
 
     @Test
     public void canKnock() throws Exception {
+        //todo
         RummikubLocalGame game= new RummikubLocalGame();
 
         GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
@@ -63,46 +75,37 @@ public class RummikubStateTest {
 
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
-        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
-        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
-        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
+        TileGroup tg1= new TileGroup(new Tile(0,0,11,Tile.BLACK));
+        TileGroup tg2= new TileGroup(new Tile(0,0,12,Tile.BLACK));
+        TileGroup tg3= new TileGroup(new Tile(0,0,12,Tile.BLACK));
 
-        //can play tile index 0 cause its there
-        assertTrue(state.canPlayTile(0,14));
-        state.canPlayTile(0,14);
-        state.canPlayTile(0,14);
+        tableGroups.add(tg1);
+        tableGroups.add(tg2);
+        tableGroups.add(tg3);
 
-        //can't play tile at index 99 cause there isnt a tile there
-        assertFalse(state.canPlayTile(0,99));
-
-        //connects the first two tiles that are solo groups
-        assertTrue(state.canConnect(0,0,1));
-
-        //connects prev connected group and last single tile
-        assertTrue(state.canConnect(0,0,1));
+        tg1.merge(tg2);
+        tg1.merge(tg3);
 
         //checks to make sure player cannot knock with invalid play
         //invalid play: B11, B12, B12
         assertFalse(state.canKnock(0));
 
-        state.getTableTileGroups().clear();
-        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
-        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
-        state.getPlayerHand(0).add(new Tile(0,0,13,Tile.BLACK));
+        tableGroups.clear();
+        assert state.isPlayerTurn(0);
 
+        TileGroup tg1Final= new TileGroup(new Tile(0,0,11,Tile.BLACK));
+        TileGroup tg2Final= new TileGroup(new Tile(0,0,12,Tile.BLACK));
+        TileGroup tg3Final= new TileGroup(new Tile(0,0,13,Tile.BLACK));
 
-        state.canPlayTile(0,14);
-        state.canPlayTile(0,14);
-        state.canPlayTile(0,14);
+        tableGroups.add(tg1Final);
+        tableGroups.add(tg2Final);
+        tableGroups.add(tg3Final);
 
-        state.canConnect(0,0,1);
-        state.canConnect(0,0,1);
+        tg1Final.merge(tg2Final);
+        tg1Final.merge(tg3Final);
 
-        //shows that you can knock a valid table
         assertTrue(state.canKnock(0));
 
-
-        assertFalse(state.canKnock(1));
     }
 
     @Test
@@ -117,7 +120,36 @@ public class RummikubStateTest {
 
     @Test
     public void canConnect() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
 
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        assertTrue(state.isPlayerTurn(0));
+
+        ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
+
+        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
+
+        state.canPlayTile(0,14);
+        state.canPlayTile(0,14);
+
+        //connects the two tiles that are solo groups
+        assertTrue(state.canConnect(0,0,1));
+
+        //player 2 cannot connect any tiles
+        assertFalse(state.canConnect(1,0,1));
+
+        //player has joker in hand
+        state.getPlayerHand(0).add(new JokerTile(0,0,0,Tile.ORANGE));
+        state.canPlayTile(0,14);
+
+        //player 1 able to connect joker to tileGroups on table
+        assertTrue(state.canConnect(0,0,1));
     }
 
     @Test
@@ -151,6 +183,28 @@ public class RummikubStateTest {
 
     @Test
     public void canFreeJoker() throws Exception {
+        RummikubLocalGame game= new RummikubLocalGame();
+
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+
+        game.start(players);
+        RummikubState state= game.state;
+
+        ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
+
+        TileGroup jokerGroup= new TileGroup(new JokerTile (0,0,9,Tile.BLACK),
+                                            new Tile (0,0,10, Tile.BLACK),
+                                            new Tile (0,0,11,Tile.BLACK));
+        TileGroup tileGroup= new TileGroup(new Tile (0,0,9,Tile.BLACK));
+
+        tableGroups.add(jokerGroup);
+        tableGroups.add(tileGroup);
+
+        int jokerGroupIdx= tableGroups.indexOf(jokerGroup);
+        int tileGroupIdx= tableGroups.indexOf(tileGroup);
+
+        assertTrue(state.canFreeJoker(0,jokerGroupIdx,tileGroupIdx ));
 
     }
 
@@ -176,7 +230,6 @@ public class RummikubStateTest {
 
 
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
-
 
         //adds a black 10, black 11, and black 13 to the table
         tableGroups.add(new TileGroup(new Tile(0,0,11,Tile.BLACK)));
@@ -207,16 +260,6 @@ public class RummikubStateTest {
 
     @Test
     public void canPlayTile() throws Exception {
-        RummikubLocalGame game= new RummikubLocalGame();
-
-        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
-                new RummikubComputerPlayer("Thalo")};
-
-        game.start(players);
-        RummikubState state= game.state;
-
-
-
 
     }
 
