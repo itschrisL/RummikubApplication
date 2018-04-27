@@ -332,7 +332,9 @@ public class RummikubState extends GameState{
 
         //if the player played all their tiles
         if(playerHands[currentPlayer].groupSize() == 0){
+            roundOver();
             throw new RuntimeException("Reset Round");
+
         }
 
         nextTurn();

@@ -110,15 +110,15 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     public void receiveInfo(GameInfo info) {
-        // ignore the message if it's not a RummikubState message
-        if (!(info instanceof RummikubState)) return;
-
         if( info instanceof EndRoundInfo){
-            MessageBox.popUpMessage("Round Over", myActivity);
+            Toast.makeText(myActivity,
+                    "Round Over", Toast.LENGTH_SHORT).show();
         }
-        // update our state; then update the display
-        this.state = (RummikubState) info;
-
+        // update our state if its a instance of rummikubstate;
+        // then update the display
+        if( info instanceof RummikubState) {
+            this.state = (RummikubState) info;
+        }
 
         //after anything new happens, we don't want to see invalid groups
         table.outlineInvalidGroups(false);

@@ -297,7 +297,7 @@ public class RummikubLocalGame extends LocalGame {
      */
     private boolean drawAction(RummikubDrawAction action){
         int playerId= getPlayerIdx(action.getPlayer());
-        boolean turnEnded = false;
+        boolean turnEnded = true;
         try {
             turnEnded = state.canDraw(playerId);
         }
@@ -306,7 +306,6 @@ public class RummikubLocalGame extends LocalGame {
                 players[i].sendInfo(new EndRoundInfo());
                 sendUpdatedStateTo(players[i]);
             }
-
         }
         //if the turn ended
         if(turnEnded){
@@ -344,21 +343,27 @@ public class RummikubLocalGame extends LocalGame {
     private boolean knockAction(RummikubKnockAction action){
         int playerId= getPlayerIdx(action.getPlayer());
 
-        boolean turnEnded= state.canKnock(playerId);
+        boolean turnEnded= true;
+        try {
+            turnEnded = state.canKnock(playerId);
+        }
+        catch(RuntimeException rte) {
+            for (int i = 0; i < state.getNumPlayers(); i++) {
+                players[i].sendInfo(new EndRoundInfo());
+                sendUpdatedStateTo(players[i]);
 
-        for( int i = 0; i < state.getNumPlayers(); i++ ){
-            sendUpdatedStateTo(players[i]);
+            }
         }
 
 
-        //if the turn ended
-        if(turnEnded){
-            //we want to no longer be able to undo
-            prevState.clear();
-        }
+            //if the turn ended
+            if (turnEnded) {
+                //we want to no longer be able to undo
+                prevState.clear();
+            }
 
-        return turnEnded;
-    }
+            return turnEnded;
+        }
 
     /**
      * attempts to undo the last move
