@@ -481,7 +481,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
      * changes hand to represent the player's hand
      */
     private void updateHand(){
-        TileGroup playerHand= state.getPlayerHand(state.getCurrentPlayer());
+        TileGroup playerHand= state.getPlayerHand(playerNum);
 
         hand.setTiles(playerHand);
         hand.invalidate();

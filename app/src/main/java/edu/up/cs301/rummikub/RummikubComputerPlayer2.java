@@ -75,9 +75,7 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
      *          null if the table is unfixable
      */
     private LinkedList<GameAction> fixTable(RummikubState state){
-        if(attempts.size() > 5000){
-            return null;
-        }
+
         if(weveBeenHereBefore(state)){
             return null;
         }
