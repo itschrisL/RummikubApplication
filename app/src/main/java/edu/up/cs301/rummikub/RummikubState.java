@@ -937,7 +937,6 @@ public class RummikubState extends GameState{
                 round+"\n";
     }
 
-
     public ArrayList<TileGroup> getTableTileGroups(){
         return tableTileGroups;
     }
