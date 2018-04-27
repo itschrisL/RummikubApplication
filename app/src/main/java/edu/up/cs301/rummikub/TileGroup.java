@@ -257,6 +257,7 @@ public class TileGroup implements Serializable {
         //empty arraylist
         ArrayList <Tile> temp= new ArrayList<Tile>();
         findJokerValues();
+        //Log.i("Numerical Order","Starting Sorting");
         if(tiles.size() > 1){
             while (!tiles.isEmpty()) {
                 Tile currTile= tiles.get(0); //first tile in arrayList
@@ -271,11 +272,11 @@ public class TileGroup implements Serializable {
                         currTile= tiles.get(i);
                     }
                 }
-                Log.i("Numerical Order","Sorting");
                 temp.add(currTile);
                 tiles.remove(currTile);
             }
         }
+        //Log.i("Numerical Order","Done Sorting");
         tiles= temp; //replaces with sorted tiles arrayList
     }
 

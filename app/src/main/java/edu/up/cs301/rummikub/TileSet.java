@@ -110,9 +110,6 @@ public class TileSet extends TileGroup implements Serializable {
             if(tileAr[j] instanceof JokerTile){
                 //If there is a tile to the right of the joker
                 if(j + 1 < tileAr.length){
-                    if(tileAr[j + 1] instanceof JokerTile){
-
-                    }
                     // Make sure next
                     if(tileAr[j+1].getValue() - 1 > 0){
                         ((JokerTile)tileAr[j]).setJokerValues((tileAr[j+1].getValue()) - 1, tileColor);

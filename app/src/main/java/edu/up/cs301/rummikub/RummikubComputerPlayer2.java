@@ -229,8 +229,6 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
         return null;
     }
 
-
-
     /**
      * finds the index of a tile that might help the invalid group,
      * starts looking in the tileStart'th tile of the groupStart'th group
