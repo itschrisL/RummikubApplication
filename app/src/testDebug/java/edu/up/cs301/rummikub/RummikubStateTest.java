@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GamePlayer;
+import edu.up.cs301.rummikub.action.RummikubPlayGroupAction;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -86,6 +87,8 @@ public class RummikubStateTest {
 
         tableGroups.clear();
 
+        Tile tile1 = new Tile(0,0,10,Tile.BLACK);
+        Tile tile2 = new Tile(0,0,11,Tile.BLACK);
 
         state.getPlayerHand(0).add(new Tile(0,0,10,Tile.BLACK));
         state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
@@ -314,12 +317,58 @@ public class RummikubStateTest {
 
     @Test
     public void canSplit() throws Exception {
-        //todo - CHRIS
+        // Instance variables
+        RummikubLocalGame game= new RummikubLocalGame();
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+        game.start(players);
+        RummikubState state= game.state;
+
+        // Generate test Tiles
+        JokerTile tile1 = new JokerTile (0,0,9,Tile.BLACK);
+        Tile tile2 = new Tile (0,0,10, Tile.BLACK);
+        Tile tile3 = new Tile (0,0,11,Tile.BLACK);
+        Tile tile4 = new Tile(0,0,12,Tile.BLACK);
+
+        // Add group to table
+        TileGroup tileGroup = new TileGroup(tile1,tile2,tile3,tile4);
+        state.getTableTileGroups().add(tileGroup);
+        boolean[] playerMeld = state.getPlayersMelded();
+        playerMeld[0] = true;
+
+        assertFalse(state.canSplit(0, 0, 0));
+
+        assertTrue(state.canSplit(0, 0, 3));
     }
 
     @Test
     public void canSimpleSplit() throws Exception {
-        //todo
+        // Instance variables
+        RummikubLocalGame game= new RummikubLocalGame();
+        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
+                new RummikubComputerPlayer("Thalo")};
+        game.start(players);
+        RummikubState state= game.state;
+
+        // Generate test Tiles
+        JokerTile tile1 = new JokerTile (0,0,9,Tile.BLACK);
+        Tile tile2 = new Tile (0,0,10, Tile.BLACK);
+        Tile tile3 = new Tile (0,0,11,Tile.BLACK);
+        Tile tile4 = new Tile(0,0,12,Tile.BLACK);
+
+        // Create two test groups
+        TileGroup jokerGroup = new TileGroup(tile1, tile2, tile3, tile4);
+        TileGroup goodTileGroup = new TileGroup(tile2, tile3, tile4);
+
+        // Add tiles to table
+        state.getTableTileGroups().add(jokerGroup);
+        state.getTableTileGroups().add(goodTileGroup);
+
+        // Group at index 0 has joker so shouldn't be able to split
+        assertFalse(state.canSimpleSplit(0,0,3));
+
+        // Group at index 1 has joker so
+        assertTrue(state.canSimpleSplit(0,1,1));
     }
 
     @Test

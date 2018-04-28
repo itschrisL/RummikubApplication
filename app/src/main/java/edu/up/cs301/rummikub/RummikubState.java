@@ -227,23 +227,6 @@ public class RummikubState extends GameState{
                 playerHands[j].add(drawPile.draw());
             }
         }
-
-        Tile tile1 = new Tile(-1,-1,10,Tile.BLUE);
-        Tile tile2 = new Tile(-1,-1,10,Tile.GREEN);
-        Tile tile3 = new Tile(-1,-1,10,Tile.RED);
-        JokerTile tile4 = new JokerTile(-1,-1,10,Tile.ORANGE);
-        JokerTile tile5 = new JokerTile(-1,-1,10,Tile.ORANGE);
-
-        Tile[] addTiles = {tile1, tile2, tile3, tile4, tile5};
-        for(int x = 0; x < addTiles.length; x++){
-            playerHands[0].add(addTiles[x]);
-        }
-
-        /*
-        for(int y = 0; y < numPlayers; y++){
-            playerHands[y].numericalOrder();
-        }
-        */
     }
 
     //gets players name from players array
@@ -469,6 +452,9 @@ public class RummikubState extends GameState{
             playerHands[playerIdx].add(tile);
             tableTileGroups.remove(groupIndex);
             tilesFromHand.remove(tile);
+        }
+        else {
+            return false;
         }
         // If tiles from hand is 0, meaning he hasn't played any tiles
         // then current player hasn't made a move
