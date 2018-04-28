@@ -575,6 +575,11 @@ public class RummikubHumanPlayer extends GameHumanPlayer
      * changes table to represent all sets played
      */
     private void updateTable(){
+        //if it's not our turn, don't highlight invalid groups
+        if(!state.isPlayerTurn(playerNum)){
+            table.setOutlineInvalidGroups(false);
+        }
+
         table.setTileGroups(state.getTableTileGroups());
         table.setSelectedGroup(state.getSelectedGroup());
         table.invalidate();
