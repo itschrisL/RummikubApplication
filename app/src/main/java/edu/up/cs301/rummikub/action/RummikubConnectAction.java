@@ -9,6 +9,9 @@ import edu.up.cs301.game.actionMsg.GameAction;
  * represents an action to connect two TileGroups on the table
  *
  * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
+ * @author Riley Snook
  */
 
 public class RummikubConnectAction extends GameAction {
@@ -22,7 +25,7 @@ public class RummikubConnectAction extends GameAction {
      * @param group1 the first of the two groups to merge
      * @param group2 the other of the two groups to merge
      */
-    public RummikubConnectAction(GamePlayer player, int group1, int group2) {
+    public RummikubConnectAction(GamePlayer player, int group1, int group2){
         super(player);
 
         this.group1= group1;

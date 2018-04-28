@@ -14,7 +14,6 @@ import java.io.Serializable;
  * This class draws Tiles; includes all basic framework.
  * Tile's x and y coordinates on screen.
  *
- * Created on 3/26/2018.
  * @author Harry Thoma
  * @author Daylin Kuboyama
  * @author Riley Snook
@@ -36,30 +35,35 @@ public class Tile implements Serializable {
     public static final int WIDTH = 110;
     private static int height;
 
-    //4 tile colors
+    //4 tile value colors
     public static final int BLUE = Color.argb(255,0,0,255);
     public static final int RED = Color.argb(255,255,0,0);
     public static final int BLACK = Color.argb(255,0,0,0);
     public static final int GREEN = Color.argb(255,50,205,50);
+    //joker color
     public static final int ORANGE = Color.argb(255, 255, 128, 0);
+    //color of tile
     public static final int TILECOLOR = Color.argb(255,255,250,250);
 
     //purpose of array is to assign numerical value to each color
     public static final int[] colorArray = {BLUE, RED, BLACK, GREEN, ORANGE};
 
     /**
-     * When Tile is created, the coordinates of the tile, its value,
-     * and color should be specified.
+     * Constructor for Tile
+     *
+     * @param value of tile
+     * @param color of tile
      */
-    public Tile (int tileX, int tileY, int value, int color) {
-        this.x = tileX;
-        this.y = tileY;
+    public Tile (int value, int color) {
+        this.x = -1;
+        this.y = -1;
         this.value = value;
         this.color = color;
     }
 
     /**
-     * Copy constructor for tiles
+     * Copy constructor for tile
+     *
      * @param copyTile tile to copy
      */
     public Tile(Tile copyTile){
@@ -73,7 +77,6 @@ public class Tile implements Serializable {
     }
 
     /**
-     *
      * @param x coord to check
      * @param y coord to check
      * @return whether x,y is within this tile
@@ -89,73 +92,13 @@ public class Tile implements Serializable {
 
         //if we got this far, x and y were not
         //outside any boundary
-        //so we hit this tile
+        //we hit this tile
         return true;
     }
 
     /**
-     * Getter method to get X location
-     * @return
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Getter method to get Y location
-     * @return
-     */
-    public int getY() {
-        return y;
-    }
-
-
-    /**
-     * Getter method to get Tile value
-     * @return
-     */
-    public int getValue() {
-        return value;
-    }
-
-    /**
-     * Getter method to get color val
-     * @return
-     */
-    public int getColor() {
-        return color;
-    }
-
-    /**
-     * Setter Method for x location
-     * @param x
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * Setter mehtod for Y location
-     * @param y
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    /**
-     * Method to set value of Tile
-     * @param v - new value
-     */
-    public void setValue(int v){
-        this.value = v;
-    }
-
-    public static int getHeight() { return height; }
-
-    public static void setHeight(int index) { height = index; }
-
-    /**
      * This method draws tiles using Canvas.
+     *
      * @param c the canvas on which to draw
      */
     public void drawTile(Canvas c) {
@@ -168,34 +111,23 @@ public class Tile implements Serializable {
         c.drawRect(x,y,x+WIDTH,y+height,tileColor);
         c.drawRect(x,y,x+WIDTH,y+height,tileOutline);
 
+        //sets text on tile
         float letterSize =(float).72*WIDTH;
         Paint valColor = new Paint ();
         valColor.setColor(color);
         valColor.setTextSize(letterSize);
         valColor.setTextAlign(Paint.Align.CENTER);
 
-        Paint.FontMetrics fm = valColor.getFontMetrics();
-        float textHeight = fm.descent - fm.ascent;
+        //the space betwen number and tile border
         int letterPadding = (((int)(height-letterSize)));
 
         //for the numbers that consist of 2 chars (ex: 10,11,12,13)
         //moves the value printing more to the left
 
-        c.drawText("" + value, x + WIDTH /2, y + height - letterPadding, valColor);
+        c.drawText("" + value, x + WIDTH /2,
+                y + height - letterPadding, valColor);
 
     }
-    /**
-     * External Citation
-     *
-     * in method above text size isn't the same at the height in pixels of the character
-     * Date: 4-18-18
-     * Problem: We needed the height of the text to put the character in the right place
-     * Solution: Found on stack overflow and example that shows a method fontmetrics
-     * took the lines and put them in our code
-     * Source:https://stackoverflow.com/questions/14277058/get-the-text-height-
-     * including-the-font-size-and-set-that-height
-     *
-     */
 
     /**
      * returns a string representation of this tile
@@ -220,11 +152,38 @@ public class Tile implements Serializable {
         else if(color == BLUE)  colorChar= "U";
         else if(color == BLACK) colorChar= "B";
         else{
-            Log.i("tile",""+color);
             return null;
         }
 
         return colorChar+value;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public static int getHeight() { return height; }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public static void setHeight(int index) { height = index; }
 
 }

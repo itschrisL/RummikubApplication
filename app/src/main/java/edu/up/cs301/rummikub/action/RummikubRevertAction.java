@@ -6,9 +6,12 @@ import edu.up.cs301.game.actionMsg.GameAction;
 /**
  * Class RummikubRevertAction
  *
- * represtends an action to revert to state at beginning of turn
+ * represents an action to revert to state at beginning of turn
  *
  * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
+ * @author Riley Snook
  */
 
 public class RummikubRevertAction extends GameAction {

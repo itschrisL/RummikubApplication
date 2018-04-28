@@ -16,8 +16,13 @@ import edu.up.cs301.rummikub.action.RummikubRevertAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 /**
- * The computer player.
- * This player draws a tile every turn
+ * Class RummikubComputerPlayer
+ *
+ * This is the base class which controls how each type of computer plays.
+ * It finds all it's actions and plays them one by one.
+ *
+ * If the findMove() method is not overridden, or if this object is itself
+ * instantiated, it will draw a tile every move
  *
  * @author Harry Thoma
  * @author Chris Lytle
@@ -43,10 +48,9 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
      */
 
     /**
-     * Constructor for objects of class CounterComputerPlayer1
+     * Constructor for objects of class CounterComputerPlayer
      *
-     * @param name
-     * 		the player's name
+     * @param name the player's name
      */
     public RummikubComputerPlayer(String name) {
         // invoke superclass constructor
@@ -55,9 +59,11 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
 
     /**
      * callback method--game's state has changed
+     * or other info has been received
      *
      * @param info
      * 		the information (presumably containing the game's state)
+     * 	    or an illegal move info
      */
     @Override
     protected void receiveInfo(GameInfo info) {
@@ -70,12 +76,9 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
             return;
         }
 
-        if(info instanceof NotYourTurnInfo){
-            int i=0;
-        }
-        //failsafe
+        //fail-safe
         //if we ever try an illegal move,
-        //somthing went wrong
+        //something went wrong
         if(info instanceof IllegalMoveInfo){
             //so we must revert and draw
             playActions.clear();
@@ -96,6 +99,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         if(playActions.isEmpty()){
             //this critical section adds actions to the playActions queue
             synchronized (playActions) {
+                //how many points the player will play with this move
                 int score = findMove();
 
                 //if we weren't able to find a play
@@ -103,7 +107,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
                     //we draw
                     playActions.add(new RummikubDrawAction(this));
                 }
-                //if we must meld, but we arn't going to with this play
+                //if we must meld, but we aren't going to with this play
                 else if (!state.hasMelded(playerNum) && score < 30) {
                     //we must do nothing and draw
                     playActions.clear();
@@ -114,8 +118,11 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
                 }
             }
         }
+
         //then, we want to make our play,
         //one action at a time
+
+        //sleep so the human can see each change
         randomSleep();
 
         //this critical section removes and sends actions
@@ -126,8 +133,7 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
     }
 
     /**
-     * updates the playActions queue to represetn the moves
-     * this player wants to make
+     * this computer player is dumb, so it does nothing here
      *
      * @return the number of points we are going to play
      */
@@ -135,10 +141,11 @@ public class RummikubComputerPlayer extends GameComputerPlayer {
         return 0;
     }
 
+    /**
+     * sleeps somewhere between 1 and 2 seconds
+     */
     private void randomSleep() {
         Random random = new Random();
-        // Randomly chooses a sleeping time between 1 and 4 seconds
-        sleep(700);
-        //sleep(random.nextInt(3000)+1000);
+        sleep(random.nextInt(1000)+1000);
     }
 }

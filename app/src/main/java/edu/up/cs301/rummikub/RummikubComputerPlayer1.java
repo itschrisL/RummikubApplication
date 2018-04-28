@@ -11,6 +11,8 @@ import edu.up.cs301.rummikub.action.RummikubPlayGroupAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 /**
+ * Class RummikubComputerPlayer1
+ *
  * This is a smarter computer player
  * it will play tiles out of it's hand, but will not
  * rearrange the table
@@ -43,13 +45,14 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
         //make a copy of the state
         RummikubState stateCopy= new RummikubState(state,playerNum);
 
+        //the points we will play out of our hand this turn
         int currentPlayPoints= 0;
 
         boolean hasMelded = stateCopy.hasMelded(playerNum);
 
+        //looks for sets in the hand
         //we will break out of the loop when we don't find a set
         while (true) {
-            Log.i("Smart CP", "First Loop");
             int[] indexesToPlay = findSetInHand(stateCopy);
 
             //if we didn't find a set in hand
@@ -80,13 +83,12 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
             playActions.add(new RummikubPlayGroupAction(this, indexesToPlay));
         }
 
-        //if we havn't melded, we are done
+        //if we haven't melded, we are done
         if(!hasMelded) return currentPlayPoints;
 
         //this loop will find single tiles to add to the table
         //we will break when we can no longer find one
         while(true) {
-            Log.i("Smart CP", "Second Loop");
             //now check if there is a single tile to play
             int[] playPair = findTileToPlay(stateCopy);
 
@@ -116,7 +118,8 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
             //now add the necessary actions to the action queue
             playActions.add(new RummikubPlayTileAction(this, playPair[0]));
 
-            playActions.add(new RummikubConnectAction(this, playPair[1], newGroupIndex));
+            playActions.add(new RummikubConnectAction(
+                    this, playPair[1], newGroupIndex));
         }
 
         return currentPlayPoints;
@@ -124,6 +127,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
     /**
      * finds a set of playable tiles in this players hand
+     *
      * @param state the state we are working with
      * @return the array of indexes of the group the player wants to play
      *          null if no set exists
@@ -131,7 +135,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
     private int[] findSetInHand(RummikubState state){
         ArrayList<Tile> tiles= state.getPlayerHand(playerNum).getTileGroup();
 
-        //go the hand, looking at each combination of three tiles
+        //go through the hand, looking at each combination of three tiles
         for(int i= 0; i<tiles.size(); i++){
             Tile t1= tiles.get(i);
 
@@ -157,6 +161,7 @@ public class RummikubComputerPlayer1 extends RummikubComputerPlayer {
 
     /**
      * finds a tile that can be added to a group
+     *
      * @param state the state we are working with
      * @return a 2-big array,
      *          the first index is the tile to play

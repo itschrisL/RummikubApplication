@@ -9,6 +9,9 @@ import edu.up.cs301.game.actionMsg.GameAction;
  * represents an action that the player would like to end turn by drawing
  *
  * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
+ * @author Riley Snook
  */
 
 public class RummikubDrawAction extends GameAction {

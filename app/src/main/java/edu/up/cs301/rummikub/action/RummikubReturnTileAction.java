@@ -9,6 +9,9 @@ import edu.up.cs301.rummikub.Tile;
  *
  * represents an action that a player would like to play a tile
  *
+ * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
  * @author Riley Snook
  */
 

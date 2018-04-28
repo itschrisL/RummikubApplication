@@ -4,7 +4,9 @@ import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
- * Created on 4/9/2018.
+ * Class RummikubPlayGroupAction
+ *
+ * Represents an action to play a tileGroup
  *
  * @author Daylin Kuboyama
  * @author Harry Thoma

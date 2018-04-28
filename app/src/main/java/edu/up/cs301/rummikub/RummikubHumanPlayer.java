@@ -1,6 +1,5 @@
 package edu.up.cs301.rummikub;
 
-import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +13,6 @@ import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
-import edu.up.cs301.game.util.MessageBox;
 import edu.up.cs301.rummikub.action.RummikubConnectAction;
 import edu.up.cs301.rummikub.action.RummikubDrawAction;
 import edu.up.cs301.rummikub.action.RummikubFreeJokerAction;
@@ -41,23 +39,38 @@ import edu.up.cs301.rummikub.action.RummikubUndoAction;
 public class RummikubHumanPlayer extends GameHumanPlayer
         implements View.OnClickListener, View.OnTouchListener {
 
+    // References to text views displaying scores and tile counts
     private TextView playerScores;
     private TextView playerTileCount;
 
+    // References to buttons
     private Button drawKnockButton;
     private Button undoButton;
     private Button revertButton;
 
+    // References to surface views
     private GameBoard table;
     private Hand hand;
 
+    // Reference to Main activity and state
     private GameMainActivity myActivity;
     private RummikubState state;
 
+    /**
+     * RummikubHumanPlayer Constructor
+     *
+     * @param name - player's name
+     */
     public RummikubHumanPlayer(String name){
         super(name);
     }
 
+    /**
+     * Setting up gui and set up all needed buttons,
+     * text views, and surface views
+     *
+     * @param activity
+     */
     public void setAsGui(GameMainActivity activity) {
 
         //remember the activity
@@ -109,18 +122,22 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
-
-
-
+    /**
+     * Receives any state changes and updates any displays
+     *
+     * @param info - given state info
+     */
     public void receiveInfo(GameInfo info) {
         /**
          * External Citation
          * Date: 4/26/18
          * Problem: wanted to create a pop up message to show that the
-         * round has ended
-         * Source: https://stackoverflow.com/questions/3500197/how-to-display-toast-in-android
-         * Solution: Looked over the question and solutions and then wrote the line of
-         * code below. Didn't copy the line exactly
+         *      round has ended
+         * Source: https://stackoverflow.com/questions/3500197/
+         *      how-to-display-toast-in-android
+         * Inspiration from Bohnanza team and referenced stack overflow
+         * Solution: Looked over the question and solutions and then wrote
+         *      the line of code below. Didn't copy the line exactly
          */
         if( info instanceof EndRoundInfo){
             Toast.makeText(myActivity,
@@ -132,17 +149,23 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             this.state = (RummikubState) info;
         }
 
-        //after anything new happens, we don't want to see invalid groups
-        table.outlineInvalidGroups(false);
-
         updateDisplay();
     }
 
+    /**
+     * Responds to button clicks
+     *
+     * @param view - button being clicked
+     */
     public void onClick(View view) {
         //we might not have a game to send actions to
         if(game == null) return;
 
+        // Setting up action variable, initially no action
         GameAction action= null;
+
+        //after any button touch, we don't want to see invalid groups
+        table.setOutlineInvalidGroups(false);
 
         if(view == drawKnockButton){
             //if they want to knock
@@ -156,7 +179,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             }
 
             //draw the invalid groups
-            table.outlineInvalidGroups(true);
+            table.setOutlineInvalidGroups(true);
             updateTable();
         }
         else if(view == undoButton){
@@ -173,18 +196,31 @@ public class RummikubHumanPlayer extends GameHumanPlayer
         }
     }
 
+    /**
+     * Responds to any touch on the surface views
+     *
+     * @param view - surface view being touched
+     * @param motionEvent - Reference to touch event
+     * @return - If there is a valid action
+     *      - True - Valid action
+     *      - False - Invalid touch
+     */
     public boolean onTouch(View view, MotionEvent motionEvent) {
         //we might not have a game or state to send actions to
         if(game == null || state == null) return false;
 
+        // Only responds to touch down event.  Else return invalid
         if(!(motionEvent.getAction() == MotionEvent.ACTION_DOWN)){
             return false;
         }
 
+        //after any touch, we don't want to see invalid groups
+        table.setOutlineInvalidGroups(false);
+
         //where player touched on screen
         float x= motionEvent.getX();
         float y= motionEvent.getY();
-        GameAction action= null;
+        GameAction action;
 
         //touched in player's hand
         if(view == hand){
@@ -200,30 +236,38 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             //get the table
             ArrayList<TileGroup> tableGroup= state.getTableTileGroups();
 
+            //check for split first, because we don't want to
+            //try to connect a group to itself
             action = splitAction(x,y,tableGroup);
             if( action != null){
                 game.sendAction(action);
                 return true;
             }
 
+            //next, see if we want to return a tile to the hand
             action = returnTileAction(x,y,tableGroup);
             if(action != null) {
                 game.sendAction(action);
                 return true;
             }
 
+            //check for free joker before connect, because it is a
+            //more specific case
             action= freeJokerAction (x,y,tableGroup);
             if (action != null) {
                 game.sendAction(action);
                 return true;
             }
 
+            //see if we want to connect tiles
             action= connectAction(x,y,tableGroup);
             if (action != null) {
                 game.sendAction(action);
                 return true;
             }
 
+            //the last thing to check is select, because if we
+            //check this first, it won't do anything else
             action= selectTileAction(x,y,tableGroup);
             if (action != null) {
                 game.sendAction(action);
@@ -234,14 +278,16 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     /**
-     * creates a select tile action
+     * creates a play tile action
+     *
      * @param x the x-coord of the touch event
      * @param y the y-coord of the touch event
      * @param hand the TileGroup that is this players hand
      * @return an action to play a tile
      *          null is no tile should be played
      */
-    private RummikubPlayTileAction playTileAction(float x, float y, TileGroup hand){
+    private RummikubPlayTileAction playTileAction(
+            float x, float y, TileGroup hand){
         //find the index of the tile we touched
         int touchedTile=
                 hand.hitTile(x,y);
@@ -257,17 +303,20 @@ public class RummikubHumanPlayer extends GameHumanPlayer
     }
 
     /**
-     * creates a play tile action
+     * creates a select tile group action
+     *
      * @param x the x-coord of the touch event
      * @param y the y-coord of the touch event
      * @param tableGroup the TileGroups on the table
-     * @return an action to play a tile
-     *          null is no tile should be played
+     * @return an action to select a group
+     *           null is no tile group should be selected
      */
-    private RummikubSelectTileGroupAction
-                selectTileAction(float x, float y, ArrayList<TileGroup> tableGroup){
+    private RummikubSelectTileGroupAction selectTileAction(
+            float x, float y, ArrayList<TileGroup> tableGroup){
+        //initially no group selected
         int selectedGroup= -1;
 
+        //goes thru groups on table
         for(int i=0; i < tableGroup.size(); i++){
             //if we hit group
             if(tableGroup.get(i).hitTile(x,y) != -1){
@@ -283,22 +332,23 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
     /**
      * creates a freeJoker action
+     *
      * @param x the x-coord of the touch event
      * @param y the y-coord of the touch event
      * @param tableGroup the TileGroups on the table
-     * @return an action to play a tile
-     *          null is no tile should be connected
+     * @return an action to free a joker
+     *          null is no joker should be freed
      */
     private RummikubFreeJokerAction freeJokerAction
             (float x, float y, ArrayList<TileGroup> tableGroup) {
+
+        //Step 1: find the selected group on table
 
         //the group selected on table
         TileGroup selectedTileGroup= state.getSelectedGroup();
 
         //no group selected
         if (selectedTileGroup == null) return null;
-
-        //if(!(selectedTileGroup instanceof TileSet)) return null;
 
         //index of group selected on table
         int selectedGroupIndex= -1;
@@ -312,6 +362,8 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             }
         }
 
+        //Step 2: find the second group player touched
+
         //the index of tileGroup player touched on table
         int touchedGroupIndex = -1;
 
@@ -324,35 +376,43 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             }
         }
 
-        //selected group does not contain joker
-        if(!(selectedTileGroup.containsJoker()))return null;
+        //Step 3: checks to see if the two groups are valid
 
+        //selected group does not contain joker
+        if(!(selectedTileGroup.containsJoker())) return null;
+
+        //if no group was touched
         if(touchedGroupIndex == -1) return null;
+
         //check that touched Group only has one tile
         if (tableGroup.get(touchedGroupIndex).groupSize()!=1) return null;
 
+        //looks at each tile in the selected group
         for(Tile t : selectedTileGroup.tiles){
             if(t instanceof JokerTile){
-               if(!((JokerTile) t).assigned) {
+               if(!((JokerTile) t).getAssigned()) {
                    return null;
                }
             }
         }
-        return new
-                RummikubFreeJokerAction(this,selectedGroupIndex,touchedGroupIndex);
+        return new RummikubFreeJokerAction(
+                this,selectedGroupIndex,touchedGroupIndex);
     }
 
 
     /**
      * creates a connect action
+     *
      * @param x the x-coord of the touch event
      * @param y the y-coord of the touch event
      * @param tableGroup the TileGroups on the table
-     * @return an action to play a tile
-     *          null is no tile should be connected
+     * @return an action to connect two tile groups
+     *          null is no tile groups should be connected
      */
     private RummikubConnectAction connectAction
             (float x, float y, ArrayList<TileGroup> tableGroup ) {
+
+        //Step 1: finds selected group on table
 
         //the group selected on table
         TileGroup selectedTileGroup= state.getSelectedGroup();
@@ -372,6 +432,8 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             }
         }
 
+        //Step 2: finding the second group the player touched
+
         //the index of tileGroup player touched on table
         int touchedGroupIndex = -1;
 
@@ -384,7 +446,7 @@ public class RummikubHumanPlayer extends GameHumanPlayer
             }
         }
 
-        //if same tile
+        //if same tile group
         if(touchedGroupIndex == selectedGroupIndex){
             return null;
         }
@@ -401,18 +463,26 @@ public class RummikubHumanPlayer extends GameHumanPlayer
 
     /**
      * creates a split tile action
+     *
      * @param x x-coord of the touch event
      * @param y the y-coord of the touch event
      * @param tableGroup the TileGroup that is this players hand
-     * @return an action to play a tile
-     *          null is no tile should be played
+     * @return an action to split a tile group
+     *          null is no tile group should be split
      */
     private RummikubSplitAction splitAction
     ( float x, float y, ArrayList<TileGroup> tableGroup ){
+
+        //if there isn't a selected group
         if( state.getSelectedGroup() == null ) return null;
 
+        //hit group is the group touched
         int hitGroup = -1;
+
+        //hit tile is the index of the touched tile in hit group
         int hitTile = -1;
+
+        //finds the touched tile in the selected group
         for( int i = 0; i < tableGroup.size(); i++){
             hitTile = tableGroup.get(i).hitTile(x,y);
             if( hitTile != -1) {
@@ -420,47 +490,68 @@ public class RummikubHumanPlayer extends GameHumanPlayer
                 break;
             }
         }
+
+        //checks if no group was hit
         if( hitGroup == -1 ) return null;
+        //checks to see if group is single tile
         if(tableGroup.get(hitGroup).groupSize() < 2 ) return null;
-        if( !(tableGroup.get(hitGroup) == state.getSelectedGroup())) return null;
+        //if hit group isn't the selected group you can't split
+        if( !(tableGroup.get(hitGroup) == state.getSelectedGroup())){
+            return null;
+        }
 
         return new RummikubSplitAction(this, hitGroup, hitTile);
     }
 
-    private RummikubReturnTileAction returnTileAction( float x, float y, ArrayList<TileGroup> tableGroup ){
+    /**
+     * creates a return tile action
+     *
+     * @param x x-coord of the touch event
+     * @param y the y-coord of the touch event
+     * @param tableGroup the TileGroup that is this players hand
+     * @return an action to return a tile
+     *          null is no tile should be returned
+     */
+    private RummikubReturnTileAction returnTileAction(
+            float x, float y, ArrayList<TileGroup> tableGroup ){
         //the group selected on table
         TileGroup selectedTileGroup= state.getSelectedGroup();
 
         //no group selected
         if (selectedTileGroup == null) return null;
 
+        //index of tile group touched
         int hitGroup = -1;
-        int hitTile = -1;
+        //finds touched group
         for( int i = 0; i < tableGroup.size(); i++){
-            hitTile = tableGroup.get(i).hitTile(x,y);
+            int hitTile = tableGroup.get(i).hitTile(x,y);
             if( hitTile != -1) {
                 hitGroup = i;
                 break;
             }
         }
+
+        //if no group was touched
         if( hitGroup == -1 ) return null;
+
+        //if group size is larger than 1
         if(tableGroup.get(hitGroup).groupSize() > 1 ) return null;
 
+        //if the touched group is the selected group
         if( selectedTileGroup == tableGroup.get(hitGroup)){
             return new RummikubReturnTileAction(this, hitGroup);
         }
         return null;
-
     }
 
+    /**
+     * updates everything on the gui
+     */
     protected void updateDisplay(){
-        //updates the gui
-
         updateHand();
         updateTable();
         updateTextViews();
         updateDrawKnock();
-
     }
 
     /**

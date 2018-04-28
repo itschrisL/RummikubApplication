@@ -10,6 +10,9 @@ import java.io.Serializable;
  * The tiles themselves are hidden (the array list tiles is null),
  * but the information about the size of the group is still included
  *
+ * @author Daylin Kuboyama
+ * @author Riley Snook
+ * @author Chris Lytle
  * @author Harry Thoma
  *
  */
@@ -17,9 +20,7 @@ import java.io.Serializable;
 public class HiddenTileGroup extends TileGroup implements Serializable {
 
     //the size of the hidden tile group
-    int groupSize;
-    //todo what is this?
-    int handScore;
+    private int groupSize;
 
     private static final long serialVersionUID = 5737393762469851826L;
 
@@ -32,28 +33,23 @@ public class HiddenTileGroup extends TileGroup implements Serializable {
      *              representation of an empty group
      */
     public HiddenTileGroup(TileGroup group){
-        //if there are some nulls
         if(group == null || group.tiles == null){
             groupSize= 0;
         }
         else {
             groupSize = group.groupSize();
         }
-        handScore = groupPointValues();
+
         //in any case, set tiles to null
         this.tiles= null; //tiles is an inherited field
     }
 
     /**
-     * @return the sum of the point in players hand
+     * @return -1 because this group is hidden
      */
     @Override
     public int groupPointValues(){
-        int rtnVal = 0;
-        for(Tile t : tiles){
-            rtnVal = rtnVal + t.getValue();
-        }
-        return rtnVal;
+        return -1;
     }
 
     /**

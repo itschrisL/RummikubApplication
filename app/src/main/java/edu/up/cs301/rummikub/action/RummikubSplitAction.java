@@ -11,6 +11,9 @@ import edu.up.cs301.rummikub.TileGroup;
  * into individual TileGroups on the table
  *
  * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
+ * @author Riley Snook
  */
 
 public class RummikubSplitAction extends GameAction {
@@ -23,7 +26,8 @@ public class RummikubSplitAction extends GameAction {
      * @param player the player who created the action
      * @param groupIndex the tile group to split
      */
-    public RummikubSplitAction(GamePlayer player, int groupIndex, int tileIndex) {
+    public RummikubSplitAction(
+            GamePlayer player, int groupIndex, int tileIndex) {
         super(player);
 
         this.groupIndex = groupIndex;

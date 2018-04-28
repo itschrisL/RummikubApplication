@@ -33,7 +33,8 @@ public class RummikubStateTest {
         game.start(players);
         RummikubState state= game.state;
 
-        assertTrue(state.isPlayerTurn(0));
+        assertTrue(state.isPlayerTurn(1));
+        assertFalse(state.isPlayerTurn(0));
         assertFalse(state.isPlayerTurn(3));
     }
 
@@ -64,13 +65,15 @@ public class RummikubStateTest {
         game.start(players);
         RummikubState state= game.state;
 
+        state.canDraw(1);
+
         assertTrue(state.isPlayerTurn(0));
 
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
-        TileGroup tg1= new TileGroup(new Tile(0,0,11,Tile.BLACK));
-        TileGroup tg2= new TileGroup(new Tile(0,0,12,Tile.BLACK));
-        TileGroup tg3= new TileGroup(new Tile(0,0,12,Tile.BLACK));
+        TileGroup tg1= new TileGroup(new Tile(11,Tile.BLACK));
+        TileGroup tg2= new TileGroup(new Tile(12,Tile.BLACK));
+        TileGroup tg3= new TileGroup(new Tile(12,Tile.BLACK));
 
         tableGroups.add(tg1);
         tableGroups.add(tg2);
@@ -87,12 +90,12 @@ public class RummikubStateTest {
 
         tableGroups.clear();
 
-        Tile tile1 = new Tile(0,0,10,Tile.BLACK);
-        Tile tile2 = new Tile(0,0,11,Tile.BLACK);
+        Tile tile1 = new Tile(10,Tile.BLACK);
+        Tile tile2 = new Tile(11,Tile.BLACK);
 
-        state.getPlayerHand(0).add(new Tile(0,0,10,Tile.BLACK));
-        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
-        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(10,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(11,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(12,Tile.BLACK));
 
         state.canPlayTile(0,14);
         state.canPlayTile(0,14);
@@ -109,23 +112,6 @@ public class RummikubStateTest {
     }
 
     @Test
-    public void canSelectTile() throws Exception {
-        RummikubLocalGame game= new RummikubLocalGame();
-
-        GamePlayer[] players= {new RummikubHumanPlayer("Bob"),
-                new RummikubComputerPlayer("Thalo")};
-
-        game.start(players);
-        RummikubState state= game.state;
-
-        //player selects a card that is in their hand
-        assertTrue(state.canSelectTile(0,state.getPlayerHand(0).getTile(4)));
-
-        //player cant select a card in the other players hand
-        assertFalse(state.canSelectTile(0,state.getPlayerHand(1).getTile(9)));
-    }
-
-    @Test
     public void canSelectGroup() throws Exception {
         RummikubLocalGame game= new RummikubLocalGame();
 
@@ -136,11 +122,11 @@ public class RummikubStateTest {
         RummikubState state= game.state;
 
         state.getTableTileGroups().add
-                (new TileGroup(new Tile(0,0,6,Tile.GREEN),
-                        new Tile(0,0,9,Tile.BLUE)));
+                (new TileGroup(new Tile(6,Tile.GREEN),
+                        new Tile(9,Tile.BLUE)));
         state.getTableTileGroups().add
-                (new TileGroup(new Tile(0,0,9,Tile.GREEN),
-                        new Tile(0,0,12,Tile.BLUE)));
+                (new TileGroup(new Tile(9,Tile.GREEN),
+                        new Tile(12,Tile.BLUE)));
 
         //shows that a group was selected
         assertTrue(state.canSelectGroup(0,0));
@@ -171,12 +157,14 @@ public class RummikubStateTest {
         game.start(players);
         RummikubState state= game.state;
 
+        state.canDraw(1);
+
         assertTrue(state.isPlayerTurn(0));
 
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
-        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
-        state.getPlayerHand(0).add(new Tile(0,0,12,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(11,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(12,Tile.BLACK));
 
         state.canPlayTile(0,14);
         state.canPlayTile(0,14);
@@ -188,7 +176,7 @@ public class RummikubStateTest {
         assertFalse(state.canConnect(1,0,1));
 
         //player has joker in hand
-        state.getPlayerHand(0).add(new JokerTile(0,0,0,Tile.ORANGE));
+        state.getPlayerHand(0).add(new JokerTile());
         state.canPlayTile(0,14);
 
         //player 1 able to connect joker to tileGroups on table
@@ -205,11 +193,10 @@ public class RummikubStateTest {
         game.start(players);
         RummikubState state= game.state;
 
-
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
         //add tiles to hand, its index is 14
-        state.getPlayerHand(0).add(new Tile(0,0,11,Tile.BLACK));
+        state.getPlayerHand(0).add(new Tile(11,Tile.BLACK));
 
         //plays the tile above to the table
         state.canPlayTile(0,14);
@@ -219,10 +206,8 @@ public class RummikubStateTest {
 
         tableGroups.clear();
 
-        //todo does not work
-
         //adds a tile to the table
-        tableGroups.add(new TileGroup(new Tile(0,0,9,Tile.BLACK)));
+        tableGroups.add(new TileGroup(new Tile(9,Tile.BLACK)));
         assertFalse(state.canReturnTile(0,0));
 
     }
@@ -240,14 +225,14 @@ public class RummikubStateTest {
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
         //trying to free joker as first tile in group
-        JokerTile joker= new JokerTile(0,0,0,Tile.ORANGE);
+        JokerTile joker= new JokerTile();
         joker.setJokerVal(9);
         joker.setJokerCol(Tile.BLACK);
 
         TileGroup jokerGroup= new TileGroup( joker,
-                                            new Tile (0,0,10, Tile.BLACK),
-                                            new Tile (0,0,11,Tile.BLACK));
-        TileGroup tileGroup= new TileGroup(new Tile (0,0,9,Tile.BLACK));
+                                            new Tile(10, Tile.BLACK),
+                                            new Tile(11,Tile.BLACK));
+        TileGroup tileGroup= new TileGroup(new Tile(9,Tile.BLACK));
 
         tableGroups.add(jokerGroup);
         tableGroups.add(tileGroup);
@@ -262,9 +247,9 @@ public class RummikubStateTest {
         joker.setJokerVal(10);
         joker.setJokerCol(Tile.BLACK);
 
-        jokerGroup= new TileGroup(new Tile (0,0,9, Tile.BLACK),
-                                joker, new Tile (0,0,11,Tile.BLACK));
-        tileGroup= new TileGroup(new Tile (0,0,10,Tile.BLACK));
+        jokerGroup= new TileGroup(new Tile(9, Tile.BLACK),
+                                joker, new Tile(11,Tile.BLACK));
+        tileGroup= new TileGroup(new Tile(10,Tile.BLACK));
 
         tableGroups.add(jokerGroup);
         tableGroups.add(tileGroup);
@@ -279,9 +264,9 @@ public class RummikubStateTest {
         joker.setJokerVal(11);
         joker.setJokerCol(Tile.BLACK);
 
-        jokerGroup= new TileGroup(new Tile (0,0,9, Tile.BLACK),
-                                    new Tile (0,0,10,Tile.BLACK), joker);
-        tileGroup= new TileGroup(new Tile (0,0,11,Tile.BLACK));
+        jokerGroup= new TileGroup(new Tile(9, Tile.BLACK),
+                                    new Tile(10,Tile.BLACK), joker);
+        tileGroup= new TileGroup(new Tile(11,Tile.BLACK));
 
         tableGroups.add(jokerGroup);
         tableGroups.add(tileGroup);
@@ -296,13 +281,13 @@ public class RummikubStateTest {
         joker.setJokerVal(8);
         joker.setJokerCol(Tile.BLACK);
         //second Joker
-        JokerTile joker2= new JokerTile(0,0,0,Tile.ORANGE);
+        JokerTile joker2= new JokerTile();
         joker2.setJokerVal(10);
         joker2.setJokerCol(Tile.BLACK);
 
-        jokerGroup= new TileGroup(joker,new Tile (0,0,9,Tile.BLACK),
-                                    joker2, new Tile (0,0,11,Tile.BLACK));
-        tileGroup= new TileGroup(new Tile (0,0,8,Tile.BLACK));
+        jokerGroup= new TileGroup(joker,new Tile(9,Tile.BLACK),
+                                    joker2, new Tile(11,Tile.BLACK));
+        tileGroup= new TileGroup(new Tile(8,Tile.BLACK));
 
         tableGroups.add(jokerGroup);
         tableGroups.add(tileGroup);
@@ -325,10 +310,10 @@ public class RummikubStateTest {
         RummikubState state= game.state;
 
         // Generate test Tiles
-        JokerTile tile1 = new JokerTile (0,0,9,Tile.BLACK);
-        Tile tile2 = new Tile (0,0,10, Tile.BLACK);
-        Tile tile3 = new Tile (0,0,11,Tile.BLACK);
-        Tile tile4 = new Tile(0,0,12,Tile.BLACK);
+        JokerTile tile1 = new JokerTile();
+        Tile tile2 = new Tile(10, Tile.BLACK);
+        Tile tile3 = new Tile(11,Tile.BLACK);
+        Tile tile4 = new Tile(12,Tile.BLACK);
 
         // Add group to table
         TileGroup tileGroup = new TileGroup(tile1,tile2,tile3,tile4);
@@ -351,10 +336,10 @@ public class RummikubStateTest {
         RummikubState state= game.state;
 
         // Generate test Tiles
-        JokerTile tile1 = new JokerTile (0,0,9,Tile.BLACK);
-        Tile tile2 = new Tile (0,0,10, Tile.BLACK);
-        Tile tile3 = new Tile (0,0,11,Tile.BLACK);
-        Tile tile4 = new Tile(0,0,12,Tile.BLACK);
+        JokerTile tile1 = new JokerTile();
+        Tile tile2 = new Tile(10, Tile.BLACK);
+        Tile tile3 = new Tile (11,Tile.BLACK);
+        Tile tile4 = new Tile(12,Tile.BLACK);
 
         // Create two test groups
         TileGroup jokerGroup = new TileGroup(tile1, tile2, tile3, tile4);
@@ -381,12 +366,11 @@ public class RummikubStateTest {
         game.start(players);
         RummikubState state= game.state;
 
-
         ArrayList<TileGroup> tableGroups= state.getTableTileGroups();
 
         //adds a black 10, black 11, and black 13 to the table
-        tableGroups.add(new TileGroup(new Tile(0,0,11,Tile.BLACK)));
-        tableGroups.add(new TileGroup(new Tile(0,0,12,Tile.BLACK)));
+        tableGroups.add(new TileGroup(new Tile(11,Tile.BLACK)));
+        tableGroups.add(new TileGroup(new Tile(12,Tile.BLACK)));
 
         //shows that having those three separate solo tile groups
         //on the board isn't a valid table
@@ -396,8 +380,8 @@ public class RummikubStateTest {
 
         //adds a valid run group to the table
         tableGroups.add(new TileGroup
-                (new Tile(0,0,11,Tile.BLACK), new Tile(0,0,12,Tile.BLACK),
-                        new Tile(0,0,13,Tile.BLACK)));
+                (new Tile(11,Tile.BLACK), new Tile(12,Tile.BLACK),
+                        new Tile(13,Tile.BLACK)));
 
         //shows that the board is valid with a run on the board
         assertTrue(state.isValidTable());
@@ -410,11 +394,10 @@ public class RummikubStateTest {
 
         //adds a valid book to the board
         tableGroups.add(new TileGroup
-                (new Tile(0,0,10,Tile.BLUE), new Tile(0,0,10,Tile.BLACK),
-                        new Tile(0,0,10,Tile.RED)));
-        //for some reason adding a book to the table isn't a valid
-        //assertTrue(state.isValidTable());
+                (new Tile(10,Tile.BLUE), new Tile(10,Tile.BLACK),
+                        new Tile(10,Tile.RED)));
 
+        //assertTrue(state.isValidTable());
     }
 
     @Test
@@ -451,8 +434,8 @@ public class RummikubStateTest {
         game.start(players);
         RummikubState state= game.state;
 
-        TileGroup testGroup = new TileGroup(new Tile(0,0,3,Tile.BLACK),
-                new Tile(0,0,7,Tile.GREEN));
+        TileGroup testGroup = new TileGroup(new Tile(3,Tile.BLACK),
+                new Tile(7,Tile.GREEN));
         int[] tiles = {0,1};
         assertTrue(state.canPlayTileGroup(0, tiles));
 
@@ -473,7 +456,7 @@ public class RummikubStateTest {
 
         //this tile is not from the players hand
         state.getTableTileGroups().add(new TileGroup
-                (new Tile(0,0,7,Tile.BLACK)));
+                (new Tile(7,Tile.BLACK)));
         assertFalse(state.isFromHand(state.getTableTileGroups().get(0)));
 
         //plays a tile from the players hand

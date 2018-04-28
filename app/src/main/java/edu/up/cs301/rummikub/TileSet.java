@@ -2,7 +2,8 @@ package edu.up.cs301.rummikub;
 
 /**
  * class TileSet
- *determines whether tile set is run or book
+ *
+ * determines whether tile set is run or book
  *
  * @author Daylin Kuboyama
  * @author Harry Thoma
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * class TileSet
+ *
  * Subclass of TileGroup
  * These are valid groups of tiles on the table.
  * Minimum of 3 tiles.
@@ -54,9 +56,12 @@ public class TileSet extends TileGroup implements Serializable {
             isRun= false;
         }
         else{
+            // If we try to make a set with an invalid group
+            // We should never get here, used for debugging
             Log.i("TileSet","Invalid Set");
             System.exit(-1);
         }
+
         this.tiles = new ArrayList<Tile>();
         for(Tile t : group.tiles){
             this.add(t);
@@ -79,7 +84,9 @@ public class TileSet extends TileGroup implements Serializable {
      * @param group the group to check
      * @return whether group is a valid set
      */
-    public static boolean isValidSet(TileGroup group){return (isRun(group) || isBook(group));}
+    public static boolean isValidSet(TileGroup group){
+        return (isRun(group) || isBook(group));
+    }
 
     /**
      * Determines whether the group passed in is a run or not
@@ -88,7 +95,9 @@ public class TileSet extends TileGroup implements Serializable {
      * @return whether it is a run
      */
     public static boolean isRun(TileGroup group){
+        // Check if group is null
         if(group == null) return false;
+        // check if tile set has a valid size
         if(group.tiles.size() < 3 || group.tiles.size() > 13){ return false;}
 
         //make a copy
@@ -110,34 +119,35 @@ public class TileSet extends TileGroup implements Serializable {
             if(tileAr[j] instanceof JokerTile){
                 //If there is a tile to the right of the joker
                 if(j + 1 < tileAr.length){
-                    // Make sure next
+                    // Make sure next tile is there
                     if(tileAr[j+1].getValue() - 1 > 0){
-                        ((JokerTile)tileAr[j]).setJokerValues((tileAr[j+1].getValue()) - 1, tileColor);
+                        ((JokerTile)tileAr[j]).setJokerValues(
+                                (tileAr[j+1].getValue()) - 1, tileColor);
                     }
                     else {
                         return false;
                     }
-                    //((JokerTile)group.tiles.get(j)).setJokerValues(group.tiles.get(j+1).getValue() -1, tileColor);
                 }
                 // If joker is last in the array
                 else{
                     if(tileAr[j-1].getValue() + 1 <= 13){
-                        ((JokerTile)tileAr[j]).setJokerValues((tileAr[j-1].getValue()) + 1, tileColor);
+                        ((JokerTile)tileAr[j]).setJokerValues(
+                                (tileAr[j-1].getValue()) + 1, tileColor);
                     }
                     else {
                         return false;
                     }
-                    //((JokerTile)group.tiles.get(j)).setJokerValues(group.tiles.get(j-1).getValue() - 1, tileColor);
                 }
             }
         }
 
         // If joker is in set check if valid set
         if(group.containsJoker()){
-            Log.i("Run","Contains Joker");
             for(int i=0;i<tileAr.length-1;i++) {
                     if (tileAr[i].getColor() != tileColor) return false;
-                    if (tileAr[i].getValue() + 1 != tileAr[i+1].getValue()) return false;
+                    if (tileAr[i].getValue() + 1 != tileAr[i+1].getValue()) {
+                        return false;
+                    }
             }
         }
         else {
@@ -156,11 +166,12 @@ public class TileSet extends TileGroup implements Serializable {
             tileColor = tileAr[0].getColor();
             for(int i=1;i<tileAr.length;i++){
                 if(tileAr[i].getColor() != tileColor) return false;
-                if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()) return false;
+                if(tileAr[i-1].getValue()+1 != tileAr[i].getValue()){
+                    return false;
+                }
             }
 
         }
-        //group.tiles = new ArrayList<Tile>(Arrays.asList(tileAr));
 
         return true;
     }
@@ -172,7 +183,9 @@ public class TileSet extends TileGroup implements Serializable {
      * @return whether it is a book
      */
     public static boolean isBook(TileGroup group){
+        // If tile group is NULL
         if(group == null) return false;
+        // Group is within valid group size
         if(group.tiles.size() < 3 || group.tiles.size() > 4) return false;
 
         //whether we have seen each color
@@ -181,12 +194,15 @@ public class TileSet extends TileGroup implements Serializable {
         boolean seenBlack= false;
         boolean seenBlue= false;
         int bookVal = 0;
+
+        // Get and set book value
         for (Tile t: group.tiles){
             if(!(t instanceof JokerTile)){
                 bookVal = t.getValue();
                 break;
             }
         }
+        // Iterate through tiles
         for(Tile t : group.tiles){
             // Check if tile is joker
             if(!(t instanceof JokerTile)){
@@ -220,6 +236,8 @@ public class TileSet extends TileGroup implements Serializable {
                 }
             }
         }
+        // If the book has a joker then we need to
+        // find an available color to assign the joker
         if(group.containsJoker()){
             for(Tile t : group.tiles){
                 if(t instanceof JokerTile) {
@@ -237,7 +255,8 @@ public class TileSet extends TileGroup implements Serializable {
                         color = Tile.RED;
                         seenRed = true;
                     }
-                    // Return false if all colors are used in book.  Shouldn't happen however.
+                    // Return false if all colors are used in book.
+                    // Shouldn't happen however.
                     else {
                         return false;
                     }
@@ -253,7 +272,10 @@ public class TileSet extends TileGroup implements Serializable {
      * Method to set Joker Values if there is one within the set.
      */
     public void findJokerValues(){
+        // Make sure set has a joker
         if(!(this.containsJoker())) return;
+        // if this is a book return,
+        // Joker's don't need a value for books
         if(!(this.isRun)) return;
 
         // Assign tileColor

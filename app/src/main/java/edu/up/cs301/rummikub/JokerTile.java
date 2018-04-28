@@ -23,19 +23,18 @@ public class JokerTile extends Tile implements Serializable {
 
     private int jokerVal;
     private int jokerCol;
-    public boolean assigned;
+
+    //whether the joker's value and color has been assigned
+    private boolean assigned;
 
     private static final long serialVersionUID = 6737393762469851826L;
 
     /**
      * Constructor for JokerTile
-     *
-     * @param tileX x-coord
-     * @param tileY y-coord
-     * @param color of JokerTile //todo initial color= orange?
      */
-    public JokerTile(int tileX, int tileY, int val, int color){
-        super(tileX, tileY, 0, color);
+    public JokerTile(){
+        //unassigned jokers are 0 and orange
+        super(0, Tile.ORANGE);
         this.jokerVal = 0;
         this.jokerCol = colorArray[3];
         this.assigned = false;
@@ -47,22 +46,17 @@ public class JokerTile extends Tile implements Serializable {
      * @param copy the JokerTile to copy
      */
     public JokerTile(JokerTile copy){
-        super(copy.getX(), copy.getY(), copy.getValue(), copy.getColor());
+        super(copy.getValue(), copy.getColor());
         this.jokerVal = copy.getJokerVal();
         this.jokerCol = copy.getJokerCol();
         this.assigned = copy.getAssigned();
     }
 
     /**
-     * Returns point value for joker
-     * @return
-     */
-    public int getPointValue(){
-        return 30;
-    }
-
-    /**
      * Draw JokerTile
+     * overrides tile's drawTile method because joker looks different
+     *
+     * @param c the canvas on which to draw
      */
     @Override
     public void drawTile(Canvas c){
@@ -71,37 +65,65 @@ public class JokerTile extends Tile implements Serializable {
         tileColor.setColor(TILECOLOR);
         Paint tileOutline = new Paint ();
         tileOutline.setStyle (Paint.Style.STROKE);
-        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,this.getY()+Tile.getHeight(),tileColor);
-        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,this.getY()+Tile.getHeight(),tileOutline);
+        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,
+                this.getY()+Tile.getHeight(),tileColor);
+        c.drawRect(this.getX(),this.getY(),this.getX()+WIDTH,
+                this.getY()+Tile.getHeight(),tileOutline);
 
-
+        // Set color values for drawing the text for joker tile
         Paint valColor = new Paint ();
         valColor.setColor(Tile.ORANGE);
         valColor.setTextSize((float)0.72*WIDTH);
 
-        c.drawText("J", this.getX() + WIDTH /3, this.getY() + (Tile.getHeight() * 2) / 3,valColor);
+        c.drawText("J", this.getX() + WIDTH /3,
+                this.getY() + (Tile.getHeight() * 2) / 3,valColor);
 
         Paint jokerValColor = new Paint ();
+        // If jokerTile is assigned then show its value and color
         if(assigned){
             jokerValColor.setTextSize((float)0.3*WIDTH);
             jokerValColor.setColor(this.getJokerCol());
-            c.drawText("" + this.getJokerVal(), this.getX()+WIDTH/20,this.getY()+(Tile.getHeight() - 15),
-                    jokerValColor);
-            c.drawCircle(this.getX()+WIDTH-20, this.getY()+Tile.getHeight()-20, 10, jokerValColor);
+            c.drawText("" + this.getJokerVal(), this.getX()+WIDTH/20,
+                    this.getY()+(Tile.getHeight() - 15), jokerValColor);
+            c.drawCircle(this.getX()+WIDTH-20,
+                    this.getY()+Tile.getHeight()-20, 10, jokerValColor);
         }
+        // Else just show tile
         else {
             jokerValColor.setColor(this.getColor());
             this.jokerVal = 0;
         }
-
     }
 
+    /**
+     * Setter method to set joker's value and color
+     *
+     * @param value - tile value of tile taking place of
+     * @param color - tile color of tile taking place of
+     */
     public void setJokerValues(int value, int color){
         this.jokerVal = value;
         this.jokerCol = color;
         this.assigned = true;
     }
 
+    /**
+     * returns a string representation of this tile
+     * will be a character representing its color
+     * followed immediately with its value
+     *
+     * e.g. The joker representing a Black 12 will be "(J,true,12,B)"
+     * characters correspond to colors as such:
+     * Red- "R"
+     * Green- "G"
+     * Blue- "U"
+     * Black- "B"
+     *
+     * True - is assigned
+     * False - not assigned
+     *
+     * @return this Tile as a string
+     */
     @Override
     public String toString(){
         String colorChar= "";
@@ -110,7 +132,6 @@ public class JokerTile extends Tile implements Serializable {
         else if(jokerCol == BLUE)  colorChar= "U";
         else if(jokerCol == BLACK) colorChar= "B";
         else{
-            Log.i("tile",""+jokerCol);
             return null;
         }
 
@@ -129,6 +150,14 @@ public class JokerTile extends Tile implements Serializable {
 
     public boolean getAssigned(){return this.assigned;}
 
+    /**
+     * Setter method to set Joker assigned boolean
+     * Also resets joker's value and color if false
+     *
+     * @param assigned
+     *      - True - is assigned
+     *      - False - not assigned
+     */
     public void setJokerAssigned(boolean assigned){
         this.assigned = assigned;
         if(!assigned){
@@ -136,18 +165,6 @@ public class JokerTile extends Tile implements Serializable {
             this.jokerCol = Tile.ORANGE;
         }
     }
-
-    /**
-    public void setAssigned(Boolean b){
-        if(b){
-            this.assigned = b;
-        }
-        else {
-            this.jokerVal = 0;
-            this.jokerCol = Tile.ORANGE;
-        }
-    }
-     */
 
     public void setJokerVal(int val){
         this.jokerVal = val;

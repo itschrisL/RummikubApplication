@@ -10,6 +10,9 @@ import edu.up.cs301.rummikub.TileGroup;
  * represents an action to select a tile group
  *
  * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
+ * @author Riley Snook
  */
 
 public class RummikubSelectTileGroupAction extends GameAction {

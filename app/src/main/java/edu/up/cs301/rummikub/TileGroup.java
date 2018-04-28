@@ -12,7 +12,6 @@ import java.util.Random;
  * Any grouping of tiles with a minimum of 1 tile
  * Used to save tiles on table and in player's hands
  * (example: Tiles in player's racks)
- * check values of set when melding
  *
  * @author Harry Thoma
  * @author Daylin Kuboyama
@@ -35,11 +34,13 @@ public class TileGroup implements Serializable {
     }
 
     /**
-     * Constructor that takes in an ArrayList of given Tiles
-     * @param tileList
+     * Constructor that takes in an Array of given Tiles
+     *
+     * @param tileList the array of tiles
      */
     public TileGroup(Tile ... tileList){
         this.tiles = new ArrayList<Tile>();
+        //adds tiles to list
         for(Tile T : tileList){
             tiles.add(T);
         }
@@ -47,11 +48,13 @@ public class TileGroup implements Serializable {
 
     /**
      * Copy constructor for tileGroups
+     *
      * @param copyTileGroup tileGroup to copy
      */
     public TileGroup (TileGroup copyTileGroup){
         tiles = new ArrayList<Tile>();
 
+        //copies each tile in tileGroup
         for (Tile t : copyTileGroup.tiles) {
             if(t instanceof JokerTile){
                 tiles.add(new JokerTile((JokerTile)t));
@@ -64,7 +67,8 @@ public class TileGroup implements Serializable {
 
     /**
      * Method to add a Tile to ArrayList tiles
-     * @param addTile
+     *
+     * @param addTile tile to add
      */
     public void add(Tile addTile){
         tiles.add(addTile);
@@ -72,7 +76,7 @@ public class TileGroup implements Serializable {
 
     /**
      * adds all tiles in addGroup to this group
-     * removes all tiles from addGroup
+     *
      * @param addGroup the group to add to this group
      */
     public void merge(TileGroup addGroup){
@@ -83,7 +87,8 @@ public class TileGroup implements Serializable {
     
     /**
      * Method to remove Tile from TileGroup tiles
-     * @param remove
+     *
+     * @param remove tile to remove
      */
     public void remove(Tile remove){
         this.tiles.remove(remove);
@@ -91,7 +96,8 @@ public class TileGroup implements Serializable {
 
     /**
      * Helper Method to return size of TileGroup
-     * @return tiles.size
+     *
+     * @return how many tiles in group
      */
     public int groupSize(){
         return this.tiles.size();
@@ -99,7 +105,8 @@ public class TileGroup implements Serializable {
 
     /**
      * Add all the values of tiles in a TileGroup
-     * @return
+     *
+     * @return total point value of tiles
      */
     public int groupPointValues(){
         int rtnVal = 0;
@@ -114,7 +121,8 @@ public class TileGroup implements Serializable {
     /**
      * Add all the values of tiles in a TileGroup
      * same as above method except only used at the end of the round
-     * @return
+     *
+     * @return total point values in each player's hand
      */
     public int roundGroupPointValues(){
         int rtnVal = 0;
@@ -132,29 +140,12 @@ public class TileGroup implements Serializable {
     }
 
     /**
-     * Get tile based on index
-     * @param index
-     * @return
-     */
-    public Tile getTile(int index){
-        return this.tiles.get(index);
-    }
-
-    /**
-     * Getter method to return ArrayList of Tiles
-     * @return
-     */
-    public ArrayList getTileGroup(){
-        return this.tiles;
-    }
-
-    /**
      * arranges this tile group into a random order
      */
     public void randomize(){
-        Random rand= new Random(/*45454*/);
+        Random rand= new Random();
 
-        //go through the array list and choose a rondom position to swap with
+        //go through the array list and choose a random position to swap with
         for(int i=0;i<tiles.size();i++){
             int randPos= rand.nextInt(tiles.size());
             //now swap them
@@ -165,21 +156,21 @@ public class TileGroup implements Serializable {
 
         /**
          * External Citation
-         * Source:
-         *  Java ArrayList doc
-         * Problem:
-         *  how to set specific index in array list
-         * Solution:
-         *  use set(int,object) method
+         * Date: March 3 2018
+         * Source: Java ArrayList doc
+         * Problem: how to set specific index in array list
+         * Solution: use set(int,object) method
          */
     }
 
     /**
      * removes the top tile from the group and returns it
+     *
      * @return the top tile in the group
      *         null if empty group
      */
     public Tile draw(){
+        //if drawPile is empty
         if(tiles.size() == 0) return null;
 
         Tile topTile= getTile(tiles.size()-1);
@@ -190,20 +181,15 @@ public class TileGroup implements Serializable {
 
     /**
      * Helper method to find if a TileGroup has a given tile
-     * @param findTile
-     * @return
+     *
+     * @param findTile tile to look for
+     * @return whether found tile in tileGroup
      */
-    public Boolean contains(Tile findTile){
-        if(tiles.contains(findTile)){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public boolean contains(Tile findTile){
+        return tiles.contains(findTile);
     }
 
     /**
-     *
      * @param x coord to check
      * @param y coord to check
      * @return the index of the tile that was hit by the point (x,y)
@@ -224,6 +210,7 @@ public class TileGroup implements Serializable {
     /**
      * determines whether the argument tile can be added
      * and this group would then be a set
+     *
      * @param tile the tile we are trying to add
      * @return whether the tile could be added and make this group a set
      */
@@ -239,6 +226,7 @@ public class TileGroup implements Serializable {
 
     /**
      * Checks if joker is in this TileGroup
+     *
      * @return - true if it is and false if not
      */
     public boolean containsJoker(){
@@ -257,31 +245,30 @@ public class TileGroup implements Serializable {
         //empty arraylist
         ArrayList <Tile> temp= new ArrayList<Tile>();
         findJokerValues();
-        //Log.i("Numerical Order","Starting Sorting");
+
         if(tiles.size() > 1){
+            //goes through each tile
             while (!tiles.isEmpty()) {
                 Tile currTile= tiles.get(0); //first tile in arrayList
-                if(currTile instanceof JokerTile){
-                    if(!(((JokerTile) currTile).assigned)){
-                        Tile tempTile = tiles.get(1);
-                        ((JokerTile) currTile).setJokerValues(tempTile.getValue()-1, tempTile.getColor());
-                    }
-                }
+                // Check remainder of tiles in group
+                // to see if any are bigger then current tile
                 for (int i= 1; i< tiles.size(); i++) {
                     if (tiles.get(i).getValue() < currTile.getValue()) {
                         currTile= tiles.get(i);
                     }
                 }
+                // add current tile to temp array that will be returned
                 temp.add(currTile);
+                // removes it from tiles, verify it is in right place
                 tiles.remove(currTile);
             }
         }
-        //Log.i("Numerical Order","Done Sorting");
+
         tiles= temp; //replaces with sorted tiles arrayList
     }
 
     /**
-     * Method to set Joker Values if there is one within the set.
+     * Goes through a run and sets the joker value
      */
     public void findJokerValues(){
         if(!(this.containsJoker())) return;
@@ -290,31 +277,39 @@ public class TileGroup implements Serializable {
         int tileColor = 0;
         for(Tile T : this.tiles){
             if(!(T instanceof JokerTile)){
-                tileColor = T.getColor();
+                tileColor = T.getColor(); // Set Color for Run
             }
         }
         // Assign values to jokers
         for(int j = 0; j < this.tiles.size(); j++){
+            // Check if tile is joker
             if(this.tiles.get(j) instanceof JokerTile){
+                // Assign joker value based on if there is a tile left or right
                 if(j + 1 < this.tiles.size()){
-                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j+1).getValue()-1, tileColor);
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(
+                            this.tiles.get(j+1).getValue()-1, tileColor);
                 }
                 else{
-                    ((JokerTile)this.tiles.get(j)).setJokerValues(this.tiles.get(j-1).getValue()+1, tileColor);
+                    ((JokerTile)this.tiles.get(j)).setJokerValues(
+                            this.tiles.get(j-1).getValue()+1, tileColor);
                 }
             }
         }
     }
 
     /**
-     * Method to find each color used in a book and return a boolean statement for it
-     * @return
+     * Method to find each color used in a book
+     * and return a boolean statement for it
+     *
+     * @return boolean array of colors not used in book yet
      */
     public boolean[] findColorsInGroup(){
-        //Set up return variable.  Array of boolean statements represent if a color has been uses
-        //in a set.
-        boolean[] rtnBoolean = {false, false, false, false}; // BLUE, RED, BLACK, GREEN
+        //Set up return variable.  Array of boolean statements
+        //represent if a color has been used in a set.
+        //                      BLUE,   RED,  BLACK, GREEN
+        boolean[] rtnBoolean = {false, false, false, false};
 
+        // iterates though tiles in set.
         for(Tile tile : this.tiles){
             if(!(tile instanceof JokerTile)){
                 if(tile.getColor() == Tile.BLUE){
@@ -337,6 +332,7 @@ public class TileGroup implements Serializable {
     /**
      * returns this tile group as a string
      * it will be each tile followed by a comma
+     *
      * @return a string representation of this tile group
      */
     @Override
@@ -357,4 +353,11 @@ public class TileGroup implements Serializable {
         return groupString;
     }
 
+    public Tile getTile(int index){
+        return this.tiles.get(index);
+    }
+
+    public ArrayList getTileGroup(){
+        return this.tiles;
+    }
 }

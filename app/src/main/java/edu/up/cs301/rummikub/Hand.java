@@ -16,7 +16,7 @@ import edu.up.cs301.game.R;
 /**
  * class Hand
  *
- * This class produces the player's tiles that are in their hand (un-played)
+ * This class draws the player's tiles that are in their hand (un-played)
  * and the rack that the tiles lay on top of.
  * extends View in order to draw the board.
  *
@@ -31,11 +31,11 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
     private static final long serialVersionUID = 4737393762469851826L;
 
     //background of player's tile rack
-    Bitmap rackBackground;
+    private Bitmap rackBackground;
 
-    //the height to start the drawing, makes the hand scrollable
+    //the height to start the drawing, allows the hand to be scrollable
     private int startHeight;
-    //sets height of tile in case needs to change
+    //whether the height of tile has been set
     private boolean setTileHeight;
 
     //the tiles in the hand
@@ -72,14 +72,17 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
                         (getResources(), R.drawable.rack_background);
     }
 
-    @Override
     /**
      * onDraw paints tiles, referencing Tile class.
      */
+    @Override
     public void onDraw(Canvas c) {
-        if( setTileHeight == false ){
+        //if tile height has not been set yet
+        if( !setTileHeight ){
+            //set it
             int height = ((this.getHeight()-100)/3);
             Tile.setHeight(height);
+            //we have now set the height
             setTileHeight = true;
         }
         //first paints the player's tile rack
@@ -100,18 +103,21 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
 
         ArrayList<Tile> tileList = tiles.getTileGroup();
 
-        //first tile drawn
+        //first tile position
         int currX = wallPadding;
+        //starts the y coord depending on scroll bar
         int currY = wallPadding + startHeight;
+        //the width of the hand in pixels
         int handWidth= getWidth()-100;
 
+        //go through each tile
         for (int i = 0; i < tiles.groupSize(); i++) {
             //set tile's x and y
             tileList.get(i).setX(currX);
             tileList.get(i).setY(currY);
             currX = currX + Tile.WIDTH + tilePadding;
 
-            //changes x-coord
+            //changes x-coord if the next tile will off screen
             if (currX + wallPadding > handWidth) {
                 currX = wallPadding;
                 currY += Tile.getHeight() + rowPadding;
@@ -120,16 +126,15 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
 
         //draws each tile according to its x,y coords
         for (Tile tile : tileList) {
-            if(tile instanceof JokerTile){
-                ((JokerTile) tile).setJokerAssigned(false);
-            }
             tile.drawTile(c);
         }
     }
 
     /**
-     * drawRack creates bitmap of brown-textured "rack" where player's
+     * drawRack draws bitmap of brown-textured "rack" where player's
      * tiles are displayed and draws it according to coordinates
+     *
+     * @param c the canvas on which to draw
      **/
     public void drawRack(Canvas c) {
         /**
@@ -151,6 +156,7 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
 
     /**
      * get scroll button touches
+     *
      * @param view the button that was clicked
      */
     public boolean onTouch(View view, MotionEvent event) {
@@ -167,6 +173,7 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
         Tile bottomTile= tiles.getTile(tiles.groupSize()-1);
         int bottom= bottomTile.getY() + bottomTile.getHeight();
 
+        //the most pixels that will scroll on one touch
         int maxScroll= 13;
 
         //calculate scroll
@@ -177,6 +184,7 @@ public class Hand extends View implements Serializable, View.OnTouchListener {
         //if we want to scroll up, but shouldn't
         if(delta < 0 && bottom < getHeight() - wallPadding) return false;
 
+        //do the scroll
         startHeight+= delta;
 
         //redraw the hand

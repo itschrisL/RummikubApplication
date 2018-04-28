@@ -6,7 +6,12 @@ import edu.up.cs301.game.actionMsg.GameAction;
 /**
  * class RummikubFreeJokerAction
  *
- * Created by daylinkuboyama on 4/18/18.
+ * Represents an action to free the joker
+ *
+ * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
+ * @author Riley Snook
  */
 
 public class RummikubFreeJokerAction extends GameAction {
@@ -19,7 +24,8 @@ public class RummikubFreeJokerAction extends GameAction {
      *
      * @param player the player who created the action
      */
-    public RummikubFreeJokerAction(GamePlayer player, int withJoker, int swapper) {
+    public RummikubFreeJokerAction(
+            GamePlayer player, int withJoker, int swapper) {
         super(player);
 
         this.groupContainsJoker= withJoker;

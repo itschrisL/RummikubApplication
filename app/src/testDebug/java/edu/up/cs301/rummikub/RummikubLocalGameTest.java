@@ -46,7 +46,7 @@ public class RummikubLocalGameTest {
         GamePlayer jim= new RummikubHumanPlayer("Jim");
         GamePlayer jane= new RummikubHumanPlayer("JaneBot");
 
-        GamePlayer[] players= {jim,jane};
+        GamePlayer[] players= {jane,jim};
 
         game.start(players);
 
@@ -110,7 +110,7 @@ public class RummikubLocalGameTest {
         GamePlayer jim= new RummikubHumanPlayer("Jim");
         GamePlayer jane= new RummikubHumanPlayer("JaneBot");
 
-        GamePlayer[] players= {jim,jane};
+        GamePlayer[] players= {jane,jim};
 
         game.start(players);
 

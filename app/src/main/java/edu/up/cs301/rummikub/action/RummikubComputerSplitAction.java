@@ -7,9 +7,12 @@ import edu.up.cs301.game.GamePlayer;
  *
  * represents an action to split a TileGroup on the table
  * into individual TileGroups on the table
- * this is for the computer, so the split performs expectedly
+ * this is for the computer, so the split performs as expected
  *
  * @author Harry Thoma
+ * @author Chris Lytle
+ * @author Daylin Kuboyama
+ * @author Riley Snook
  */
 
 public class RummikubComputerSplitAction extends RummikubSplitAction {
@@ -20,7 +23,8 @@ public class RummikubComputerSplitAction extends RummikubSplitAction {
      * @param groupIndex the tile group to split
      * @param tileIndex
      */
-    public RummikubComputerSplitAction(GamePlayer player, int groupIndex, int tileIndex) {
+    public RummikubComputerSplitAction(
+            GamePlayer player, int groupIndex, int tileIndex) {
         super(player, groupIndex, tileIndex);
     }
 }

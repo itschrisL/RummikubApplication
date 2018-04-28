@@ -2,17 +2,17 @@ package edu.up.cs301.rummikub;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Stack;
 
 import edu.up.cs301.game.actionMsg.GameAction;
-import edu.up.cs301.rummikub.RummikubComputerPlayer;
 import edu.up.cs301.rummikub.action.RummikubComputerSplitAction;
 import edu.up.cs301.rummikub.action.RummikubConnectAction;
 import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
 
 /**
- * This is a smart computer player
- * it will play tiles out of it's hand
+ * Class RummikubComputerPlayer2
+ *
+ * This is the smartest computer player
+ * it will play tiles out of it is hand
  * and rearrange the table
  *
  * @author Harry Thoma
@@ -22,7 +22,10 @@ import edu.up.cs301.rummikub.action.RummikubPlayTileAction;
  */
 
 public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
+    //the points we are going to play with this turn
     private int pointsPlayed;
+
+    //a list of all states we have tried so far
     private LinkedList<RummikubState> attempts;
 
     /**
@@ -37,6 +40,7 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
     @Override
     protected int findMove(){
         //first run the algorithm to play sets out of hand
+        //this is the RummikubComputerPlayer1 algorithm
         pointsPlayed= super.findMove();
 
         //if that found a play, great
@@ -58,8 +62,11 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
 
             actions= fixTable(new RummikubState(state,playerNum));
 
+            //if we fixed the table
             if(actions != null){
+                //add the play tile to the beginning of the queue
                 actions.addFirst(new RummikubPlayTileAction(this,i));
+                //update the actual queue
                 playActions= actions;
                 return pointsPlayed;
             }
@@ -70,19 +77,22 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
 
     /**
      * fixes the table
+     *
      * @param state the state to fix
      * @return the actions required to fix this table
      *          null if the table is unfixable
      */
     private LinkedList<GameAction> fixTable(RummikubState state){
 
-        if(weveBeenHereBefore(state)){
+        //if we've tried this state
+        if(beenHereBefore(state)){
             return null;
         }
         attempts.add(new RummikubState(state,playerNum));
 
         LinkedList<GameAction> actions= new LinkedList<GameAction>();
 
+        //the table is fixed already
         if(state.isValidTable()) return actions;
 
         ArrayList<TileGroup> table= state.getTableTileGroups();
@@ -91,13 +101,17 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
         for(int i=0;i<table.size();i++){
             TileGroup group = table.get(i);
             if(!TileSet.isValidSet(group)){
+                //first try to play tiles out of hand to fix table
                 actions= fixByPlaying(new RummikubState(state,playerNum),i);
+
                 //we fixed the table
                 if(actions != null){
                     return actions;
                 }
 
+                //otherwise, try to fix table with other tiles on the table
                 actions= fixBySplitting(new RummikubState(state,playerNum),i);
+
                 //we fixed the table
                 if(actions != null){
                     return actions;
@@ -111,12 +125,14 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
 
     /**
      * attempts to fix the table by playing a tile from the hand
+     *
      * @param state the state to fix
      * @param groupIndex the index of the bad group we're working on
      * @return the actions required to fix the table
      *          null if the table is unfixable
      */
-    private LinkedList<GameAction> fixByPlaying(RummikubState state, int groupIndex){
+    private LinkedList<GameAction> fixByPlaying(
+            RummikubState state, int groupIndex){
 
         //make an arraylist of tile groups with just the hand
         ArrayList<TileGroup> hand= new ArrayList<TileGroup>(1);
@@ -313,22 +329,12 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
         return sameColor;
     }
 
-    private LinkedList<GameAction>
-    mergeQueue(LinkedList<GameAction> first, LinkedList<GameAction> next){
-        LinkedList<GameAction> queue= new LinkedList<GameAction>(first);
-        for(int i=0;i<next.size();i++){
-            queue.add(next.get(i));
-        }
-
-        return queue;
-    }
-
     /**
-     *
      * @param state
-     * @return whether the specified state matches something in the attempts list
+     * @return whether the specified state matches
+     *          something in the attempts list
      */
-    private boolean weveBeenHereBefore(RummikubState state){
+    private boolean beenHereBefore(RummikubState state){
         for(RummikubState attempt : attempts){
             if(tableMatches(state, attempt)) return true;
         }
@@ -336,6 +342,12 @@ public class RummikubComputerPlayer2 extends RummikubComputerPlayer1 {
         return false;
     }
 
+    /**
+     *
+     * @param state1
+     * @param state2
+     * @return whether these two states have identical tables
+     */
     private boolean tableMatches(RummikubState state1, RummikubState state2){
         ArrayList<TileGroup> table1= state1.getTableTileGroups();
         ArrayList<TileGroup> table2= state2.getTableTileGroups();
